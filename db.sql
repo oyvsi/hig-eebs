@@ -22,7 +22,7 @@ CREATE TABLE blogg (
 	bloggID int(32) NOT NULL AUTO_INCREMENT, 
 	brukerID int(32) NOT NULL, 
 	brukernivaa varchar(16) NOT NULL, 
-	tittel varchar(32), 
+	tittel varchar(32) NOT NULL, 
 	beskrivelse varchar(MAX),
 	PRIMARY KEY (bloggID),
 	FOREIGN KEY (brukerID) REFERENCES bruker(brukerID),
