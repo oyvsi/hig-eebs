@@ -1,7 +1,7 @@
 <?php
 
  /*** include the controller class ***/
- include __SITE_PATH . '/application/' . 'controllers/baseController.php';
+ include __SITE_PATH . '/application/' . 'libs/baseController.php';
 
  /*** include the registry class ***/
 // include __SITE_PATH . '/application/' . 'registry.class.php';
