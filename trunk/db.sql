@@ -22,13 +22,8 @@ CREATE TABLE blogg (
 	bloggID int(32) NOT NULL AUTO_INCREMENT, 
 	brukerID int(32) NOT NULL, 
 	brukernivaa varchar(16) NOT NULL, 
-<<<<<<< .mine
 	tittel varchar(32) NOT NULL, 
 	beskrivelse varchar(20000),
-=======
-	tittel varchar(32) NOT NULL, 
-	beskrivelse varchar(MAX),
->>>>>>> .r11
 	PRIMARY KEY (bloggID),
 	FOREIGN KEY (brukerID) REFERENCES bruker(brukerID)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
