@@ -1,16 +1,9 @@
 <?php
-
- /*** include the controller class ***/
+ include __SITE_PATH . '/application/' . 'conf/database.php';
+ include __SITE_PATH . '/application/' . 'libs/baseModel.php';
+ include __SITE_PATH . '/application/' . 'libs/view.php';
  include __SITE_PATH . '/application/' . 'libs/baseController.php';
-
- /*** include the registry class ***/
-// include __SITE_PATH . '/application/' . 'registry.class.php';
-
- /*** include the router class ***/
  include __SITE_PATH . '/application/bootstrap.php';
-
- /*** include the template class ***/
-// include __SITE_PATH . '/application/' . 'template.class.php';
 
  /*** auto load model classes ***/
     function __autoload($class_name) {
@@ -23,8 +16,5 @@
     }
   include ($file);
 }
-
- /*** a new registry object ***/
-// $registry = new registry;
 
 ?>
