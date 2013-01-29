@@ -1,13 +1,7 @@
 <?php
+error_reporting(E_ALL);
+define ('__SITE_PATH', realpath(dirname(__FILE__)));
 
- /*** error reporting on ***/
- error_reporting(E_ALL);
-
- /*** define the site path constant ***/
- $site_path = realpath(dirname(__FILE__));
- define ('__SITE_PATH', $site_path);
-
- /*** include the init.php file ***/
- include 'includes/init.php';
- /*test - pk*/
+// Go set up the app
+include 'includes/init.php';
 ?>
