@@ -4,3 +4,8 @@
 	echo '<li>' . HTML::appLink('Toppliste', 'blog/toppliste') . '</li>';
 ?>
 </div>
+
+<?php
+	$form = new Form('arne', 'strand', 'nils');
+	$form->addInput('text', 'Laffen', 'Skriv Laffen');
+	echo $form->genForm();
