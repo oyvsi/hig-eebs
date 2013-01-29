@@ -20,7 +20,7 @@ hei
 <script type="text/javascript" src="jHtmlArea-0.7.5.min.js">
 	$(function(){
 		$("textarea").htmlarea({
-			css: "style//jHtmlArea.Editor.css"
+			css: "jHtmlArea.Editor.css"
 		});
 	});
 </script>	
