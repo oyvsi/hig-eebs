@@ -1,3 +1,4 @@
+<?php
 abstract class baseModel {
 	protected $db;
 
