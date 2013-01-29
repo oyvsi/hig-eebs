@@ -1,8 +1,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
-    <script type="text/javascript" src="jHtmlArea-0.7.5.js"></script>
-    <link rel="Stylesheet" type="text/css" href="jHtmlArea.css" />
+    <script type="text/javascript" src="scripts/jHtmlArea-0.7.5.js"></script>
+    <link rel="Stylesheet" type="text/css" href="style/jHtmlArea.css" />
     
     <style type="text/css">
         /* body { background: #ccc;} */
@@ -17,10 +17,10 @@
 </head>
 <body>
 hei
-<script type="text/javascript" src="jHtmlArea-0.7.5.min.js">
+<script type="text/javascript" src="scripts/jHtmlArea-0.7.5.min.js">
 	$(function(){
 		$("textarea").htmlarea({
-			css: "jHtmlArea.Editor.css"
+			css: "style/jHtmlArea.Editor.css"
 		});
 	});
 </script>	
