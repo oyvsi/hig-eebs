@@ -33,23 +33,12 @@ strong
 	font-weight: bold;
 }
 
-/* Tables and shit
-*****/
-.insideTables table {
-	
-	border:20px solid #ffffff;
-
-	
-}
-
-.insideTables td {
-	
-	border:1px solid #ffb35a;
-	
-}
-
-.sub
+/* div
+*********/
+div.sub
 {	
+	width:900px;
+	border: white 10px solid;
 	font-size: 14px;	
 	font-family: lucida console;	
 	color: black;
@@ -57,25 +46,13 @@ strong
 	
 }
 
-.sub table {
-	
-	border:0px black solid;
-
-}
-
-.sub td {
-	
-	border:0px black solid;
-	
-}
-
-.centered {
+div.centered {
 
 	margin-left:auto;
 	margin-right:auto;
 }
 
-.footer {
+div.footer {
     background: none repeat scroll 0 0;
     height: 50px;
     margin: auto;
