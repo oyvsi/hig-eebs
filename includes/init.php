@@ -3,6 +3,7 @@
  include __SITE_PATH . '/application/' . 'libs/baseModel.php';
  include __SITE_PATH . '/application/' . 'libs/view.php';
  include __SITE_PATH . '/application/' . 'libs/baseController.php';
+ include __SITE_PATH . '/application/' . 'helpers/html.php';
  include __SITE_PATH . '/application/bootstrap.php';
 
  /*** auto load model classes ***/
