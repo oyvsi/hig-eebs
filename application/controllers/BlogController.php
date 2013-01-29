@@ -6,5 +6,8 @@ class BlogController extends BaseController {
 		parent::__construct();
 		echo 'BloggController here, Cpt. Over';	
 	}
-
+	
+	public function bundy() {
+		echo "Ze bund here";
+	} 
 }

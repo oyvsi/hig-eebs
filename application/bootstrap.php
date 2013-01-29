@@ -8,7 +8,7 @@ $controller = ucfirst($controller) . 'Controller';
 if(class_exists($controller)) {	
 	$controllerClass = new $controller;
 	if(isset($args[0]) && method_exists($controllerClass, $args[0])) {
-		$controllerClass->$args[0];
+		$controllerClass->$args[0]();
 	}
 
 	if(count($args > 1)) {
