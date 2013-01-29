@@ -16,6 +16,7 @@
     </style>
 </head>
 <body>
+hei
 <script type="text/javascript" src="jHtmlArea-0.7.5.min.js">
 	$(function(){
 		$("textarea").htmlarea({
