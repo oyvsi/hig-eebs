@@ -11,4 +11,7 @@ abstract class BaseController {
 	public function setArgs($args) {
 		$this->args = $args;
 	}
+	public function getArgs() {
+		return $this->args;
+	}
 }

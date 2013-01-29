@@ -9,5 +9,6 @@ class BlogController extends BaseController {
 	
 	public function bundy() {
 		echo "Ze bund here";
+		print_r($this->args);
 	} 
 }
