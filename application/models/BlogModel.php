@@ -6,10 +6,14 @@ class BlogModel extends BaseModel {
 		echo "Here comes the Model";
 	}	
 	
-	public function getPosts() {
-		return array("Post 1<br />",
+	public function getPost($blogName, $postName) {
+			return array("post X<br />");
+		}
+	public function getAllPosts($blogName) {
+	return array("Post 1<br />",
 						"Post 2<br />",
 						"Post 3<br />",
 						"Post 4<br />");
+	
 	}
 }
