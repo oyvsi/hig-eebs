@@ -13,7 +13,7 @@
 body
 {
 	font: 14px/21px lucida console;
-	color: #370707;
+	color: black;
 	background: black url(images/mainbg.jpg) repeat; 
 	/* If user sets background image, images/mainbg.jpg will be used*/
 }
@@ -41,7 +41,7 @@ div.sub
 	width: 70%;
 	border: white 10px solid;
 	font-size: 14px;	
-	font-family: lucida;	
+	font-family: lucida console;	
 	color: black;
 	background-color: white;
 	
@@ -160,7 +160,7 @@ ul.dropdown li a
 #menu ul li h4 a
 {
 	font-size: 14px;
-	color: #000;
+	color: black;
 	font-weight: bold;
 	padding: 0 15px;
 }
