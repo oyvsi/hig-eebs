@@ -1,9 +1,9 @@
 <?php
 
 class View {
-	private $title;
-	public function setTitle($title) {
-		$this->title = $title;
+	private $vars;
+	public function setVar($key, $value) {
+		$this->vars[$key] = $value;
 	}
 	public function render($name) {
 		require(__SITE_PATH . '/application/views/header.php');

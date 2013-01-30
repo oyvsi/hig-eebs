@@ -1,5 +1,5 @@
 <html>
 	<head>
-	<title><?php echo $this->title ?></title>
+	<title><?php echo $this->vars['title'] ?></title>
 	</head>
 	<body>
