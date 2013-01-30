@@ -2,24 +2,32 @@
 
 class BlogController extends BaseController {
 	protected $blogPostController;
+	protected $blogName;
+	protected $postName;
 
 	public function __construct() {
 		parent::__construct();
 		$this->model = new BlogModel();
-		echo 'BloggController here, Cpt. Over<br />';	
 	}
 	
 	public function view() {
+		$this->blogName = (isset($this->args[1])) ? $this->args[1] : NULL;
+		$this->postName = (isset($this->args[2])) ? $this->args[2] : NULL;
 		//$result = $this->model->setID($this->args[1]);
 		//if($result === false) {
 		//	throw new Exception('Invalid id fool!');
 		//}
-		$this->view->setVar('posts', $this->model->getPosts());
-
-		if(isset($this->args[2])) {
-			echo 'Give me the post with id ' . $this->args[2];
+//		$this->view->setVar('title', $this->model->getTitle());
+		if($this->blogName && $this->postName) {
+			echo '<br />Give me the post with title ' . $this->postName . ' on blog ' . $this->blogName;
+			$this->view->setVar('posts', $this->model->getPost($this->blogName, $this->postName));
+			$this->view->render('blog/index');
+		}	
+		elseif($this->blogName) {
+			echo 'Give me the all posts of blog with name ' . $this->blogName;
+			$this->view->setVar('posts', $this->model->getAllPosts($this->blogName));
+			$this->view->render('blog/index');
 		}
-		$this->view->render('blog/index');
 	} 
 
 	public function create() {
