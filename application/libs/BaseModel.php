@@ -1,8 +1,8 @@
 <?php
-abstract class baseModel {
+abstract class BaseModel {
 	protected $db;
 
-	function __construct() {
-		$this->db = new Database(__DB_TYPE, __DB_HOST, __DB_NAME, __DB_USER, __DB_PASS);
+	public function __construct() {
+		//$this->db = new Database(__DB_TYPE, __DB_HOST, __DB_NAME, __DB_USER, __DB_PASS);
 	}
 }

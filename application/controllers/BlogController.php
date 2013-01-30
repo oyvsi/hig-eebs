@@ -1,10 +1,11 @@
 <?php
 
 class BlogController extends BaseController {
-	$protected blogPostController;
+	protected $blogPostController;
 
 	public function __construct() {
 		parent::__construct();
+		$this->model = new BlogModel();
 		echo 'BloggController here, Cpt. Over<br />';	
 	}
 	
@@ -13,7 +14,12 @@ class BlogController extends BaseController {
 		//if($result === false) {
 		//	throw new Exception('Invalid id fool!');
 		//}
-		echo 'Vis blogg med id ' . $this->args[1];	
+		$this->view->setVar('posts', $this->model->getPosts());
+
+		if(isset($this->args[2])) {
+			echo 'Give me the post with id ' . $this->args[2];
+		}
+		$this->view->render('blog/index');
 	} 
 
 	public function create() {
