@@ -33,6 +33,8 @@ class BlogController extends BaseController {
 	}
 	
 	public function view() {
+		$this->model->test();
+		
 		$this->blogName = (isset($this->args[1])) ? $this->args[1] : NULL;
 		$this->postName = (isset($this->args[2])) ? $this->args[2] : NULL;
 		//$result = $this->model->setID($this->args[1]);
