@@ -15,7 +15,33 @@ class Database extends PDO {
 		}
 	}
 
-	public function update() {}
-	public function insert() {}
+/* DUNNO HOW TO TEST IT DUE SHIT, mvh Laff
+	public function update($sqlQuery, $values) {
+
+		try {
+
+			$stmt = $this->prepare($sqlQuery);
+			$stmt->execute($values);
+		} catch (PDOexception $excpt) {
+			echo "Database operation failed!";
+			throw $excpt;
+		}
+	}
+*/
+
+/* DUNNO HOW TO TEST IT DUE SHIT, mvh Laff
+	public function insert($sqlQuery, $values) {
+
+		try {
+
+			$stmt = $this->prepare($sqlQuery);
+			$stmt->execute($values);
+
+		} catch (PDOexception $excpt) {
+			echo "Database operation failed!";
+			throw $excpt;
+		}
+	}
+*/
 	public function delete() {}
 }

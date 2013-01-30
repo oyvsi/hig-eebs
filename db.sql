@@ -34,8 +34,6 @@ CREATE TABLE bloggpost (
 	bloggID int(32) NOT NULL,
 	brukerID int(32) NOT NULL, 
 	timestamp int(10) NOT NULL, 
-	readcount int(128) NOT NULL, 
-	kommentarcound int(128) NOT NULL,
 	posttekst varchar(20000) NOT NULL,
 	PRIMARY KEY(postID),
 	FOREIGN KEY(bloggID) REFERENCES blogg(bloggID),
@@ -62,4 +60,22 @@ CREATE TABLE bilde (
 	timestamp int(10) NOT NULL,
 	PRIMARY KEY (bildeID),
 	FOREIGN KEY (brukerID) REFERENCES bruker(brukerID)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE postviews (
+	viewID int(255) NOT NULL AUTO_INCREMENT,
+	postID int(32) NOT NULL,
+	timestamp int(10) NOT NULL,
+	ipadress varchar(15) NOT NULL,
+	PRIMARY KEY (viewID),
+	FOREIGN KEY (postID) REFERENCES bloggpost(postID)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+ CREATE TABLE blogviews (
+	viewID int(255) NOT NULL AUTO_INCREMENT,
+	bloggID int(32) NOT NULL,
+	timestamp int(10) NOT NULL,
+	ipadress varchar(15) NOT NULL,
+	PRIMARY KEY (viewID),
+	FOREIGN KEY (bloggID) REFERENCES blogg(bloggID)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
