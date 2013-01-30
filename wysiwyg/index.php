@@ -71,66 +71,11 @@
         });
     </script>
     
-    <textarea id="txtDefaultHtmlArea" cols="50" rows="15"><p><h3>Test H3</h3>This is some sample text to test out the <b>WYSIWYG Control</b>.</p></textarea>
+    <textarea id="txtDefaultHtmlArea" cols="150" rows="100"><p><h3>Test H3</h3>This is some sample text to test out the <b>WYSIWYG Control</b>.</p></textarea>
     <input type="button" value="Alert HTML" onclick="alert($('#txtDefaultHtmlArea').htmlarea('html'));" />
     <input type="button" value="Set HTML" onclick="$('#txtDefaultHtmlArea').htmlarea('html', 'Some <strong>HTML</strong> value.')" />
     <input type="button" value="Change Color to Blue" onclick="$('#txtDefaultHtmlArea').htmlarea('forecolor', 'blue');" />
     
     <br /><hr /><br />
-    
-    
-    <textarea id="txtCustomHtmlArea" cols="50" rows="15"><p><h3>Another TextArea</h3>This is some sample text to test out the <b>WYSIWYG Control</b>.</p></textarea>
-    
-    <input type="button" id="btnRemoveCustomHtmlArea" value="Remove jHtmlArea" />
-    <script type="text/javascript">
-        $(function() {
-            $("#btnRemoveCustomHtmlArea").click(function() {
-                $("#txtCustomHtmlArea").htmlarea("dispose");
-            });
-        });
-    </script>
-    
-    <input type="button" id="btnResetCustomHtmlArea" value="Reset To Default Options" />
-    <script type="text/javascript">
-        $(function() {
-            $("#btnResetCustomHtmlArea").click(function() {
-                $("#txtCustomHtmlArea").htmlarea("dispose");
-                $("#txtCustomHtmlArea").htmlarea();
-            });
-        });
-    </script>
-    
-    <br /><hr /><br />
-    
-    <h3>Use jHtmlArea within jQuery UI Dialog</h3>
-   <script type="text/javascript">
-       $.ui.dialog.defaults.bgiframe = true;
-       $(function () {
-           $("#dialog").dialog({
-               width: 420, autoOpen: false,
-               open: function (evt, ui) {
-                   $("#dialogEditor").htmlarea();
-               }
-           });
-
-           $("#dialogShowButton").click(function () {
-               $('#dialog').dialog('open');
-
-           });
-       });
-    </script>
-
-    <input type="button" id="dialogShowButton" value="Show Dialog with jHtmlArea Editor" />
-    
-    <div id="dialog" title="Basic dialog" style="display: none">
-        Basic jHtmlArea within jQuery UI Dialog
-        <br />
-        <textarea id="dialogEditor" rows="10" style="width: 400px">Some <b>Basic</b> text.</textarea>
-    </div>
-
-  
-    
-    
-    <p>To see a "proper" example of the "Font Color" button, you'll want to see the "<a href="ColorPickerMenu.htm">jHtmlAreaColorPickerMenu</a>" in action here: <a href="ColorPickerMenu.htm">ColorPickerMenu.htm</a></p>
-</body>
+    </body>
 </html>
