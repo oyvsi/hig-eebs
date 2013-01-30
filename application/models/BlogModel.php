@@ -5,7 +5,11 @@ class BlogModel extends BaseModel {
 		parent::__construct();
 		echo "Here comes the Model";
 	}	
-	
+
+	public function test() {
+		$a = $this->db->select('SELECT * FROM bruker');
+		print_r($a);
+	}	
 	public function getPost($blogName, $postName) {
 			return array("post X<br />");
 		}
