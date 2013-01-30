@@ -1,4 +1,5 @@
 <?php
+include __SITE_PATH . '/application/conf/database.php';
 include __SITE_PATH . '/application/bootstrap.php';
 
 /**
