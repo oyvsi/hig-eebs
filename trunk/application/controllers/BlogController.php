@@ -11,11 +11,25 @@ class BlogController extends BaseController {
 	}
 
 	protected function updateViewCount($blogName, $blogPost = false) {
+/* DUNNO HOW TO TEST IT DUE SHIT, mvh Laff
 		if($blogPost === false) {
-			// update read count for blog
+			// update viewcount for blog
+			if(limitViewCount()) {
+				// insert view timer/ip
+				$query = "INSERT INTO blogviews(bloggID, timestamp, ipadress) VALUES (?,?,?)";
+				$values = array($this->$blogName, time(), getRealIpAddr()); 
+				$this->insert($query, $values);
+			}
+
 		} else {
-			// update read count for post
+			// update viewcount for post
+			if(limitViewCount()) {
+				$query = "INSERT INTO postviews(postID, timestamp, ipadress) VALUES (?,?,?)";
+				$values = array($this->$postName, time(), getRealIpAddr()); 
+				$this->insert($query, $values);
+			}
 		}
+*/
 	}
 	
 	public function view() {
@@ -49,4 +63,32 @@ class BlogController extends BaseController {
 	public function post() {
 		$this->blogPostController = new BlogPostController();
 	}
+
+/* DUNNO HOW TO TEST IT DUE SHIT, mvh Laff
+	public function limitViewCount($type) {
+
+		$query = "SELECT * FROM '$type' WHERE ipadress = ". getRealIpAddr()." AND timestamp - ".time()." <= 3600";
+		$result = $this->select($query);
+
+		if(!$result) {
+			return true;
+		}
+	}
+*/
+/* DUNNO HOW TO TEST IT DUE SHIT, mvh Laff
+	public function getRealIpAddr() {
+
+		if(!empty($_SERVER['HTTP_CLIENT_IP'])){  
+			$ip=$_SERVER['HTTP_CLIENT_IP']; 
+
+		} elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) { 
+			$ip=$_SERVER['HTTP_X_FORWARDED_FOR']; 
+
+		} else { 
+			$ip=$_SERVER['REMOTE_ADDR']; 
+		}
+
+		return $ip; 
+	}
+*/
 }
