@@ -14,7 +14,8 @@ body
 {
 	font: 14px/21px lucida console;
 	color: #370707;
-	background: #e3d79b url(images/mainbg.jpg) left 40px repeat-x;
+	background: black url(images/mainbg.jpg) repeat; 
+	/* If user sets background image, images/mainbg.jpg will be used*/
 }
 
 /* links
@@ -40,9 +41,9 @@ div.sub
 	width: 70%;
 	border: white 10px solid;
 	font-size: 14px;	
-	font-family: lucida console;	
+	font-family: lucida;	
 	color: black;
-	background-color: #ffffff;
+	background-color: white;
 	
 }
 
@@ -54,8 +55,9 @@ div.centered {
 
 div.footer {
 
-   position:absolute;
+	position: relative;
    bottom:0;
+   color: white;
    width:100%;
    height:60px;   /* Height of the footer */
    text-align:center;
@@ -140,8 +142,9 @@ ul.dropdown li a
 	width: 100%;
 	height: 40px;
 	line-height: 40px;
-	background: #ffb35a url(images/topbg.gif) repeat-x;
-	border-bottom: 1px solid #000;
+	background: white;
+	/* url(images/topbg.gif) repeat-x;
+	border-bottom: 1px solid #000; */
 }
 
 #menu ul
@@ -164,7 +167,7 @@ ul.dropdown li a
 
 #menu ul li a
 {
-	color: #9b2021;
+	color: black;
 	padding-left: 4px;
 }
 
@@ -181,21 +184,23 @@ ul.dropdown li a
 
 #menu ul li a:hover span
 {
-	background: url(images/topselectionright.png) top right;
+	background: black top right;
+	color: white;
 }
 
 #menu ul.dropdown
 {
 	padding: 10px;
 	background-image: url(images/dropdown.png);
+	opacity: 1;
 	overflow:hidden;
-	border-bottom: 1px solid #dc902f;
+	border-bottom: 1px solid black;
 	width: 290px;
 }
 
 #menu ul.dropdown li a
 {
-	border-bottom: 1px solid #e5cd8e;
+	border-bottom: 1px solid black;
 	line-height: 30px;
 	overflow: hidden;
 	height: 30px;
