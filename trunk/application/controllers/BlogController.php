@@ -33,6 +33,7 @@ class BlogController extends BaseController {
 	}
 	
 	public function view() {
+		echo "View!";
 		$this->model->test();
 		
 		$this->blogName = (isset($this->args[1])) ? $this->args[1] : NULL;

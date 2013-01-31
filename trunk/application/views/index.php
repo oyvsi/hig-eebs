@@ -6,6 +6,10 @@
 </div>
 
 <?php
-	$form = new Form('arne', 'strand', 'nils');
+/*	$form = new Form('arne', 'strand', 'nils');
 	$form->addInput('text', 'Laffen', 'Skriv Laffen');
 	echo $form->genForm();
+*/
+foreach($this->args['blogPosts'] as $blogPost) {
+	print_r($blogPost);
+}
