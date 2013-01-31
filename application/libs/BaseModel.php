@@ -4,6 +4,5 @@ abstract class BaseModel {
 
 	public function __construct() {
 		$this->db = new Database(__DB_TYPE, __DB_HOST, __DB_NAME, __DB_USER, __DB_PASS);
-		echo __DB_TYPE;
 	}
 }

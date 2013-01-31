@@ -1,0 +1,11 @@
+.blogPostSummary {
+	border: 1px dotted; 
+}
+.blogPostFooter {
+	text-align: right;
+}
+#footer {
+	text-align: center;
+	margin-top: 2%;
+}
+
