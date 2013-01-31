@@ -5,77 +5,85 @@ CREATE DATABASE hig_eebs;
 USE hig_eebs;
 
 
-CREATE TABLE bruker ( 
-	brukerID int(32) NOT NULL AUTO_INCREMENT, 
-	brukernavn varchar(32) NOT NULL, 
-	fornavn varchar(32) NOT NULL, 
-	etternavn varchar(32) NOT NULL, 
-	passord varchar(10) NOT NULL, 
-	epost varchar(64) NOT NULL, 
-	bildeID int(64) NULL, 
-	aktivert tinyint(1) NOT NULL,
-	PRIMARY KEY (brukerID),
-	FOREIGN KEY (bildeID) REFERENCES bilde(bildeID)
+CREATE TABLE users ( 
+	userID int(32) NOT NULL AUTO_INCREMENT, 
+	userName varchar(32) NOT NULL, 
+	firstName varchar(32) NOT NULL, 
+	lastName varchar(32) NOT NULL, 
+	password varchar(255) NOT NULL, 
+	email varchar(64) NOT NULL, 
+	pictureID int(64) NULL, 
+	userLevel tinyint(1) NOT NULL,
+	activated tinyint(1) NOT NULL,
+	PRIMARY KEY (userID),
+	FOREIGN KEY (pictureID) REFERENCES pictures(pictureID)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE blogg (
-	bloggID int(32) NOT NULL AUTO_INCREMENT, 
-	brukerID int(32) NOT NULL, 
-	brukernivaa varchar(16) NOT NULL, 
+CREATE TABLE blogs (
+	blogID int(32) NOT NULL AUTO_INCREMENT, 
+	userID int(32) NOT NULL, 
 	tittel varchar(32) NOT NULL, 
 	beskrivelse varchar(20000),
-	PRIMARY KEY (bloggID),
-	FOREIGN KEY (brukerID) REFERENCES bruker(brukerID)
+	PRIMARY KEY (blogID),
+	FOREIGN KEY (userID) REFERENCES users(userID)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+CREATE TABLE blogUsers (
+	blogID int(32) NOT NULL,
+	userID int(32) NOT NULL,
+	userLevel tinyint(1) NOT NULL,
+	PRIMARY KEY (blogID, userID),
+	FOREIGN KEY (blogID) REFERENCES blog(blogID),
+	FOREIGN KEY (userID) REFERENCES users(userID)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE bloggpost (
+CREATE TABLE blogPosts (
 	postID int(32) NOT NULL AUTO_INCREMENT,
-	bloggID int(32) NOT NULL,
-	brukerID int(32) NOT NULL, 
+	blogID int(32) NOT NULL,
+	userID int(32) NOT NULL, 
 	timestamp int(10) NOT NULL, 
-	posttekst varchar(20000) NOT NULL,
+	postText varchar(20000) NOT NULL,
 	PRIMARY KEY(postID),
-	FOREIGN KEY(bloggID) REFERENCES blogg(bloggID),
-	FOREIGN KEY(brukerID) REFERENCES bruker(brukerID)
+	FOREIGN KEY(blogID) REFERENCES blog(blogID),
+	FOREIGN KEY(userID) REFERENCES bruker(userID)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE kommentar  (
-	kommentarID int(32) NOT NULL AUTO_INCREMENT, 
-	brukerID int(32) NOT NULL, 
-	bloggpostID int(32) NOT NULL, 
+CREATE TABLE comments  (
+	commentID int(32) NOT NULL AUTO_INCREMENT, 
+	userID int(32) NOT NULL, 
+	postID int(32) NOT NULL, 
 	timestamp int(10) NOT NULL, 
 	source varchar(256) NULL,
-	kommentar varchar(20000),
-	PRIMARY KEY (kommentarID),
-	FOREIGN KEY (brukerID) REFERENCES bruker(brukerID),
-	FOREIGN KEY (bloggpostID) REFERENCES bloggpost(postID)
+	comment varchar(20000),
+	PRIMARY KEY (commentID),
+	FOREIGN KEY (userID) REFERENCES users(userID),
+	FOREIGN KEY (postID) REFERENCES blogPost(postID)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE bilde (
-	bildeID int(32) NOT NULL AUTO_INCREMENT,
-	brukerID int(32) NOT NULL,
+CREATE TABLE pictures (
+	pictureID int(32) NOT NULL AUTO_INCREMENT,
+	userID int(32) NOT NULL,
 	url varchar(1024) NOT NULL,
 	timestamp int(10) NOT NULL,
-	PRIMARY KEY (bildeID),
-	FOREIGN KEY (brukerID) REFERENCES bruker(brukerID)
+	PRIMARY KEY (pictureID),
+	FOREIGN KEY (userID) REFERENCES users(userID)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-CREATE TABLE postviews (
+CREATE TABLE postViews (
 	viewID int(255) NOT NULL AUTO_INCREMENT,
 	postID int(32) NOT NULL,
 	timestamp int(10) NOT NULL,
-	ipadress varchar(15) NOT NULL,
+	ipAddress varchar(15) NOT NULL,
 	PRIMARY KEY (viewID),
-	FOREIGN KEY (postID) REFERENCES bloggpost(postID)
+	FOREIGN KEY (postID) REFERENCES blogPost(postID)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
- CREATE TABLE blogviews (
+ CREATE TABLE blogViews (
 	viewID int(255) NOT NULL AUTO_INCREMENT,
 	bloggID int(32) NOT NULL,
 	timestamp int(10) NOT NULL,
-	ipadress varchar(15) NOT NULL,
+	ipAddress varchar(15) NOT NULL,
 	PRIMARY KEY (viewID),
-	FOREIGN KEY (bloggID) REFERENCES blogg(bloggID)
+	FOREIGN KEY (bloggID) REFERENCES blog(blogID)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
