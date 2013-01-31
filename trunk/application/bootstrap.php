@@ -14,11 +14,14 @@ $controller = ucfirst($controller) . 'Controller';
 
 if(class_exists($controller)) {	
 	$controllerClass = new $controller;
+//	echo "Created controller...";
+	print_r($args);
 	if(count($args > 1)) { // Pass args that are not controller class
 		$controllerClass->setArgs($args);
 	}
 		// Second arg in url is our "action", try that as a method-call
 	if(isset($args[0]) && method_exists($controllerClass, $args[0])) {
+//		echo "Trying function";
 		$controllerClass->$args[0]();
 	}
 

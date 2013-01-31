@@ -8,8 +8,19 @@ class IndexController extends BaseController {
 		if(Auth::checkLogin()) {
 			header('blog/$username');			
 		} else {
-			$this->lastPosts();
-		}
+		//	$this->lastPosts();
+		$this->mostRead();
+	 }
+	}
+
+	public function mostRead() {
+		echo "Most read...";
+		print_r($this->model->mostRead(14));	
+	}
+
+	public function mostCommented() {
+		$this->view->setVar('blogPosts', $this->model->mostCommented(14));
+	
 	}
 
 	public function lastPosts() {
