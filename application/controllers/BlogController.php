@@ -64,7 +64,8 @@ class BlogController extends BaseController {
 		echo 'Remove my stuff';
 	}
 	public function post() {
-		$this->blogPostController = new BlogPostController();
+		$this->blogpostController = new BlogpostController();
+		$this->blogpostController->create();
 	}
 
 /* DUNNO HOW TO TEST IT DUE SHIT, mvh Laff
