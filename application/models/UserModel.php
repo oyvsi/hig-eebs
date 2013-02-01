@@ -24,14 +24,14 @@ class UserModel extends BaseModel {
   	echo "POST OK";
    	if(!empty($userName) && !empty($password) && ($password == $password2)) {
  		echo "ENTERED IF USERNAME";
- 		 $sql = "SELECT * FROM users WHERE userName = ':userName' "; 
+ 		 $sql = "SELECT * FROM users WHERE userName = :userName"; 
      	$result = $this->db->select($sql, array(':userName' => $params['userName']));
  		print($result);
     	if(!$result) {
         	echo "DIDNT EXIST username";
         	$sql= "INSERT INTO users (userName, firstName, email) 
           			   VALUES (:userName, :firstName, :email)";
-         	$param = array(':userName' => $userName, 'firstName' => $firstName, 'email' => $email);	
+         	$param = array(":userName" => $userName, ":firstName" => $firstName, ":email" => $email);	
 
          	$this->db->insert($sql, $param);
 

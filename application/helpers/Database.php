@@ -13,9 +13,9 @@ class Database extends PDO {
 			foreach($params as $param => $value) {
 				// Workaround for https://bugs.php.net/bug.php?id=44639, which did not take me an evening to figure out. I want to cry now
 				if(is_int($value)) {
-					$handler->bindParam($param, $value, PDO::PARAM_INT);	
+					$handler->bindValue($param, $value, PDO::PARAM_INT);	
 				} else {
-					$handler->bindParam($param, $value);
+					$handler->bindValue($param, $value);
 				}
 			}
 		}
@@ -44,20 +44,18 @@ class Database extends PDO {
 
 
 	public function insert($sqlQuery, $params = false) {
-	$handler = $this->prepare($sqlQuery);
+		$handler = $this->prepare($sqlQuery);
 		if($params !== false) {
 			foreach($params as $param => $value) {
-				echo 'binding ' . $param . ' to ' . $value;
 				// Workaround for https://bugs.php.net/bug.php?id=44639, which did not take me an evening to figure out. I want to cry now
 				if(is_int($value)) {
-					$handler->bindParam($param, $value, PDO::PARAM_INT);	
+					$handler->bindValue($param, $value, PDO::PARAM_INT);	
 				} else {
-					echo 'binding ' . $param . ' to ' . $value;
-					$handler->bindParam($param, $value);
+					$handler->bindValue($param, $value);
 				}
 			}
 		}
-
+		
 		if($handler->execute()) {
 			return $handler->fetchAll(PDO::FETCH_ASSOC);
 		} else {
