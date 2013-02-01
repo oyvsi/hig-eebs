@@ -1,12 +1,32 @@
 <?php
-class UserController extends BaseController {
+ 
+class UserController extends BaseController	{
+
+
+	protected $userFields = array('firstName','lastName', 'email', 'userName', 'password', 'password2')
 
 	public function __construct() {
 		parent::__construct();
+		$this->model = new UserModel();
+		
+	}
+
+
+	public function insertUser() {
+		$this->model->insertUser($_POST);
+
+
 	}
 
 	public function createAccount() {
-		echo "Create me an blugg";
+		$userInput = new Form('userInfo', '../insertUser', 'post');
+		foreach($this->userFields as $userField) {
+			$userInput->addInput('text', $userField, $userField);
+		}
+		$userInput->addInput('submit', 'button', null, null, 'Submit');
+		$this->view->setVar('createAccount', $userInput->genForm());
+		$this->view->render('user/createAccount');
+	
 	}
 
 	public function resetPassword() {
