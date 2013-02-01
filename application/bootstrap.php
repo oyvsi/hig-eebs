@@ -15,7 +15,7 @@ $controller = ucfirst($controller) . 'Controller';
 if(class_exists($controller)) {	
 	$controllerClass = new $controller;
 //	echo "Created controller...";
-	print_r($args);
+//	print_r($args);
 	if(count($args > 1)) { // Pass args that are not controller class
 		$controllerClass->setArgs($args);
 	}

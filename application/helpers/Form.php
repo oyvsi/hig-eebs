@@ -9,7 +9,7 @@ class Form {
 	public function __construct($name, $action, $method) {
 		$this->inputFields = array();
 		$this->name = $name;
-		$this->action = $action;
+		$this->action = __URL_PATH . $action;
 		$this->method = $method;
 
 	}

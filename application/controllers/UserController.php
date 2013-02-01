@@ -3,7 +3,6 @@ class UserController extends BaseController {
 
 	public function __construct() {
 		parent::__construct();
-		echo "UserController here<br>\n<br>\n";
 	}
 
 	public function createAccount() {
@@ -20,6 +19,13 @@ class UserController extends BaseController {
 
 	public function changeDisplayName() {
 		echo "Ive hated on some peeps";
+	}
+
+	public function login() {
+		$this->view->render('login');
+	}
+	public function loginDo() {
+		print_r($_POST);
 	}
 
 }
