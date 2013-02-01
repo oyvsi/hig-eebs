@@ -42,19 +42,29 @@ class Database extends PDO {
 	}
  */
 
-/* DUNNO HOW TO TEST IT DUE SHIT, mvh Laff
-	public function insert($sqlQuery, $values) {
 
-		try {
+	public function insert($sqlQuery, $params = false) {
+	$handler = $this->prepare($sqlQuery);
+		if($params !== false) {
+			foreach($params as $param => $value) {
+				echo 'binding ' . $param . ' to ' . $value;
+				// Workaround for https://bugs.php.net/bug.php?id=44639, which did not take me an evening to figure out. I want to cry now
+				if(is_int($value)) {
+					$handler->bindParam($param, $value, PDO::PARAM_INT);	
+				} else {
+					echo 'binding ' . $param . ' to ' . $value;
+					$handler->bindParam($param, $value);
+				}
+			}
+		}
 
-			$stmt = $this->prepare($sqlQuery);
-			$stmt->execute($values);
-
-		} catch (PDOexception $excpt) {
-			echo "Database operation failed!";
-			throw $excpt;
+		if($handler->execute()) {
+			return $handler->fetchAll(PDO::FETCH_ASSOC);
+		} else {
+			echo "Fool"; print_r($handler->errorInfo());
+			return false;
 		}
 	}
- */
+
 	public function delete() {}
 }
