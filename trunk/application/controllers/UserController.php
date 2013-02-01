@@ -3,7 +3,7 @@
 class UserController extends BaseController	{
 
 
-	protected $userFields = array('firstName','lastName', 'email', 'userName', 'password', 'password2')
+	protected $userFields = array('firstName','lastName', 'email', 'userName', 'password', 'password2');
 
 	public function __construct() {
 		parent::__construct();
@@ -13,13 +13,13 @@ class UserController extends BaseController	{
 
 
 	public function insertUser() {
-		$this->model->insertUser($_POST);
+		$this->model->insertUser($_REQUEST);
 
 
 	}
 
 	public function createAccount() {
-		$userInput = new Form('userInfo', '../insertUser', 'post');
+		$userInput = new Form('userInfo', 'user/insertUser', 'post');
 		foreach($this->userFields as $userField) {
 			$userInput->addInput('text', $userField, $userField);
 		}
