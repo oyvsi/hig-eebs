@@ -2,19 +2,19 @@
  
 class UserController extends BaseController	{
 
-
 	protected $userFields = array('firstName','lastName', 'email', 'userName', 'password', 'password2');
 
 	public function __construct() {
 		parent::__construct();
 		$this->model = new UserModel();
-		
 	}
 
+	public function fetchUserInfo($userID) {
+		$this->model->fetchUserInfo($userID);
+	}
 
 	public function insertUser() {
 		$this->model->insertUser($_REQUEST);
-
 
 	}
 
@@ -23,10 +23,10 @@ class UserController extends BaseController	{
 		foreach($this->userFields as $userField) {
 			$userInput->addInput('text', $userField, $userField);
 		}
-		$userInput->addInput('submit', 'button', null, null, 'Submit');
+		$userInput->addInput('submit', 'button', false, 'Submit');
 		$this->view->setVar('createAccount', $userInput->genForm());
+
 		$this->view->render('user/createAccount');
-	
 	}
 
 	public function resetPassword() {
@@ -45,11 +45,13 @@ class UserController extends BaseController	{
 		$this->view->render('login');
 	}
 	public function loginDo() {
-		print_r($_POST);
+		try {
+			$this->model->checkLogin($_POST);
+			$_SESSION['userID'] = $this->model->userID;
+		} catch(Exception $excpt) {
+			echo 'Error ' . $excpt->getMessage();
+			header('location: login');
+		}	
 	}
 
 }
-
-
-
-

@@ -1,12 +1,14 @@
 <?php
 class IndexController extends BaseController {
-	//	private $args;
+	private $user;
 
 	public function __construct() {
 		parent::__construct();
 		$this->model = new IndexModel();
 		if(Auth::checkLogin()) {
-			header('blog/$username');			
+			$this->user = new UserController();
+			$this->user->fetchUserInfo($_SESSION['userID']);
+			echo 'Welcome, '. $this->user->model->userName;
 		} else {
 		//	$this->lastPosts();
 		$this->mostRead();

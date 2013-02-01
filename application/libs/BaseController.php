@@ -6,10 +6,14 @@ abstract class BaseController {
 	protected $model;
 
 	public function __construct() {
-		session_start(); // dunno where it belongs
+		@session_start(); // dunno where it belongs
 		$this->view = new View();
 	}
 	public function setArgs($args) {
 		$this->args = $args;
 	}
+	public function __set($key, $value) {
+		$this->key = $value;
+	}
 }
+
