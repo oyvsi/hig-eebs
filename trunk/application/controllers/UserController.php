@@ -42,7 +42,11 @@ class UserController extends BaseController	{
 	}
 
 	public function login() {
-		$this->view->render('login');
+		if(Auth::checkLogin()) {
+			echo "Logged in already...";
+		} else {
+			$this->view->render('login');
+		}	
 	}
 	public function loginDo() {
 		try {
@@ -52,6 +56,9 @@ class UserController extends BaseController	{
 			echo 'Error ' . $excpt->getMessage();
 			header('location: login');
 		}	
+	}
+	public function logOut() {
+		session_destroy();
 	}
 
 }

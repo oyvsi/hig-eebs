@@ -8,6 +8,9 @@ class IndexModel extends BaseModel {
 	public function lastPosts($limit) {
 				return $this->db->select('SELECT * FROM blogPosts ORDER BY timestamp LIMIT :limit', array(':limit'=> 10));
 	}
+	public function getPostsbyUser($userID) {
+		return $this->db->select('SELECT * FROM blogPosts WHERE userID = :userID ORDER BY timestamp', array(':userID' => $userID));
+	}
 
 	public function mostRead($days) {
 		$startTime = strtotime('-' . $days . 'days');
