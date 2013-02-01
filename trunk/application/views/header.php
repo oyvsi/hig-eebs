@@ -4,3 +4,4 @@
 	<?php echo HTML::cssLink('blog'); ?>
 	</head>
 	<body>
+	<div id="contents">

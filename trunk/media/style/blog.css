@@ -5,7 +5,15 @@
 	text-align: right;
 }
 #footer {
-	text-align: center;
 	margin-top: 2%;
+	position:absolute;
+	bottom:0;
 }
 
+
+label{float:left; 
+	clear: left;
+}
+input {
+	float: left;
+}
