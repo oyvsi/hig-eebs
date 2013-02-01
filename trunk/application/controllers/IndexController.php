@@ -4,8 +4,8 @@ class IndexController extends BaseController {
 
 	public function __construct() {
 		parent::__construct();
+		echo "Loaded index";
 		$this->model = new IndexModel();
-		print_r($this->args);
 	}
 
 	public function loadIndex() {
@@ -34,6 +34,7 @@ class IndexController extends BaseController {
 	}
 
 	public function lastPosts() {
+		echo "Last posts...";
 		$this->view->setVar('title', 'Bloggsystem2kPro');
 		$this->view->setVar('blogPosts', $this->model->lastPosts(10));
 		$this->view->render('lastPosts');

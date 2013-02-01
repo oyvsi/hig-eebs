@@ -52,6 +52,7 @@ class UserController extends BaseController	{
 		try {
 			$this->model->checkLogin($_POST);
 			$_SESSION['userID'] = $this->model->userID;
+			header('location: /');
 		} catch(Exception $excpt) {
 			echo 'Error ' . $excpt->getMessage();
 			header('location: login');
