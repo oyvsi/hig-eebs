@@ -14,18 +14,23 @@ class Form {
 
 	}
 
-	public function addInput($type, $name, $lead, $id=false, $value=false) {
-		$input = '<label for="' . $name . '">' . $lead  .'</label>' . "\n";
+	public function addInput($type, $name, $lead=false, $value=false, $id=false) {
+		$input = '';
+
+		if($lead !== false) {
+			$input .= '<label for="' . $name . '">' . $lead  .'</label>' . "\n";
+		}
+
 		$input .= "\t" . '<input type="' . $type .'" name="' . $name . '"';
 
-		if($id != false) {
+		if($id !== false) {
 			$input .= ' id="' . $id . '"';
 		}
-		if($value != false) {
+		if($value !== false) {
 			$input .= ' value="' . $value . '"';
 		}
 		$input .= ' />';
-		
+
 		array_push($this->inputFields, $input);
 	}
 
@@ -35,7 +40,7 @@ class Form {
 			$html .= "\n\t" . $input;
 		}
 		$html .= "\n" . '</form>';
-	
+
 		return $html;
 	}
 }

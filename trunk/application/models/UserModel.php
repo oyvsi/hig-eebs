@@ -1,13 +1,38 @@
 <?php
 
 class UserModel extends BaseModel {
+	protected $userFields = array('firstName','lastName', 'email', 'userName', 'password', 'password2');
 
 	public function __construct() {
 		parent::__construct();
-		
-
 	}	
+
+	public function setInfo($userInfo) {
+		foreach($userInfo as $key => $value) {
+			$this->$key = $value;
+		}	
+	}
 	
+	public function fetchUserInfo($userID) {
+		$sql = 'SELECT * FROM users WHERE userID = :userID';
+		$result = $this->db->select($sql, array('userID' => $userID));
+		$this->setInfo($result[0]);
+	} 
+	
+	
+
+	public function checkLogin($userInfo) {
+		$sql = 'SELECT * from users WHERE userName = :userName AND password = :password';
+		$result = $this->db->select($sql, array(':userName' => $userInfo['userName'], ':password' => $_POST['password']));
+		if(count($result) == 1) {
+			$this->setInfo($result[0]);
+			return true;
+		} else {
+			throw new Exception('Invalid username or password');
+		}
+	}
+
+
 	public function insertUser($params) {
  		$userName = $params['userName'];
  		$firstName = $params['firstName'];
