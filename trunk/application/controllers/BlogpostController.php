@@ -15,7 +15,8 @@ class BlogpostController extends BaseController {
 	public function create() {
 		echo 'Creating post...';
 		$title = 'Arne dro fisken på land!';
-		echo 'URL: ' makePostUrl($title);	// TODO: Make postURL in db as well
+		echo 'Title was ' . $title;
+		echo ' URL: '  . $this->makePostUrl($title);	// TODO: Make postURL in db as well
 
 	}
 	
