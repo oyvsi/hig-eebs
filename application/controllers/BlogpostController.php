@@ -18,6 +18,7 @@ class BlogpostController extends BaseController {
 		echo 'Title was ' . $title;
 		echo ' URL: '  . $this->makePostUrl($title);	// TODO: Make postURL in db as well
 
+		$this->view->render('blog/createPost');
 	}
 	
 	/**

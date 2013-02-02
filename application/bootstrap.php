@@ -9,23 +9,31 @@ if(isset($_GET['rc'])) {
 }
 
 // Load index controller by default, or first arg if specified
-$controller = ($url === null) ? 'Index' : array_shift($args); 
-$controller = ucfirst($controller) . 'Controller';
+$controller = ($url === null) ? 'null' : array_shift($args); 
+$controller = ucfirst($controller);
+$postfix = 'Controller';
 
-if(class_exists($controller)) {	
-	$controllerClass = new $controller;
+if(class_exists($controller . $postfix)) {	
+	$controllerName = $controller . $postfix;
+	$controllerClass = new $controllerName;
 //	echo "Created controller...";
-//	print_r($args);
 	if(count($args > 1)) { // Pass args that are not controller class
 		$controllerClass->setArgs($args);
 	}
-		// Second arg in url is our "action", try that as a method-call
+	// Second arg in url is our "action", try that as a method-call
 	if(isset($args[0]) && method_exists($controllerClass, $args[0])) {
-//		echo "Trying function";
 		$controllerClass->$args[0]();
-	}
-
+	} 	
 } else {
-	echo 'Class does not exist! Tried: ' . __SITE_PATH . '/application/controllers/' . $controller;
+	$defaultController = new IndexController();
+	$method = strtolower($controller);
+//	echo $method;
+	if(method_exists($defaultController, $method)) {
+//		echo "Calling method $method";
+		$defaultController->$method();
+	} else {
+		$defaultController->loadIndex();
+	}
 }
+
 

@@ -1,7 +1,7 @@
 <?php
 
 class BlogController extends BaseController {
-	protected $blogPostController;
+	protected $blogpostController;
 	protected $blogName;
 	protected $postName;
 

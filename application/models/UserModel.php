@@ -17,6 +17,8 @@ class UserModel extends BaseModel {
 		$sql = 'SELECT * FROM users WHERE userID = :userID';
 		$result = $this->db->select($sql, array('userID' => $userID));
 		$this->setInfo($result[0]);
+
+		return $result;
 	} 
 	
 	
