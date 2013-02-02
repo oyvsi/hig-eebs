@@ -7,11 +7,12 @@ class Database extends PDO {
 	}
 
 	public function select($sqlQuery, $params = false) {
-		
+	//	echo "SQL query! $sqlQuery <br />";	
 		$handler = $this->prepare($sqlQuery);
 		if($params !== false) {
 			foreach($params as $param => $value) {
 				// Workaround for https://bugs.php.net/bug.php?id=44639, which did not take me an evening to figure out. I want to cry now
+				//echo "param $param Value $value";
 				if(is_int($value)) {
 					$handler->bindValue($param, $value, PDO::PARAM_INT);	
 				} else {

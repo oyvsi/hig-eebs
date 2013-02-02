@@ -36,12 +36,22 @@ class UserController extends BaseController	{
 	public function profile() {
 		if(isset($this->args[1])) {
 			echo 'Show info for user ' . $this->args[1];
+			$this->model->fetchUserProfile($this->args[1]);
+			$this->view->setVar('userProfile', $this->model->getUserProfile());
+			$this->view->render('user/profile');
 		}
 		else {
-		$userData = $this->model->fetchUserInfo($_SESSION['userID']);
+			$userData = $this->model->fetchUserInfo($_SESSION['userID']);
+			$userData = $userData[0];
+			$userData['password2'] = $userData['password'] = '';
+			$userInput = new Form('userInfo', 'user/updateUser', 'post');
+			foreach($this->userFields as $userField) {
+				$userInput->addInput('text', $userField, $userField, $userData[$userField]);
+			}
+			$userInput->addInput('submit', 'submit', false, 'Submit');
+			$this->view->setVar('createAccount', $userInput->genForm());
+			$this->view->render('user/createAccount');	
 		}
-		$this->view->setVar('userInfo', $userData);
-		$this->view->render('user/profile');
 	}
 
 	public function changeDisplayName() {
