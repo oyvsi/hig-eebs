@@ -15,8 +15,7 @@ class IndexController extends BaseController {
 			$this->view->setVar('blogPosts', $this->model->getPostsByUser($this->user->model->userID));
 			$this->view->render('blogPosts');
 		} else {
-			//	$this->lastPosts();
-			$this->mostRead();
+			$this->lastPosts();
 		}
 	}
 

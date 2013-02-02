@@ -20,7 +20,16 @@ class UserModel extends BaseModel {
 
 		return $result;
 	} 
-	
+	public function fetchUserProfile($userName) {
+		$sql = 'SELECT * FROM users WHERE userName = :userName';
+		$result = $this->db->select($sql, array('userName' => $userName));
+		$this->setInfo($result[0]);
+		
+		return $result;
+	}	
+	public function getUserProfile() {
+		return array('userName' => $this->userName, 'firstName' => $this->firstName);
+	}
 	
 
 	public function checkLogin($userInfo) {
