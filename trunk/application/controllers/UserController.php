@@ -33,8 +33,15 @@ class UserController extends BaseController	{
 		echo "Forgot pw =( or got hackedlol";
 	}
 
-	public function editInformation() {
-		echo "I have aged or become a girl";
+	public function profile() {
+		if(isset($this->args[1])) {
+			echo 'Show info for user ' . $this->args[1];
+		}
+		else {
+		$userData = $this->model->fetchUserInfo($_SESSION['userID']);
+		}
+		$this->view->setVar('userInfo', $userData);
+		$this->view->render('user/profile');
 	}
 
 	public function changeDisplayName() {
@@ -52,7 +59,7 @@ class UserController extends BaseController	{
 		try {
 			$this->model->checkLogin($_POST);
 			$_SESSION['userID'] = $this->model->userID;
-			header('location: /');
+			header('location: ' . __URL_PATH);
 		} catch(Exception $excpt) {
 			echo 'Error ' . $excpt->getMessage();
 			header('location: login');
@@ -60,6 +67,7 @@ class UserController extends BaseController	{
 	}
 	public function logOut() {
 		session_destroy();
+		header('location: ' . __URL_PATH);
 	}
 
 }

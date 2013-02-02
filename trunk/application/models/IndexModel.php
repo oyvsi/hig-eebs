@@ -23,6 +23,6 @@ class IndexModel extends BaseModel {
 	}
 
 	public function mostCommented($days) {
-	
+		return NULL;	
 	}
 }

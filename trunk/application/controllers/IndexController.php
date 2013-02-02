@@ -4,7 +4,6 @@ class IndexController extends BaseController {
 
 	public function __construct() {
 		parent::__construct();
-		echo "Loaded index";
 		$this->model = new IndexModel();
 	}
 
@@ -30,13 +29,13 @@ class IndexController extends BaseController {
 	public function mostCommented() {
 		echo "Most commented...";
 		$this->view->setVar('blogPosts', $this->model->mostCommented(14));
-
+		$this->view->render('blogPosts');
 	}
 
 	public function lastPosts() {
 		echo "Last posts...";
 		$this->view->setVar('title', 'Bloggsystem2kPro');
 		$this->view->setVar('blogPosts', $this->model->lastPosts(10));
-		$this->view->render('lastPosts');
+		$this->view->render('blogPosts');
 	}
 }
