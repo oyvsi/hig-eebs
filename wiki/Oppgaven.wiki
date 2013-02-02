@@ -9,7 +9,7 @@ Grunnleggende funksjonalitet (må ha) :
    * Brukere må kunne legge inn, redigere og slette blog innlegg (med wysiwyg editor)
  * Alle må kunne kommentere på blog innlegg (med standard tekst editor (ren tekst.))
  * Forfatter av blog innlegg må kunne slette kommentarer til sitt eget blog innlegg
-   # Kommentaren skal da komme frem kun med teksten "Slettet av bloggens eier"*
+   * Kommentaren skal da komme frem kun med teksten "Slettet av bloggens eier"
  * Det skal være mulighet for alle å markere et blog innlegg eller en kommentar som upassende
  * Det skal være mulig å ha en eller flere administratorer i systemet
    * Når en administrator logger på så skal vedkommende kunne få en liste over blog innlegg/kommentarer som er markert upassende og eventuelt slette disse
