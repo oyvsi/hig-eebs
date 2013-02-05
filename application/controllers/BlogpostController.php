@@ -24,7 +24,7 @@ class BlogpostController extends BaseController {
 		$this->view->render('blog/createPost');
 	}
 	public function createDo() {
-		$this->model->createPost($_POST);
+		$this->model->createPost($_POST, $this->user->model->userID);
 	}
 	
 	public function update() {

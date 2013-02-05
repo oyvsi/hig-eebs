@@ -1,6 +1,5 @@
 <?php
 class IndexController extends BaseController {
-	private $user;
 
 	public function __construct() {
 		parent::__construct();
@@ -8,16 +7,14 @@ class IndexController extends BaseController {
 	}
 
 	public function loadIndex() {
-		if(Auth::checkLogin()) {
-			$this->user = new UserController();
-			$this->user->fetchUserInfo($_SESSION['userID']);
+		if($this->user) {
 			echo 'Welcome, '. $this->user->model->userName;
 			$this->view->setVar('blogPosts', $this->model->getPostsByUser($this->user->model->userID));
 			$this->view->render('blogPosts');
 		} else {
 			$this->lastPosts();
 		}
-	}
+	 }
 
 	public function mostRead() {
 		echo "Most read...";
