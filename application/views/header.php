@@ -1,7 +1,9 @@
 <html>
 	<head>
 	<title><?php echo $this->vars['title'] ?></title>
-	<?php echo HTML::cssLink('blog'); ?>
+	<?php
+	echo HTML::jsLink('tiny_mce/tiny_mce');
+	echo HTML::cssLink('blog'); ?>
 	</head>
 	<body>
 	<div id="navigation">

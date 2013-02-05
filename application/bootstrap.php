@@ -25,15 +25,16 @@ if(class_exists($controller . $postfix)) {
 		$controllerClass->$args[0]();
 	} 	
 } else {
-	$defaultController = new IndexController();
+	$controllerClass = new IndexController();
 	$method = strtolower($controller);
 //	echo $method;
-	if(method_exists($defaultController, $method)) {
+	if(method_exists($controllerClass, $method)) {
 //		echo "Calling method $method";
-		$defaultController->$method();
+		$controllerClass->$method();
 	} else {
-		$defaultController->loadIndex();
+		$controllerClass->loadIndex();
 	}
 }
+	$controllerClass->render();
 
 
