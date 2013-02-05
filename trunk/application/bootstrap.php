@@ -1,4 +1,5 @@
 <?php
+@session_start();
 
 if(isset($_GET['rc'])) {
 	$url = rtrim($_GET['rc'], '/'); // We don't want no empty arg
@@ -16,6 +17,7 @@ $postfix = 'Controller';
 if(class_exists($controller . $postfix)) {	
 	$controllerName = $controller . $postfix;
 	$controllerClass = new $controllerName;
+	$controllerClass->setUp();
 //	echo "Created controller...";
 	if(count($args > 1)) { // Pass args that are not controller class
 		$controllerClass->setArgs($args);
@@ -26,6 +28,7 @@ if(class_exists($controller . $postfix)) {
 	} 	
 } else {
 	$controllerClass = new IndexController();
+	$controllerClass->setUp();
 	$method = strtolower($controller);
 //	echo $method;
 	if(method_exists($controllerClass, $method)) {

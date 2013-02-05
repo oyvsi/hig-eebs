@@ -45,6 +45,7 @@ class Database extends PDO {
 
 
 	public function insert($sqlQuery, $params = false) {
+//		echo "Query was $sqlQuery";
 		$handler = $this->prepare($sqlQuery);
 		if($params !== false) {
 			foreach($params as $param => $value) {

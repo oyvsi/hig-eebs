@@ -1,15 +1,24 @@
 <?php
 
 abstract class BaseController {
+	protected $user;
 	protected $args;
 	protected $view;
 	protected $model;
 	protected $viewFile;
 
 	public function __construct() {
-		@session_start(); // dunno where it belongs
 		$this->view = new View();
 		$this->viewFile = NULL;
+
+	}
+	public function setUp() {
+		if(Auth::checkLogin()) {
+			$this->user = new UserController();
+			$this->user->fetchUserInfo($_SESSION['userID']);
+		} else {
+			$this->user = NULL;
+		}
 	}
 	public function setArgs($args) {
 		$this->args = $args;
