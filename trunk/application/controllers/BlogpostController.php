@@ -7,47 +7,26 @@
 class BlogpostController extends BaseController {
 	public function __construct() {
 		parent::__construct();
+		$this->model = new BlogpostModel();
 	}
 
 	public function view() {
 		echo 'Show a post';
 	}
 	public function create() {
+		// umh Should it be here???
 		$form = new Form('blogPost', 'blogpost/createDo', 'POST');
 		$form->addInput('text', 'title', 'Title: ');
-		$form->addTextArea('postText', 30, 40);
+		$form->addTextArea('postText', 10, 10);
 		$form->addInput('submit', 'Submit');
 		$this->view->setVar('form', $form->genForm());
-
-		echo 'Creating post...';
-		$title = 'Arne dro fisken på land!';
-		echo 'Title was ' . $title;
-		echo ' URL: '  . $this->makePostUrl($title);	// TODO: Make postURL in db as well
 
 		$this->view->render('blog/createPost');
 	}
 	public function createDo() {
-		print_r($_POST);
+		$this->model->createPost($_POST);
 	}
 	
-	/**
-	 * Creates pretty URL from string
-	 * Covertes spaces to underscore and replaces NO-specific characters
-	 * everything but alphanumeric is stripped after replace
-	 * 
-	 * @param String $title the string to convert
-	 */
-	public function makePostUrl($title) {
-		$title = strtolower($title);
-		$replace = array(' ' => '_', 'æ' => 'ae', 'ø' => 'oe', 'å' => 'aa');
-		foreach($replace as $char => $sub) {
-			$title = str_replace($char, $sub, $title);
-		}
-		$title = preg_replace('/[^0-9a-z_]/', "", $title);
-
-		return $title;
-	}
-
 	public function update() {
 		echo 'add some shit';
 	}
