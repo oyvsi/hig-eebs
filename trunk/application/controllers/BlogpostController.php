@@ -13,12 +13,21 @@ class BlogpostController extends BaseController {
 		echo 'Show a post';
 	}
 	public function create() {
+		$form = new Form('blogPost', 'blogpost/createDo', 'POST');
+		$form->addInput('text', 'title', 'Title: ');
+		$form->addTextArea('postText', 30, 40);
+		$form->addInput('submit', 'Submit');
+		$this->view->setVar('form', $form->genForm());
+
 		echo 'Creating post...';
 		$title = 'Arne dro fisken på land!';
 		echo 'Title was ' . $title;
 		echo ' URL: '  . $this->makePostUrl($title);	// TODO: Make postURL in db as well
 
 		$this->view->render('blog/createPost');
+	}
+	public function createDo() {
+		print_r($_POST);
 	}
 	
 	/**

@@ -25,8 +25,7 @@ class UserController extends BaseController	{
 		}
 		$userInput->addInput('submit', 'button', false, 'Submit');
 		$this->view->setVar('createAccount', $userInput->genForm());
-
-		$this->view->render('user/createAccount');
+		$this->viewFile = 'user/createAccount';
 	}
 
 	public function resetPassword() {
@@ -38,19 +37,20 @@ class UserController extends BaseController	{
 			echo 'Show info for user ' . $this->args[1];
 			$this->model->fetchUserProfile($this->args[1]);
 			$this->view->setVar('userProfile', $this->model->getUserProfile());
-			$this->view->render('user/profile');
+			$this->viewFile = 'user/profile';
 		}
 		else {
 			$userData = $this->model->fetchUserInfo($_SESSION['userID']);
 			$userData = $userData[0];
 			$userData['password2'] = $userData['password'] = '';
+
 			$userInput = new Form('userInfo', 'user/updateUser', 'post');
 			foreach($this->userFields as $userField) {
 				$userInput->addInput('text', $userField, $userField, $userData[$userField]);
 			}
 			$userInput->addInput('submit', 'submit', false, 'Submit');
 			$this->view->setVar('createAccount', $userInput->genForm());
-			$this->view->render('user/createAccount');	
+			$this->viewFile = 'user/createAccount';	
 		}
 	}
 
@@ -79,5 +79,4 @@ class UserController extends BaseController	{
 		session_destroy();
 		header('location: ' . __URL_PATH);
 	}
-
 }

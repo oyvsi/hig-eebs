@@ -33,6 +33,10 @@ class Form {
 
 		array_push($this->inputFields, $input);
 	}
+	public function addTextArea($name, $rows, $cols) {
+		$html = '<textarea name="' . $name . '"  rows="' . $rows . '" cols="' . $cols . '"></textarea>';
+		array_push($this->inputFields, $html);
+	} 
 
 	public function genForm() {
 		$html = '<form name="' . $this->name . '" action="' . $this->action . '" method="' . $this->method . '">';   
