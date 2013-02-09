@@ -5,6 +5,7 @@
 */
 
 class BlogpostController extends BaseController {
+	private $loadComments = false;
 	public function __construct() {
 		parent::__construct();
 		$this->model = new BlogpostModel();
@@ -12,6 +13,7 @@ class BlogpostController extends BaseController {
 
 	public function view() {
 		echo 'Show a post';
+		print_r($this->args);
 	}
 	public function create() {
 		// umh Should it be here???
