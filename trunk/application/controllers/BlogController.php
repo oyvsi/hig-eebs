@@ -29,32 +29,39 @@ class BlogController extends BaseController {
 				$this->insert($query, $values);
 			}
 		}
-*/
+ */
 	}
-	
-	public function view() {
-		echo "View!";
-		$this->model->test();
-		
+
+	public function view() {	
 		$this->blogName = (isset($this->args[1])) ? $this->args[1] : NULL;
 		$this->postName = (isset($this->args[2])) ? $this->args[2] : NULL;
+
 		//$result = $this->model->setID($this->args[1]);
 		//if($result === false) {
 		//	throw new Exception('Invalid id fool!');
 		//}
-//		$this->view->setVar('title', $this->model->getTitle());
+		//		$this->view->setVar('title', $this->model->getTitle());
+
+		// This should probalby be moved to BlogpostController
 		if($this->blogName && $this->postName) {
-			echo '<br />Give me the post with title ' . $this->postName . ' on blog ' . $this->blogName;
-			$this->view->setVar('posts', $this->model->getPost($this->blogName, $this->postName));
-			$this->view->render('blog/index');
+			$loadComments = (isset($this->args[3]) && $this->args[3] == 'comments');
+			//echo '<br />Give me the post with title ' . $this->postName . ' on blog ' . $this->blogName;
+			$this->blogpostController = new BlogpostController();
+			$this->blogpostController->view();
+			$this->view->setVar('blogPosts', $this->model->getPost($this->blogName, $this->postName));
+			$this->view->render('blog/blogPost');
 			$this->updateViewCount($this->blogName, $this->postName);
+
+			if($loadComments) {
+				$commentsController = new CommentsController();
+			}
 		}	
-		elseif($this->blogName) {
-			echo 'Give me the all posts of blog with name ' . $this->blogName;
-			$this->view->setVar('posts', $this->model->getAllPosts($this->blogName));
-			$this->view->render('blog/index');
-			$this->updateViewCount($this->blogName);
-		}
+			elseif($this->blogName) {
+				//echo 'Give me the all posts of blog with name ' . $this->blogName;
+				$this->view->setVar('posts', $this->model->getAllPosts($this->blogName));
+				$this->view->render('blog/index');
+				$this->updateViewCount($this->blogName);
+			}
 	} 
 
 	public function create() {
@@ -78,7 +85,7 @@ class BlogController extends BaseController {
 			return true;
 		}
 	}
-*/
+ */
 /* DUNNO HOW TO TEST IT DUE SHIT, mvh Laff
 	public function getRealIpAddr() {
 
@@ -94,5 +101,5 @@ class BlogController extends BaseController {
 
 		return $ip; 
 	}
-*/
+ */
 }
