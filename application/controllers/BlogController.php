@@ -11,27 +11,15 @@ class BlogController extends BaseController {
 	}
 
 	protected function updateViewCount($blogName, $blogPost = false) {
-/* DUNNO HOW TO TEST IT DUE SHIT, mvh Laff
 		if($blogPost === false) {
 			// update viewcount for blog
-			if(limitViewCount()) {
-				// insert view timer/ip
-				$query = "INSERT INTO blogviews(bloggID, timestamp, ipadress) VALUES (?,?,?)";
-				$values = array($this->$blogName, time(), getRealIpAddr()); 
-				$this->insert($query, $values);
-			}
+			$this->model->updateViewCount($blogName);
 
 		} else {
-			// update viewcount for post
-			if(limitViewCount()) {
-				$query = "INSERT INTO postviews(postID, timestamp, ipadress) VALUES (?,?,?)";
-				$values = array($this->$postName, time(), getRealIpAddr()); 
-				$this->insert($query, $values);
-			}
+			// update viewcount for post. Should be moved to BlogpostController....
+			$this->model->updatePostViewCount($blogPost);
 		}
- */
 	}
-
 	public function view() {	
 		$this->blogName = (isset($this->args[1])) ? $this->args[1] : NULL;
 		$this->postName = (isset($this->args[2])) ? $this->args[2] : NULL;
@@ -48,13 +36,13 @@ class BlogController extends BaseController {
 			//echo '<br />Give me the post with title ' . $this->postName . ' on blog ' . $this->blogName;
 			$this->blogpostController = new BlogpostController();
 			$this->blogpostController->view();
-			
+
 			$this->view->setVar('blogPosts', $this->model->getPost($this->blogName, $this->postName));
 			if($loadComments) { // TODO: Fix this
 				$this->view->renderFooter = false;
 			}
 			$this->view->render('blog/blogPost');
-			$this->updateViewCount($this->blogName, $this->postName);
+			$this->updateViewCount('jens', $this->model->postID);
 
 			if($loadComments) {
 				$url = 'blog/view/'. $this->blogName . '/' . $this->postName;
