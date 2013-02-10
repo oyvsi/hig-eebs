@@ -36,7 +36,9 @@ class UserModel extends BaseModel {
 					$newPassword = Helpers::generateRandomPassword();
 					$text = 'Hello, ' . $result[0]['firstName'] . '. Your new password for HiG-EEBS is: ' . $newPassword;
 					//echo($text);
-					mail($result[0]['email'], 'New password', $text);
+					if (!PhpMail::mail($result[0]['email'], 'New password', $text)){
+						throw new Exception('Mail not sent');
+					}
 				} else {
 					throw new Exception('No matching username');
 				}
