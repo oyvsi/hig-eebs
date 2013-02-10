@@ -15,7 +15,15 @@ class CommentsController extends BaseController	{
 		if($this->user()) {
 			$userInput->addInput('text', 'name', 'Name', $this->user->model->userName, true);
 		} else {
-			$userInput->addInput('text', 'name', 'Name');
+			$fb = new FacebookLogin();
+			$fbUser = $fb->checkLogin();
+			if($fbUser) {
+				//print_r($fbUser);
+				$userInput->addInput('text', 'name', 'Name', $fbUser['link'], true);
+			} else {
+				$this->view->setVar('loginError', true);
+				$this->view->setVar('fbLoginURL', $fb->getLoginURL());
+			}
 		}	
 		$userInput->addTextArea('comment', 10, 60);
 		$userInput->addInput('submit', 'submit', false, 'Submit');
