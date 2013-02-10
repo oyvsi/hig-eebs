@@ -13,6 +13,6 @@ class Helpers{
 	    	$password .= chr(rand(32, 126));
 	    }
 	    return $password;
-    }
+    }    
 }
 
