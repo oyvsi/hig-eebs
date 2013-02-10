@@ -23,7 +23,7 @@ abstract class BaseController {
 	 }
 
 	public function user() {
-		if($_SESSION['userID']) {
+		if(Auth::checkLogin()) {
 			$this->user = new UserController();
 			$this->user->fetchUserInfo($_SESSION['userID']);
 			return true;
