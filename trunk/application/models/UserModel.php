@@ -99,16 +99,16 @@ class UserModel extends BaseModel {
 					if(!empty($password)){
 						if($password == $password2){
 							$sql = $sql . "password = :password, ";
-							$param = array(":password", $password);
+							$param = array(":password" => $password);
 						} else {
 							throw new Exception('Passwords doesn\'t match.');
 						}
-					}
+					} 
 					
 					$sql = $sql . "WHERE userName = :loggedIn";
 					
-					array_push($param, ":userName" => $userName, ":firstName" => $firstName, ":lastName" => $lastName, 
-								":email" => $email, ":loggedIn" => $this->userName);
+					array_push($param, array(":userName" => $userName, ":firstName" => $firstName, ":lastName" => $lastName, 
+								":email" => $email, ":loggedIn" => $this->userName));
 					
 					$this->db->insert($sql, $param);
 				
