@@ -16,6 +16,22 @@ class BlogModel extends BaseModel {
 
 		return $result;
 	}
+	public function updatePostViewCount($postID) {
+		// Maybe do this with cookies
+		$ipAddress = $_SERVER['REMOTE_ADDR'];
+		$reReadLimit = 24;
+		$limitTime = strtotime('-' . $reReadLimit . ' hours');
+		$check = $this->db->select('SELECT viewID FROM postViews 
+											WHERE postID = :postID AND ipAddress = :ipAddress AND timestamp BETWEEN :startTime AND :stopTime',
+		array(':postID' => $postID, ':ipAddress' => $ipAddress, ':startTime' => $limitTime, ':stopTime' => time()));
+
+		 // User has not seen this post yet, or not since timelimit. Insert a post view.
+		if(count($check) == 0) {
+			$query = 'INSERT INTO postViews(postID, timestamp, ipAddress) VALUES (:postID, :timestamp, :ipAddress)';
+			$values = array(':postID' => $postID, ':timestamp' => time(), 'ipAddress' => $_SERVER['REMOTE_ADDR']); 
+			$this->db->insert($query, $values);
+		}
+	}
 
 	public function getAllPosts($blogName) {
 		return array("Post 1<br />",
