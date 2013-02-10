@@ -15,16 +15,26 @@ class IndexModel extends BaseModel {
 											array(':limit'=> 10));
 	}
 	public function getPostsbyUser($userID) {
-		return $this->db->select('SELECT LEFT(blogPosts.postText, 60) as postSummary, blogPosts.*, users.userName FROM blogPosts LEFT JOIN users on blogPosts.userID = users.userID WHERE blogPosts.userID = :userID', array(':userID' => $userID));
+		return $this->db->select('SELECT LEFT(blogPosts.postText, 60) as postSummary, blogPosts.*, users.userName, COUNT(comments.commentID) as noComments 
+			FROM blogPosts 
+			LEFT JOIN users on blogPosts.userID = users.userID 
+			LEFT JOIN comments on blogPosts.postID = comments.postID
+			WHERE blogPosts.userID = :userID
+			GROUP BY blogPosts.postID'
+			, array(':userID' => $userID));
 	}
 
 	public function mostRead($days) {
 		$startTime = strtotime('-' . $days . 'days');
 		$endTime = strtotime('now');
-		$query = 'SELECT LEFT(blogPosts.postText, 60) as postSummary, blogPosts.*, users.userName, count(postViews.postID) as readCount FROM postViews 
-					 LEFT JOIN blogPosts ON postViews.postID = blogPosts.postID 
+		$query = 'SELECT LEFT(blogPosts.postText, 60) as postSummary, blogPosts.*, users.userName, COUNT(postViews.postID) as readCount, COUNT(comments.postID) as noComments FROM blogPosts 
+					 LEFT JOIN postViews ON postViews.postID = blogPosts.postID 
 					 LEFT JOIN users ON blogPosts.userID = users.userID
-					 WHERE blogPosts.timestamp BETWEEN :startTime AND :endTime';
+					 LEFT JOIN comments ON comments.PostID = blogPosts.postID
+					 WHERE blogPosts.timestamp BETWEEN :startTime AND :endTime
+					 GROUP BY blogPosts.postID
+					 ORDER BY readCount DESC'
+					 ;
 
 		return $this->db->select($query, array(':startTime' => $startTime, ':endTime' => $endTime));
 	}
@@ -32,7 +42,7 @@ class IndexModel extends BaseModel {
 	public function mostCommented($days) {
 		$startTime = strtotime('-' . $days . 'days');
 		$endTime = strtotime('now');
-		$query = 'SELECT LEFT(blogPosts.postText, 60) as postSummary, blogPosts.*, users.userName, count(comments.commentID) as noComments FROM blogPosts 
+		$query = 'SELECT LEFT(blogPosts.postText, 60) as postSummary, blogPosts.*, users.userName, COUNT(comments.commentID) as noComments FROM blogPosts 
 			LEFT JOIN comments ON comments.postID = blogPosts.postID 
 			LEFT JOIN users ON blogPosts.userID = users.userID
 			WHERE blogPosts.timestamp BETWEEN :startTime AND :endTime
