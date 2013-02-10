@@ -29,15 +29,19 @@ class UserModel extends BaseModel {
 			$userName = $params['userName'];
 			//echo $userName;
 			if(!empty($userName)){
-				$sql = "SELECT email, firstName FROM users WHERE userName = :userName";
+				$sql = "SELECT email, firstName, userID FROM users WHERE userName = :userName";
 				$result = $this->db->select($sql, array(":userName" => $userName));
 				
 				if(count($result) != 0){				
 					$newPassword = Helpers::generateRandomPassword();
-					$text = 'Hello, ' . $result[0]['firstName'] . '. Your new password for HiG-EEBS is: ' . $newPassword;
-					//echo($text);
-					if (!PhpMail::mail($result[0]['email'], 'New password', $text)){
-						throw new Exception('Mail not sent');
+					$sqlInsert = "UPDATE users SET password = :password WHERE userID = :userID";
+					$param = array(":password" => $newPassword, ":userID" => $result[0]['userID']);
+					if(!$this->db->insert($sqlInsert, $param)){
+						$text = 'Hello, ' . $result[0]['firstName'] . '. Your new password for HiG-EEBS is: ' . $newPassword;
+						//echo($text);
+						if (!PhpMail::mail($result[0]['email'], 'New password', $text)){
+							throw new Exception('Mail not sent');
+						}
 					}
 				} else {
 					throw new Exception('No matching username');

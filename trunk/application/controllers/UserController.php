@@ -45,6 +45,7 @@ class UserController extends BaseController	{
 		$userInput->addInput('submit', 'submit', false, 'Submit');
 		$this->view->setVar('forgotPassword', $userInput->genForm());
 		$this->viewFile = 'user/forgotPassword';
+		//needs a try here
 		$this->model->forgotPassword($_REQUEST);	
 	}
 
