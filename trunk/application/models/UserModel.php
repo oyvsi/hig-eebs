@@ -75,7 +75,7 @@ class UserModel extends BaseModel {
 		}
 	}
 
-	public function updateUser($params) {}
+	public function updateUser($params) {
 		$userName = $params['userName'];
 		$firstName = $params['firstName'];
 		$lastName = $params['lastName'];
@@ -119,6 +119,7 @@ class UserModel extends BaseModel {
 				throw new Exception('Not enough values');
 			}
 		}
+	}
 
 
 
