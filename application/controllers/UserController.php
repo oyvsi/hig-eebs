@@ -27,8 +27,6 @@ class UserController extends BaseController	{
 			echo 'Error ' . $excpt->getMessage();
 			header('location: profile'); //feilmelding må være med
 		}	
-
-
 	}
 
 	public function createAccount() {
@@ -41,8 +39,13 @@ class UserController extends BaseController	{
 		$this->viewFile = 'user/createAccount';
 	}
 
-	public function resetPassword() {
-		echo "Forgot pw =( or got hackedlol";
+	public function forgotPassword() {
+		$userInput= new Form('userInfo', 'user/forgotPassword', 'post');
+		$userInput->addInput('text', 'userName', 'Insert username');
+		$userInput->addInput('submit', 'submit', false, 'Submit');
+		$this->view->setVar('forgotPassword', $userInput->genForm());
+		$this->viewFile = 'user/forgotPassword';
+		$this->model->forgotPassword($_REQUEST);	
 	}
 
 	public function profile() {
