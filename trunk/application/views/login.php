@@ -7,5 +7,6 @@
 	$form->addInput('password', 'password', 'Password');
 	$form->addInput('submit', 'submit', '');
 	echo $form->genForm();
+	echo '<p>Forgot password? Time to worry: ' . HTML::appLink('user/forgotPassword', 'Get new password') . '</p>';
 ?>
 	</div>

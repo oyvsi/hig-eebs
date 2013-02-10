@@ -24,6 +24,27 @@ class UserModel extends BaseModel {
 		return array('userName' => $this->userName, 'firstName' => $this->firstName);
 	}
 
+	public function forgotPassword($params){
+		if(isset($_POST['submit'])){
+			$userName = $params['userName'];
+			//echo $userName;
+			if(!empty($userName)){
+				$sql = "SELECT email, firstName FROM users WHERE userName = :userName";
+				$result = $this->db->select($sql, array(":userName" => $userName));
+				
+				if(count($result) != 0){				
+					$newPassword = Helpers::generateRandomPassword();
+					$text = 'Hello, ' . $result[0]['firstName'] . '. Your new password for HiG-EEBS is: ' . $newPassword;
+					//echo($text);
+					mail($result[0]['email'], 'New password', $text);
+				} else {
+					throw new Exception('No matching username');
+				}
+			} else {
+				throw new Exception('No username entered');
+			}
+		}
+	}
 
 	public function checkLogin($userInfo) {
 		$sql = 'SELECT * from users WHERE userName = :userName AND password = :password';
@@ -107,10 +128,10 @@ class UserModel extends BaseModel {
 					} 
 					
 					$sql = $sql . "WHERE userName = :loggedIn";
-					echo $sql;
+					//echo $sql;
 					$param += array(":userName" => $userName, ":firstName" => $firstName, ":lastName" => $lastName, 
 								":email" => $email, ":loggedIn" => $this->userName);
-					print_r($param);
+					//print_r($param);
 					$this->db->insert($sql, $param);
 				
 				} else {
