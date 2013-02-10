@@ -39,7 +39,7 @@ class UserController extends BaseController	{
 			$this->view->setVar('userProfile', $this->model->getUserProfile());
 			$this->viewFile = 'user/profile';
 		}
-		else {
+		elseif($this->user()) {
 			$userData = $this->model->fetchUserInfo($_SESSION['userID']);
 			$userData = $userData[0];
 			$userData['password2'] = $userData['password'] = '';
@@ -51,6 +51,9 @@ class UserController extends BaseController	{
 			$userInput->addInput('submit', 'submit', false, 'Submit');
 			$this->view->setVar('createAccount', $userInput->genForm());
 			$this->viewFile = 'user/createAccount';	
+		}
+		else {
+			echo 'No username specified and you\'re not authed. Goodbye from userController';
 		}
 	}
 

@@ -4,18 +4,31 @@ class CommentsController extends BaseController	{
 
 	public function __construct() {
 		parent::__construct();
+		$this->model = new CommentsModel();
 	}
 
-	public function loadComments() {
-		$userInput = new Form('comment', '', 'post');
+	public function loadComments($postID, $insertRedirect) {
+		$comments = $this->model->getComments($postID);
+		$this->view->setVar('comments', $comments);
+
+		$userInput = new Form('comment', 'comments/commentDo/' . $postID, 'post');
 		if($this->user()) {
-			$userInput->addInput('Name', 'text', 'Name', $this->user->model->userName, true);
+			$userInput->addInput('text', 'name', 'Name', $this->user->model->userName, true);
 		} else {
-			$userInput->addInput('Name', 'text', 'Name');
+			$userInput->addInput('text', 'name', 'Name');
 		}	
-		$userInput->addTextArea('Comment', 10, 20);
-		$userInput->addInput('submit', 'button', false, 'Submit');
+		$userInput->addTextArea('comment', 10, 60);
+		$userInput->addInput('submit', 'submit', false, 'Submit');
+		$userInput->addInput('hidden', 'redirect', false, $insertRedirect); // So dirty. TODO: Fix
+		$this->view->renderHeader = false;
 		$this->view->setVar('commentForm', $userInput->genForm());
-		$this->view->render('comments', true);
+		$this->view->render('comments');
+	}
+
+	public function commentDo() {
+		// TODO: validate post info
+		if(isset($this->args[1]) && isset($_POST['name']) && isset($_POST['comment'])) {
+			$this->model->insertComment($this->args[1], $_POST);	
+		}
 	}
 }

@@ -1,9 +1,24 @@
-.blogPostSummary {
+.comments {
+	margin-top: 25px;
+}
+.comment {
+	margin-top: 15px;
+}
+.commentName {
+	font-weight: bold;
+}
+.blogPostSummary, .comment {
 	border: 1px dotted; 
 }
 .blogPostFooter {
-	text-align: right;
 }
+.byLine {
+	float: right;
+}
+.commentsLink {
+	float: left;
+}
+
 /*#footer {
 margin-top: 2%;
 position:absolute;

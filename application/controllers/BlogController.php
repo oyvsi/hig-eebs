@@ -48,21 +48,28 @@ class BlogController extends BaseController {
 			//echo '<br />Give me the post with title ' . $this->postName . ' on blog ' . $this->blogName;
 			$this->blogpostController = new BlogpostController();
 			$this->blogpostController->view();
+			
 			$this->view->setVar('blogPosts', $this->model->getPost($this->blogName, $this->postName));
+			if($loadComments) { // TODO: Fix this
+				$this->view->renderFooter = false;
+			}
 			$this->view->render('blog/blogPost');
 			$this->updateViewCount($this->blogName, $this->postName);
 
 			if($loadComments) {
+				$url = 'blog/view/'. $this->blogName . '/' . $this->postName;
 				$commentsController = new CommentsController();
-				$commentsController->loadComments();
+				$commentsController->loadComments($this->model->postID, $url);
 			}
+
+
 		}	
-			elseif($this->blogName) {
-				//echo 'Give me the all posts of blog with name ' . $this->blogName;
-				$this->view->setVar('posts', $this->model->getAllPosts($this->blogName));
-				$this->view->render('blog/index');
-				$this->updateViewCount($this->blogName);
-			}
+		elseif($this->blogName) {
+			//echo 'Give me the all posts of blog with name ' . $this->blogName;
+			$this->view->setVar('posts', $this->model->getAllPosts($this->blogName));
+			$this->view->render('blog/index');
+			$this->updateViewCount($this->blogName);
+		}
 	} 
 
 	public function create() {
