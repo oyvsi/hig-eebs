@@ -4,13 +4,16 @@ class CommentsController extends BaseController	{
 
 	public function __construct() {
 		parent::__construct();
-		$this->loadComments();
 	}
 
 	public function loadComments() {
 		$userInput = new Form('comment', '', 'post');
-		$userInput->addInput('Name', 'text', 'Name');
-		$userInput->addInput('Comment', 'text', 'Comment');
+		if($this->user()) {
+			$userInput->addInput('Name', 'text', 'Name', $this->user->model->userName, true);
+		} else {
+			$userInput->addInput('Name', 'text', 'Name');
+		}	
+		$userInput->addTextArea('Comment', 10, 20);
 		$userInput->addInput('submit', 'button', false, 'Submit');
 		$this->view->setVar('commentForm', $userInput->genForm());
 		$this->view->render('comments', true);

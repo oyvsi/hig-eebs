@@ -1,5 +1,4 @@
 <?php
-@session_start();
 
 if(isset($_GET['rc'])) {
 	$url = rtrim($_GET['rc'], '/'); // We don't want no empty arg

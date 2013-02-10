@@ -14,8 +14,8 @@ class Form {
 
 	}
 
-	public function addInput($type, $name, $lead=false, $value=false, $id=false) {
-		$input = '';
+	public function addInput($type, $name, $lead=false, $value=false, $disabled=false, $id=false) {
+		$input = '<p class="input">';
 
 		if($lead !== false) {
 			$input .= '<label for="' . $name . '">' . $lead  .'</label>' . "\n";
@@ -29,12 +29,15 @@ class Form {
 		if($value !== false) {
 			$input .= ' value="' . $value . '"';
 		}
-		$input .= ' />';
+		if($disabled !== false) {
+			$input .= ' disabled="true"';
+		}
+		$input .= ' /> </p>';
 
 		array_push($this->inputFields, $input);
 	}
 	public function addTextArea($name, $rows, $cols) {
-		$html = '<textarea name="' . $name . '"  rows="' . $rows . '" cols="' . $cols . '"></textarea>';
+		$html = '<p class="textarea"><textarea name="' . $name . '"  rows="' . $rows . '" cols="' . $cols . '"></textarea></p>';
 		array_push($this->inputFields, $html);
 	} 
 

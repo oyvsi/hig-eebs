@@ -54,6 +54,7 @@ class BlogController extends BaseController {
 
 			if($loadComments) {
 				$commentsController = new CommentsController();
+				$commentsController->loadComments();
 			}
 		}	
 			elseif($this->blogName) {

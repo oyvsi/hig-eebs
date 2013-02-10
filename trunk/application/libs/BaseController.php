@@ -8,9 +8,10 @@ abstract class BaseController {
 	protected $viewFile;
 
 	public function __construct() {
+		@session_start();
 		$this->view = new View();
 		$this->viewFile = NULL;
-
+					
 	}
 	public function setUp() {
 		if(Auth::checkLogin()) {
@@ -19,6 +20,15 @@ abstract class BaseController {
 		} else {
 			$this->user = NULL;
 		}
+	 }
+
+	public function user() {
+		if($_SESSION['userID']) {
+			$this->user = new UserController();
+			$this->user->fetchUserInfo($_SESSION['userID']);
+			return true;
+		}
+		return false;
 	}
 	public function setArgs($args) {
 		$this->args = $args;
