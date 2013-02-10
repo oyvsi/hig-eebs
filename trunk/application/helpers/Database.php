@@ -20,7 +20,7 @@ class Database extends PDO {
 				}
 			}
 		}
-
+		
 		if($handler->execute()) {
 			return $handler->fetchAll(PDO::FETCH_ASSOC);
 		} else {

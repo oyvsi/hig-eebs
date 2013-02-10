@@ -87,29 +87,30 @@ class UserModel extends BaseModel {
 		if(isset($_POST['submit'])){
 			//BURDE VÆRE EN FUNKSJON SOM KAN SØRGE FOR REQUIRED FILDS, SÅ IFSLØYFA BLIR PENERE, OG DET BLIR MINDRE KODE
 			if(!empty($userName) && !empty($firstName) && !empty($lastName)) {
-				$result = TRUE;
-				if ($this->userName != $userName){	//if users has changed userName  
+				$param = array();
+				$result = array();
+				if ($this->userName !== $userName){	//if users has changed userName  
 					$sql = "SELECT userID FROM users WHERE userName = :userName";
 					$result = $this->db->select($sql, array(":userName" => $userName));
 				}
 				
-				if(!$result){						//if user changed userName, and didn't exist.
+				if(count($result) == 0){						//if user changed userName, and didn't exist.
 					$sql = "UPDATE users SET userName = :userName, firstName = :firstName, 
-						lastName = :lastName, email = :email, ";
+						lastName = :lastName, email = :email ";
 					if(!empty($password)){
 						if($password == $password2){
-							$sql = $sql . "password = :password, ";
-							$param = array(":password" => $password);
+							$sql = $sql . ", password = :password ";
+							$param += array(":password" => $password);
 						} else {
 							throw new Exception('Passwords doesn\'t match.');
 						}
 					} 
 					
 					$sql = $sql . "WHERE userName = :loggedIn";
-					
-					array_push($param, array(":userName" => $userName, ":firstName" => $firstName, ":lastName" => $lastName, 
-								":email" => $email, ":loggedIn" => $this->userName));
-					
+					echo $sql;
+					$param += array(":userName" => $userName, ":firstName" => $firstName, ":lastName" => $lastName, 
+								":email" => $email, ":loggedIn" => $this->userName);
+					print_r($param);
 					$this->db->insert($sql, $param);
 				
 				} else {

@@ -17,6 +17,19 @@ class UserController extends BaseController	{
 		$this->model->insertUser($_REQUEST);
 
 	}
+	
+	public function updateUser() {
+		try {
+			$this->model->fetchUserInfo($this->user->model->userID);
+			$this->model->updateUser($_REQUEST);
+			header('location: profile');
+		} catch(Exception $excpt) {
+			echo 'Error ' . $excpt->getMessage();
+			header('location: profile'); //feilmelding må være med
+		}	
+
+
+	}
 
 	public function createAccount() {
 		$userInput = new Form('userInfo', 'user/insertUser', 'post');
