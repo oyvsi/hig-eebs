@@ -29,6 +29,9 @@ class CommentsController extends BaseController	{
 		// TODO: validate post info
 		if(isset($this->args[1]) && isset($_POST['name']) && isset($_POST['comment'])) {
 			$this->model->insertComment($this->args[1], $_POST);	
+			header('Location: '. __URL_PATH . $_POST['redirect'] . '/comments');
+		} else {
+			echo 'NOGO!'; print_r($_POST);
 		}
 	}
 }

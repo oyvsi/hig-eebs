@@ -14,7 +14,7 @@ class Form {
 
 	}
 
-	public function addInput($type, $name, $lead=false, $value=false, $disabled=false, $id=false) {
+	public function addInput($type, $name, $lead=false, $value=false, $readOnly=false, $id=false) {
 		$input = '<p class="input">';
 
 		if($lead !== false) {
@@ -29,8 +29,8 @@ class Form {
 		if($value !== false) {
 			$input .= ' value="' . $value . '"';
 		}
-		if($disabled !== false) {
-			$input .= ' disabled="true"';
+		if($readOnly !== false) {
+			$input .= ' readonly="true"';
 		}
 		$input .= ' /> </p>';
 
