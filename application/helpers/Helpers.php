@@ -13,6 +13,12 @@ class Helpers{
 	    	$password .= chr(rand(32, 126));
 	    }
 	    return $password;
+    }
+    
+    public static function hashPassword($pwd) {
+	    $hashString = "!uF=n34?se._#67";
+	    $newPassword = sha1($pwd . $hashString);
+	    return $newPassword;
     }    
 }
 
