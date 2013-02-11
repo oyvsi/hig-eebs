@@ -35,7 +35,7 @@ class UserModel extends BaseModel {
 				if(count($result) != 0){				
 					$newPassword = Helpers::generateRandomPassword();
 					$sqlInsert = "UPDATE users SET password = :password WHERE userID = :userID";
-					$param = array(":password" => $newPassword, ":userID" => $result[0]['userID']);
+					$param = array(":password" => Helpers::hashPassword($newPassword), ":userID" => $result[0]['userID']);
 					if(!$this->db->insert($sqlInsert, $param)){
 						$text = 'Hello, ' . $result[0]['firstName'] . '. Your new password for HiG-EEBS is: ' . $newPassword;
 						//echo($text);
@@ -54,7 +54,8 @@ class UserModel extends BaseModel {
 
 	public function checkLogin($userInfo) {
 		$sql = 'SELECT * from users WHERE userName = :userName AND password = :password';
-		$result = $this->db->select($sql, array(':userName' => $userInfo['userName'], ':password' => $_POST['password']));
+		$result = $this->db->select($sql, array(':userName' => $userInfo['userName'], 
+				':password' => Helpers::hashPassword($_POST['password'])));
 		if(count($result) == 1) {
 			$this->setInfo($result[0]);
 			return true;
@@ -85,9 +86,10 @@ class UserModel extends BaseModel {
 				print($result);
 				if(!$result) {
 					echo "DIDNT EXIST username";
-					$sql= "INSERT INTO users (userName, firstName, email) 
-						VALUES (:userName, :firstName, :email)";
-					$param = array(":userName" => $userName, ":firstName" => $firstName, ":email" => $email);	
+					$sql= "INSERT INTO users (userName, firstName, email, password) 
+						VALUES (:userName, :firstName, :email, :password)";
+					$param = array(":userName" => $userName, ":firstName" => $firstName, 
+							":email" => $email, ":password" => Helpers::hashPassword($password));	
 
 					$this->db->insert($sql, $param);
 
@@ -127,7 +129,7 @@ class UserModel extends BaseModel {
 					if(!empty($password)){
 						if($password == $password2){
 							$sql = $sql . ", password = :password ";
-							$param += array(":password" => $password);
+							$param += array(":password" => Helpers::hashPassword($password));
 						} else {
 							throw new Exception('Passwords doesn\'t match.');
 						}
