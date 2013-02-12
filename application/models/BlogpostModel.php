@@ -37,14 +37,17 @@ class BlogpostModel extends BaseModel {
 	public function createPost($data, $userID) {
 		// Do some validation shit and check for XSS
 
-		$url = $this->makePostUrl($data['title']);
 		$title = $data['title'];
 		$contents = $data['postText'];
-
-		echo "Url should be $url <br>";
-		echo "Should insert blogPost with...<br>Title: $title <br>Text: $contents";
+		$url = $this->makePostUrl($title);
+		$notUnique = $this->db->select('SELECT postID FROM blogPosts WHERE userID = :userID AND postURL = :postURL', array(':userID' => $userID, ':postURL' => $url));
+		if(count($notUnique)) {
+			$url .= '_';
+		}
 		$query = 'INSERT INTO blogPosts (userID, postTitle, postURL, timestamp, postText) VALUES (:userID, :postTitle, :postURL, :timestamp, :postText)';
 		$this->db->insert($query, array(':userID' => $userID, ':postTitle' => $title, ':postURL' => $url, ':timestamp' => time(), ':postText' => $contents));
+
+		header('Location: ' . __URL_PATH); // TODO; Make redirect to post
 	}
 
 	/**
