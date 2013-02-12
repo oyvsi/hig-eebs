@@ -18,8 +18,8 @@ class CommentsController extends BaseController	{
 			$fb = new FacebookLogin();
 			$fbUser = $fb->checkLogin();
 			if($fbUser) {
-				//print_r($fbUser);
-				$userInput->addInput('text', 'name', 'Name', $fbUser['link'], true);
+				print_r($fbUser);
+				$userInput->addInput('text', 'name', 'Name', $fbUser['username'], true);
 			} else {
 				$this->view->setVar('loginError', true);
 				$this->view->setVar('fbLoginURL', $fb->getLoginURL());

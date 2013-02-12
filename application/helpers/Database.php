@@ -3,7 +3,8 @@
 class Database extends PDO {
 
 	public function __construct($dbType, $dbHost, $dbName, $dbUser, $dbPassword) {
-		parent::__construct($dbType . ':host=' . $dbHost . '; dbname=' . $dbName, $dbUser, $dbPassword);
+		parent::__construct($dbType . ':host=' . $dbHost . '; dbname=' . $dbName, $dbUser, $dbPassword, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8")
+	);
 	}
 
 	public function select($sqlQuery, $params = false) {

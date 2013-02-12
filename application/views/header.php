@@ -1,9 +1,11 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 	<head>
-	<title><?php echo $this->vars['title'] ?></title>
-	<?php
-	echo HTML::jsLink('tiny_mce/tiny_mce');
-	echo HTML::cssLink('blog'); ?>
+		<meta charset="utf-8"/>
+		<title><?php echo $this->vars['title'] ?></title>
+		<?php
+			echo HTML::jsLink('tiny_mce/tiny_mce');
+			echo HTML::cssLink('blog'); ?>
 	</head>
 	<body>
 	<div id="navigation">
