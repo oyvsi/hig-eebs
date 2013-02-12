@@ -96,8 +96,6 @@ class UserModel extends BaseModel {
 				} else {
 					echo "Username " . $_POST['userName'] . "exists";
 				}
-
-
 			} else { 
 				echo "ENTER INFO BOY";
 			}
@@ -153,11 +151,11 @@ class UserModel extends BaseModel {
 
 
 
-		public function listUserInfo($username) {
-			$lol = $this->db->select("SELECT * FROM users WHERE userName='$username'");
-			print($lols[0]['lastName']);
+	public function listUserInfo($username) {
+		$lol = $this->db->select("SELECT * FROM users WHERE userName='$username'");
+		print($lols[0]['lastName']);
 
-		}
+	}
 
 
 	public function removeUser() {

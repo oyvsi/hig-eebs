@@ -45,8 +45,12 @@ class UserController extends BaseController	{
 		$userInput->addInput('submit', 'submit', false, 'Submit');
 		$this->view->setVar('forgotPassword', $userInput->genForm());
 		$this->viewFile = 'user/forgotPassword';
-		//needs a try here
-		$this->model->forgotPassword($_REQUEST);	
+		try {
+			$this->model->forgotPassword($_REQUEST);
+		} catch (Exception $excpt){
+			echo 'Error ' . $excpt->getMessage();
+			header('location: login'); //feilmelding må være med
+		}
 	}
 
 	public function profile() {
