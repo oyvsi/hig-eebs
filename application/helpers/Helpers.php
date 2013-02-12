@@ -16,9 +16,26 @@ class Helpers{
     }
     
     public static function hashPassword($pwd) {
-	    $hashString = "!uF=n34?se._#67";
-	    $newPassword = sha1($pwd . $hashString);
-	    return $newPassword;
+	    $saltString = "!uF=n34?se._#67";
+	    $hashPassword = sha1($pwd . $saltString);
+	    return $hashPassword;
     }    
-}
 
+	/**
+	 * Creates pretty URL from string
+	 * Covertes spaces to underscore and replaces NO-specific characters
+	 * everything but alphanumeric is stripped after replace
+	 * 
+	 * @param String $title the string to convert
+	 */
+	public static function makePostUrl($title) {
+		$title = strtolower($title);
+		$replace = array(' ' => '_', "æ" => 'ae', "ø" => 'oe', "å" => 'aa'); // Æ, Ø, Å must be double quoted. Maybe because thei're multibyte. Weird!
+		foreach($replace as $char => $sub) {
+			$title = str_replace($char, $sub, $title);
+		}
+		$title = preg_replace('/[^0-9a-z_]/', "", $title);
+
+		return $title;
+	}
+}

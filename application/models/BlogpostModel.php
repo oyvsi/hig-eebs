@@ -39,7 +39,7 @@ class BlogpostModel extends BaseModel {
 
 		$title = $data['title'];
 		$contents = $data['postText'];
-		$url = $this->makePostUrl($title);
+		$url = Helpers::makePostUrl($title);
 		$notUnique = $this->db->select('SELECT postID FROM blogPosts WHERE userID = :userID AND postURL = :postURL', array(':userID' => $userID, ':postURL' => $url));
 		if(count($notUnique)) {
 			$url .= '_';
@@ -50,21 +50,4 @@ class BlogpostModel extends BaseModel {
 		header('Location: ' . __URL_PATH); // TODO; Make redirect to post
 	}
 
-	/**
-	 * Creates pretty URL from string
-	 * Covertes spaces to underscore and replaces NO-specific characters
-	 * everything but alphanumeric is stripped after replace
-	 * 
-	 * @param String $title the string to convert
-	 */
-	public function makePostUrl($title) {
-		$title = strtolower($title);
-		$replace = array(' ' => '_', 'æ' => 'ae', 'ø' => 'oe', 'å' => 'aa');
-		foreach($replace as $char => $sub) {
-			$title = str_replace($char, $sub, $title);
-		}
-		$title = preg_replace('/[^0-9a-z_]/', "", $title);
-
-		return $title;
-	}
 }
