@@ -2,7 +2,7 @@
 
 class IndexModel extends BaseModel {
 	private $baseQuery = 'SELECT LEFT(blogPosts.postText, 60) as postSummary, blogPosts.*, users.userName, 
-								COUNT(postViews.postID) as readCount, COUNT(comments.postID) as noComments FROM blogPosts 
+								COUNT(DISTINCT postViews.viewID) as readCount, COUNT(DISTINCT comments.commentID) as noComments FROM blogPosts 
 					 			LEFT JOIN postViews ON postViews.postID = blogPosts.postID 
 					 			LEFT JOIN users ON blogPosts.userID = users.userID
 					 			LEFT JOIN comments ON comments.PostID = blogPosts.postID';
