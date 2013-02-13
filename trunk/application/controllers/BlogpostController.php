@@ -57,4 +57,8 @@ class BlogpostController extends BaseController {
 	public function flag() {
 		echo 'Mark no-good';
 	}
+	
+	public function correctUser($userID){
+		return ($this->user->model->userID == $userID);
+	}
 }
