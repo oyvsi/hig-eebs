@@ -14,8 +14,8 @@ class IndexModel extends BaseModel {
 	public function lastPosts($limit) {
 		return $this->db->select($this->baseQuery . ' GROUP BY blogPosts.postID ORDER BY timestamp DESC LIMIT :limit', array(':limit'=> 10));
 	}
-	public function getPostsbyUser($userID) {
-		return $this->db->select($this->baseQuery . ' WHERE blogPosts.userID = :userID GROUP BY blogPosts.postID ORDER BY timestamp DESC', array(':userID' => $userID));
+	public function getPostsByUser($userID) {
+		return $this->db->select($this->baseQuery . ' WHERE blogPosts.userID = :userID AND deleted = 0 GROUP BY blogPosts.postID', array(':userID' => $userID));
 	}
 
 	public function mostRead($days) {
