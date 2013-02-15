@@ -24,8 +24,8 @@ class UserController extends BaseController	{
 			$this->model->updateUser($_REQUEST);
 			header('location: profile');
 		} catch(Exception $excpt) {
-			echo 'Error ' . $excpt->getMessage();
-			header('location: profile'); //feilmelding må være med
+			$this->view->setError($excpt);
+			$this->profile();
 		}	
 	}
 
@@ -48,8 +48,7 @@ class UserController extends BaseController	{
 		try {
 			$this->model->forgotPassword($_REQUEST);
 		} catch (Exception $excpt){
-			echo 'Error ' . $excpt->getMessage();
-			header('location: login'); //feilmelding må være med
+			$this->view->setError($excpt);
 		}
 	}
 
@@ -95,8 +94,8 @@ class UserController extends BaseController	{
 			$_SESSION['userID'] = $this->model->userID;
 			header('location: ' . __URL_PATH);
 		} catch(Exception $excpt) {
-			echo 'Error ' . $excpt->getMessage();
-			header('location: login');
+			$this->view->setError($excpt);
+			$this->login();
 		}	
 	}
 	public function logOut() {

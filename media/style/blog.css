@@ -1,3 +1,9 @@
+.error {
+	background-color: red;
+	text-align: center;
+	font-weight: bold;
+	margin-top: 20px;
+}
 .comments {
 	margin-top: 25px;
 }
@@ -25,9 +31,7 @@ position:absolute;
 bottom:0;
 }*/
 
-	#navigation {
-		float:left;
-		width:100%;
+#navigation {
 		background:#fff;
 		border-bottom:2px solid #000;
 		overflow:hidden;
@@ -70,7 +74,7 @@ bottom:0;
 			color:#fff;
 			background:#000;
 			font-weight:bold;
-					}
+					 }*/
 					/*
 					label{float:left; 
 					clear: left;
@@ -82,3 +86,4 @@ bottom:0;
 	padding: 5px;
 }
 					 */
+
