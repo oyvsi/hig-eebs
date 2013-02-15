@@ -30,7 +30,7 @@ class Helpers{
 	 */
 	public static function makePostUrl($title) {
 		$title = strtolower($title);
-		$replace = array(' ' => '_', "æ" => 'ae', "ø" => 'oe', "å" => 'aa'); // Æ, Ø, Å must be double quoted. Maybe because thei're multibyte. Weird!
+		$replace = array(' ' => '_', "æ" => 'a', "ø" => 'o', "å" => 'a'); // Æ, Ø, Å must be double quoted. Maybe because they're multibyte. Weird!
 		foreach($replace as $char => $sub) {
 			$title = str_replace($char, $sub, $title);
 		}
@@ -38,4 +38,8 @@ class Helpers{
 
 		return $title;
 	}
+
+	 public static function redirect($to, $error=false) {
+	 	
+	 }
 }

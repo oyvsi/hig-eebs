@@ -5,7 +5,7 @@ foreach($this->vars['blogPosts'] as $blogPost) {
 	extract($blogPost);
 	echo '<div class="blogPostSummary" id="' . $postID . '">';
 	echo '<div class="blogPostTitle"><h1>' . $postTitle . '</h1>';
-	if ($_SESSION['userID'] == $blogPost['userID']) echo '<div class="deletePost"><a href="deletePost">Delete post</a></div></div>';
+	if (isset($_SESSION['userID']) && $_SESSION['userID'] == $userID) echo '<div class="deletePost"><a href="deletePost">Delete post</a></div></div>';
 	echo '<div class="blogPostText">' . $postText . '</div>';
 	echo '<div class="blogPostFooter"><p class="commentsLink">';
 	echo '<a href="comments">' . $noComments . ' comment' . ($noComments != 1 ? 's' : '') . '</a>';

@@ -36,7 +36,7 @@ class BlogpostController extends BaseController {
 		// umh Should it be here???
 		$form = new Form('blogPost', 'blogpost/createDo', 'POST');
 		$form->addInput('text', 'title', 'Title: ');
-		$form->addTextArea('postText', 10, 10);
+		$form->addTextArea('postText', 30, 100);
 		$form->addInput('submit', 'Submit');
 		$this->view->setVar('form', $form->genForm());
 

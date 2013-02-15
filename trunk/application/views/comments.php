@@ -11,9 +11,13 @@ foreach($this->vars['comments'] as $comment) {
 	echo '</div>';
 }
 if(isset($this->vars['loginError'])) {
-	echo '<p>No anonymous comments allowed. Either login through <a href="' . $this->vars['fbLoginURL'] . '">Facebook</a>, or us</p>';
+	echo '<p>No anonymous comments allowed. Either login through <a href="' . $this->vars['fbLoginURL'] . '">Facebook</a>, or '. HTML::appLink('user/login', 'us') . '</p>';
 } else {
 	echo '<div class="makeComment"><h1>Make a comment</h1>';
+	echo 'Commenting as ' . $this->vars['userName'];
+	if(isset($this->vars['fbLogoutURL'])) {
+		echo '<p><a href="' . $this->vars['fbLogoutURL'] . '">Log out from facebook</a></p>';
+	}
 	echo $this->vars['commentForm'];
 }
 ?>
