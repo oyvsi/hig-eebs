@@ -66,21 +66,10 @@ class UserModel extends BaseModel {
 
 
 	public function insertUser($params) {
-		$userName = $params['userName'];
-		$firstName = $params['firstName'];
-		$lastName = $params['lastName'];
-		$password = $params['password'];
-		$password2 = $params['password2'];
-		$email = $params['email'];
-
-		print_r($params);
-
-
+		extract($params);
 
 		if(isset($_POST['button'])) {
-			echo "POST OK";
 			if(!empty($userName) && !empty($password) && ($password == $password2)) {
-				echo "ENTERED IF USERNAME";
 				$sql = "SELECT * FROM users WHERE userName = :userName"; 
 				$result = $this->db->select($sql, array(':userName' => $params['userName']));
 				print($result);
@@ -89,7 +78,7 @@ class UserModel extends BaseModel {
 					$sql= "INSERT INTO users (userName, firstName, email, password) 
 						VALUES (:userName, :firstName, :email, :password)";
 					$param = array(":userName" => $userName, ":firstName" => $firstName, 
-							":email" => $email, ":password" => Helpers::hashPassword($password));	
+						":email" => $email, ":password" => Helpers::hashPassword($password));	
 
 					$this->db->insert($sql, $param);
 
@@ -120,7 +109,7 @@ class UserModel extends BaseModel {
 					$sql = "SELECT userID FROM users WHERE userName = :userName";
 					$result = $this->db->select($sql, array(":userName" => $userName));
 				}
-				
+
 				if(count($result) == 0){						//if user changed userName, and didn't exist.
 					$sql = "UPDATE users SET userName = :userName, firstName = :firstName, 
 						lastName = :lastName, email = :email ";
@@ -132,14 +121,14 @@ class UserModel extends BaseModel {
 							throw new Exception('Passwords doesn\'t match.');
 						}
 					} 
-					
+
 					$sql = $sql . "WHERE userName = :loggedIn";
 					//echo $sql;
 					$param += array(":userName" => $userName, ":firstName" => $firstName, ":lastName" => $lastName, 
-								":email" => $email, ":loggedIn" => $this->userName);
+						":email" => $email, ":loggedIn" => $this->userName);
 					//print_r($param);
 					$this->db->insert($sql, $param);
-				
+
 				} else {
 					throw new Exception('Username exists');
 				}

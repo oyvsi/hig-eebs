@@ -3,8 +3,10 @@
 	<head>
 		<meta charset="utf-8"/>
 		<title><?php echo $this->vars['title'] ?></title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<?php
 			echo HTML::jsLink('tiny_mce/tiny_mce');
+			echo HTML::jsLink('hig-eebs');
 			echo HTML::cssLink('blog'); ?>
 	</head>
 	<body>

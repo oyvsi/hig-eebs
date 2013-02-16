@@ -25,11 +25,13 @@
 	float: left;
 }
 
-/*#footer {
+#footer {
 margin-top: 2%;
-position:absolute;
-bottom:0;
-}*/
+text-align: center;
+background-color: gray;
+/*position:absolute;
+bottom:0;*/
+}
 
 #navigation {
 		background:#fff;

@@ -7,6 +7,7 @@ class UserController extends BaseController	{
 	public function __construct() {
 		parent::__construct();
 		$this->model = new UserModel();
+		$this->view->setVar('title', 'User');
 	}
 
 	public function fetchUserInfo($userID) {
@@ -36,6 +37,7 @@ class UserController extends BaseController	{
 		}
 		$userInput->addInput('submit', 'button', false, 'Submit');
 		$this->view->setVar('createAccount', $userInput->genForm());
+		$this->view->setVar('title', 'Register');
 		$this->viewFile = 'user/createAccount';
 	}
 
@@ -44,6 +46,7 @@ class UserController extends BaseController	{
 		$userInput->addInput('text', 'userName', 'Insert username');
 		$userInput->addInput('submit', 'submit', false, 'Submit');
 		$this->view->setVar('forgotPassword', $userInput->genForm());
+		$this->view->setVar('title', 'Forgot password');
 		$this->viewFile = 'user/forgotPassword';
 		try {
 			$this->model->forgotPassword($_REQUEST);
@@ -57,6 +60,7 @@ class UserController extends BaseController	{
 			echo 'Show info for user ' . $this->args[1];
 			$this->model->fetchUserProfile($this->args[1]);
 			$this->view->setVar('userProfile', $this->model->getUserProfile());
+			$this->view->setVar('title', $this->model->userName);
 			$this->viewFile = 'user/profile';
 		}
 		elseif($this->user()) {
@@ -69,6 +73,7 @@ class UserController extends BaseController	{
 				$userInput->addInput('text', $userField, $userField, $userData[$userField]);
 			}
 			$userInput->addInput('submit', 'submit', false, 'Submit');
+			$this->view->setVar('title', $this->model->userName);
 			$this->view->setVar('createAccount', $userInput->genForm());
 			$this->viewFile = 'user/createAccount';	
 		}

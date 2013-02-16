@@ -38,16 +38,16 @@ class BlogpostModel extends BaseModel {
 		// Do some validation shit and check for XSS
 
 		$title = $data['title'];
+		$ingress = $data['postIngress'];
 		$contents = $data['postText'];
 		$url = Helpers::makePostUrl($title);
 		$notUnique = $this->db->select('SELECT postID FROM blogPosts WHERE userID = :userID AND postURL = :postURL', array(':userID' => $userID, ':postURL' => $url));
 		if(count($notUnique)) {
 			$url .= '_';
 		}
-		$query = 'INSERT INTO blogPosts (userID, postTitle, postURL, timestamp, postText) VALUES (:userID, :postTitle, :postURL, :timestamp, :postText)';
-		$this->db->insert($query, array(':userID' => $userID, ':postTitle' => $title, ':postURL' => $url, ':timestamp' => time(), ':postText' => $contents));
+		$query = 'INSERT INTO blogPosts (userID, postTitle, postURL, timestamp, postText, postIngress) VALUES (:userID, :postTitle, :postURL, :timestamp, :postText, :postIngress)';
+		$this->db->insert($query, array(':userID' => $userID, ':postTitle' => $title, ':postURL' => $url, ':timestamp' => time(), ':postText' => $contents, ':postIngress' => $ingress));
 
 		header('Location: ' . __URL_PATH); // TODO; Make redirect to post
 	}
-
 }

@@ -6,7 +6,7 @@ foreach($this->vars['blogPosts'] as $blogPost) {
 	echo '<div class="blogPostSummary" id="' . $blogPost['postID'] . '">';
 	echo '<div class="blogPostTitle"><h1>' . $blogPost['postTitle'] . '</h1></div>';
 	//echo '<div class="deletePost"><a href="deletePost">Delete post</a></div>';
-	echo '<div class="blogPostSummaryText">' . $blogPost['postSummary'] . '</div>';
+	echo '<div class="blogPostSummaryText"><p>' . $blogPost['postIngress'] . '</p></div>';
 	echo HTML::appLink($postURL,'Read more');
 	echo '<div class="blogPostFooter"><p class="commentsLink">';
 	echo HTML::appLink($postURL . '/comments', $noComments . ' comment' . ($noComments != 1 ? 's' : ''));
