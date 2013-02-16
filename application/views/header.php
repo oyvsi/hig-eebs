@@ -26,3 +26,7 @@
 		</ul>
 	</div>
 	<div id="contents">
+	<?php
+		if(isset($this->vars['message'])) {
+			echo '<div id="message"><p>' . $this->vars['message'] . '</p></div>';
+		}

@@ -36,6 +36,13 @@ class BlogpostModel extends BaseModel {
 
 	public function createPost($data, $userID) {
 		// Do some validation shit and check for XSS
+		$validate = new ValidateForm($data);
+		$validate->setRequired(array('title', 'postIngress', 'postText'));
+		$validate->setMinLength(array('title' => 3, 'postIngress' => 5, 'postText' => 10));
+		if($validate->check() === false) {
+			$errors = implode('<br />', $validate->getErrors());
+			throw new Exception($errors);
+		} 
 
 		$title = $data['title'];
 		$ingress = $data['postIngress'];
@@ -48,6 +55,6 @@ class BlogpostModel extends BaseModel {
 		$query = 'INSERT INTO blogPosts (userID, postTitle, postURL, timestamp, postText, postIngress) VALUES (:userID, :postTitle, :postURL, :timestamp, :postText, :postIngress)';
 		$this->db->insert($query, array(':userID' => $userID, ':postTitle' => $title, ':postURL' => $url, ':timestamp' => time(), ':postText' => $contents, ':postIngress' => $ingress));
 
-		header('Location: ' . __URL_PATH); // TODO; Make redirect to post
+		return $url;
 	}
 }
