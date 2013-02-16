@@ -1,7 +1,7 @@
 <?php
 
 class IndexModel extends BaseModel {
-	private $baseQuery = 'SELECT LEFT(blogPosts.postText, 60) as postSummary, blogPosts.*, users.userName, 
+	private $baseQuery = 'SELECT blogPosts.*, users.userName, 
 								COUNT(DISTINCT postViews.viewID) as readCount, COUNT(DISTINCT comments.commentID) as noComments FROM blogPosts 
 					 			LEFT JOIN postViews ON postViews.postID = blogPosts.postID 
 					 			LEFT JOIN users ON blogPosts.userID = users.userID
@@ -15,7 +15,7 @@ class IndexModel extends BaseModel {
 		return $this->db->select($this->baseQuery . ' GROUP BY blogPosts.postID ORDER BY timestamp DESC LIMIT :limit', array(':limit'=> 10));
 	}
 	public function getPostsByUser($userID) {
-		return $this->db->select($this->baseQuery . ' WHERE blogPosts.userID = :userID AND deleted = 0 GROUP BY blogPosts.postID', array(':userID' => $userID));
+		return $this->db->select($this->baseQuery . ' WHERE blogPosts.userID = :userID AND deleted = 0 GROUP BY blogPosts.postID ORDER BY timestamp DESC', array(':userID' => $userID));
 	}
 
 	public function mostRead($days) {

@@ -1,7 +1,8 @@
 <?php HTML::jsLink('tiny_mce/tiny_mce'); ?>
 <script type="text/javascript">
 tinyMCE.init({
-	mode: "textareas",
+	mode: "exact",
+	elements: "postText",
 	theme: "advanced",
 	plugins : "jbimages,lists,style,layer,table,save,preview,media,paste",
 	theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect",
