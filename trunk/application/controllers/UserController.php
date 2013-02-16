@@ -23,11 +23,13 @@ class UserController extends BaseController	{
 		try {
 			$this->model->fetchUserInfo($this->user->model->userID);
 			$this->model->updateUser($_REQUEST);
-			header('location: profile');
+			$this->view->setVar('message', 'Updated profile');
 		} catch(Exception $excpt) {
+			//die($excpt->getMessage());
+			//echo $excpt->getMessage();
 			$this->view->setError($excpt);
-			$this->profile();
-		}	
+		}
+	  $this->profile();	// No finally in php until 5.5 :(
 	}
 
 	public function createAccount() {

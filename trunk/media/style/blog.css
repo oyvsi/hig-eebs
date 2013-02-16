@@ -1,8 +1,13 @@
 .error {
 	background-color: red;
+}
+.error, #message {
 	text-align: center;
 	font-weight: bold;
 	margin-top: 20px;
+}
+#message {
+	background-color: #33CC66;
 }
 .comments {
 	margin-top: 25px;

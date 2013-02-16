@@ -45,7 +45,13 @@ class BlogpostController extends BaseController {
 	}
 
 	public function createDo() {
-		$this->model->createPost($_POST, $this->user->model->userID);
+		try {
+			$url = $this->model->createPost($_POST, $this->user->model->userID);
+			HTML::redirect('/blog/view/' . $this->user->model->userName . '/' . $url);
+		} catch(Exception $excpt) {
+			$this->view->setError($excpt);	
+			$this->create();
+		}
 	}
 
 	public function update() {
