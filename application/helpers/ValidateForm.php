@@ -13,7 +13,7 @@ class ValidateForm {
 	public function setRequired($fields) {
 		$this->requiredFields = $fields;
 	}
-	public function setMinlength($fields) {
+	public function setMinLength($fields) {
 		$this->minLength = $fields;	
 	}
 	public function getErrors() {
