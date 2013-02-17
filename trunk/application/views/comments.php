@@ -7,8 +7,8 @@ foreach($this->vars['comments'] as $comment) {
 	echo '<div class="commentName">' . $name . '</div><hr>';
 	//	echo HTML::appLink('user/profile/' . $userName, $comment['userName']);
 	echo '<div class="commentText">' . $comment . '</div><hr>';
-	echo '<div class="commentFooter">FLAG! ' . date('d.m.Y H:i', $timestamp) . '</div>';
-	echo '</div>';
+	echo '<div class="commentFooter"><div class="reportLink">' . HTML::appLink('comments/flag/'. $commentID, 'Report comment') . '</div><div class="timestamp">' . date('d.m.Y H:i', $timestamp) . '</div></div>';
+	echo '<div style="clear: both;"></div></div>';
 }
 if(isset($this->vars['loginError'])) {
 	echo '<p>No anonymous comments allowed. Either login through <a href="' . $this->vars['fbLoginURL'] . '">Facebook</a>, or '. HTML::appLink('user/login', 'us') . '</p>';

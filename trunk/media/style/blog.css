@@ -23,10 +23,10 @@
 }
 .blogPostFooter {
 }
-.byLine {
+.byLine, .timestamp{
 	float: right;
 }
-.commentsLink {
+.commentsLink, .reportLink {
 	float: left;
 }
 

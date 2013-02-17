@@ -49,4 +49,24 @@ class CommentsController extends BaseController	{
 			}
 		}
 	}
+	public function flag() {
+		if(isset($this->args[1])) {
+			$form = new Form('reportComment', 'comments/flag/' . $this->args[1], 'post');
+			$form->addTextArea('reportComment', 10, 60, 'Report comment because');
+			$form->addInput('hidden', 'commentID', false, $this->args[1]);
+			$form->addInput('submit', 'submit');
+			$this->view->setVar('form', $form->genForm());
+			$this->viewFile = 'reportComment';
+		} 
+		
+		if(isset($_POST['reportComment'])) {
+			try {
+				$this->model->flagComment($_POST['commentID'], $_POST);
+				$this->view->setVar('message', 'Thank you. Your report will be brought to the administrators');
+			} catch(Exception $excpt) {
+				$this->view->setError($excpt);
+			}
+			$this->viewFile = 'reportComment';
+		}
+	}
 }

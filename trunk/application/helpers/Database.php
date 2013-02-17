@@ -44,6 +44,13 @@ class Database extends PDO {
 	}
  */
 
+	public function insert2($tableName, $fields, $values) {
+		$query = 'INSERT INTO ' . $tableName . '(';
+		$query .= implode(', ', $fields) . ')';
+		$fields[0] = ':' . $fields[0];
+		$query .= ' VALUES(' . implode(', :', $fields);
+		echo $query;
+	}
 
 	public function insert($sqlQuery, $params = false) {
 //		echo "Query was $sqlQuery";
