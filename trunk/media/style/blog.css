@@ -29,6 +29,11 @@
 .commentsLink, .reportLink {
 	float: left;
 }
+.deletePost {
+	float: right;
+	margin-top: -50px;
+	margin-right: 15px;
+}
 
 #footer {
 margin-top: 2%;
