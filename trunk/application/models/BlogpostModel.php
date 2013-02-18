@@ -57,4 +57,12 @@ class BlogpostModel extends BaseModel {
 
 		return $url;
 	}
+	
+	public function deletePost($postID) {
+		$query = 'DELETE FROM blogPosts WHERE postID = :postID';
+		$result = $this->db->insert($query, array(':postID' => $postID));
+		//if ($result == false){
+		//	throw new Exception('Delete failed');
+		//}
+	}
 }

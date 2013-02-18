@@ -58,7 +58,12 @@ class BlogpostController extends BaseController {
 		echo 'add some shit';
 	}
 	public function delete() {
-		echo 'Well this sucked, remove it!';
+		try {
+			$this->model->deletePost($this->args[1]);
+			HTML::redirect('');
+		} catch(Exception $excpt){
+			$this->view->setError($excpt);
+		}	
 	}
 
 	public function flag() {
