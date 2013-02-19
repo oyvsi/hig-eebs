@@ -42,6 +42,7 @@ class BlogpostController extends BaseController {
 		$this->view->setVar('form', $form->genForm());
 		$this->view->setVar('title', 'New post');
 		$this->view->render('blog/createPost');
+
 	}
 
 	public function createDo() {
@@ -55,8 +56,9 @@ class BlogpostController extends BaseController {
 	}
 
 	public function update() {
-		echo 'add some shit';
+		//$this->create(true);
 	}
+	
 	public function delete() {
 		try {
 			$this->model->deletePost($this->args[1]);
