@@ -7,6 +7,15 @@ class Database extends PDO {
 	);
 	}
 
+	public function selectOne($sqlQuery, $params = false) {
+		$result = $this->select($sqlQuery, $params);
+		if(count($result) == 0) {
+			return false;
+		} else {
+			return $result[0];
+		}
+	}
+	
 	public function select($sqlQuery, $params = false) {
 	//	echo "SQL query! $sqlQuery <br />";	
 		$handler = $this->prepare($sqlQuery);
