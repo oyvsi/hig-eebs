@@ -7,4 +7,11 @@ class Auth {
 			return false;
 		}
 	}
+	public static function checkAdmin() {
+		if(isset($_SESSION['userLevel']) && $_SESSION['userLevel'] == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
