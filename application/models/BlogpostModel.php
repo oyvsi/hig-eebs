@@ -59,10 +59,13 @@ class BlogpostModel extends BaseModel {
 	}
 	
 	public function deletePost($postID) {
-		$query = 'DELETE FROM blogPosts WHERE postID = :postID';
-		$result = $this->db->insert($query, array(':postID' => $postID));
-		//if ($result == false){
-		//	throw new Exception('Delete failed');
-		//}
+		$find = "SELECT * FROM blogPosts WHERE postID = :postID";
+		$found = $this->db->select($find, array(':postID' => $postID));
+		if (count($found) != 0){
+			$query = 'UPDATE blogPosts SET deleted = 1 WHERE postID = :postID';
+			$this->db->insert($query, array(':postID' => $postID));
+		} else {
+			throw new Exception('Blogpost not found');
+		}
 	}
 }
