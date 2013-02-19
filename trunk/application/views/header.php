@@ -11,9 +11,15 @@
 	</head>
 	<body>
 	<div id="navigation">
-		<ul>
-			<?php
-			echo '<li>' . HTML::appLink('mostRead', 'Most read') . '</li>';
+<?php	
+		if(Auth::checkAdmin()) {
+			echo '<ul>';
+			echo '<li>' . HTML::appLink('comments/getFlagged', 'Flagged comments') . '</li>';
+			echo '<li>' . HTML::appLink('blogpost/getFlagged', 'Flagged posts') . '</li>';
+			echo '</ul>';
+		}
+			
+			echo '<ul><li>' . HTML::appLink('mostRead', 'Most read') . '</li>';
 			echo '<li>' . HTML::appLink('mostCommented', 'Most commented') . '</li>';
 			if(Auth::checkLogin()) { 
 				echo '<li>' . HTML::appLink('blog/post', 'New post') . '</li>';
@@ -22,11 +28,11 @@
 			} else {
 				echo '<li>' . HTML::appLink('user/login', 'Log in') . '</li>';
 			}
-			?>
+?>
 		</ul>
-	</div>
+		</div>
 	<div id="contents">
-	<?php
-		if(isset($this->vars['message'])) {
-			echo '<div id="message"><p>' . $this->vars['message'] . '</p></div>';
-		}
+<?php
+			if(isset($this->vars['message'])) {
+				echo '<div id="message"><p>' . $this->vars['message'] . '</p></div>';
+			}

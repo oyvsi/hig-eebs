@@ -69,4 +69,10 @@ class CommentsController extends BaseController	{
 			$this->viewFile = 'reportComment';
 		}
 	}
+
+	public function getFlagged() {
+		$data = $this->model->getFlagged();
+		$this->view->setVar('flagged', $data);
+		$this->viewFile = 'admin/flaggedComments';
+	}
 }

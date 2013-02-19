@@ -99,6 +99,7 @@ class UserController extends BaseController	{
 		try {
 			$this->model->checkLogin($_POST);
 			$_SESSION['userID'] = $this->model->userID;
+			$_SESSION['userLevel'] = $this->model->userLevel;
 			header('location: ' . __URL_PATH);
 		} catch(Exception $excpt) {
 			$this->view->setError($excpt);

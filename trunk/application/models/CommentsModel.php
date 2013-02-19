@@ -32,4 +32,13 @@ class CommentsModel extends BaseModel {
 		$query = 'INSERT INTO commentReports(commentID, userID, reportText, timestamp) VALUES(:commentID, :userID, :reportText, :timestamp)';
 		$this->db->insert($query, array(':commentID' => $commentID, ':userID' => $_SESSION['userID'], ':reportText' => $form['reportComment'], ':timestamp' => time()));
 	}
+
+	public function getFlagged() {
+		if(Auth::checkAdmin()) {
+			$query = 'SELECT commentReports.*, comments.* FROM commentReports LEFT JOIN comments ON commentReports.commentID = comments.commentID';
+			return $this->db->select($query);
+		} else {
+			throw new Exception('Admin function. Login as an admin or GTFO');
+		}	
+	}
 }
