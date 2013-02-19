@@ -16,7 +16,7 @@ if(isset($this->vars['loginError'])) {
 	echo '<div class="makeComment"><h1>Make a comment</h1>';
 	echo 'Commenting as ' . $this->vars['userName'];
 	if(isset($this->vars['fbLogoutURL'])) {
-		echo '<p><a href="' . $this->vars['fbLogoutURL'] . '">Log out from facebook</a></p>';
+		echo '<p>' . HTML::appLink('user/logOut', 'Log out from facebook') . '</p>';
 	}
 	echo $this->vars['commentForm'];
 }
