@@ -67,7 +67,6 @@ class UserController extends BaseController	{
 		}
 		elseif($this->user()) {
 			$userData = $this->model->fetchUserInfo($_SESSION['userID']);
-			$userData = $userData[0];
 			$userData['password2'] = $userData['password'] = '';
 
 			$userInput = new Form('userInfo', 'user/updateUser', 'post');
