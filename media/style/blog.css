@@ -29,6 +29,15 @@
 .commentsLink, .reportLink, .commentName {
 	float: left;
 }
+.clear:after {
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
+	clear: both;
+}
 .deletePost {
 	float: right;
 	margin-top: -50px;
