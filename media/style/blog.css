@@ -23,10 +23,10 @@
 }
 .blogPostFooter {
 }
-.byLine, .timestamp{
+.byLine, .timestamp, .deleteLink{
 	float: right;
 }
-.commentsLink, .reportLink {
+.commentsLink, .reportLink, .commentName {
 	float: left;
 }
 .deletePost {

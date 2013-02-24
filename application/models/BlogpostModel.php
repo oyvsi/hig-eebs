@@ -7,8 +7,7 @@ class BlogpostModel extends BaseModel {
 
 	public function getPost($blogName, $postURL) {
 		$userID = $this->db->select('SELECT userID from users WHERE userName = :userName', array(':userName' => $blogName));
-		$query = 'SELECT blogPosts.*, count(comments.commentID) as noComments FROM blogPosts 
-						LEFT JOIN comments ON comments.postID = blogPosts.postID	
+		$query = 'SELECT blogPosts.*, (SELECT COUNT(comments.commentID) FROM comments WHERE comments.postID = blogPosts.postID AND comments.deleted = 0) as noComments FROM blogPosts 
 						WHERE blogPosts.postURL = :postURL AND blogPosts.userID = :userID';
 		$result = $this->db->select($query, array('postURL' => $postURL, 'userID' => $userID[0]['userID']));
 		$result[0]['userName'] = $blogName;

@@ -10,6 +10,7 @@ class BlogpostController extends BaseController {
 	public function __construct() {
 		parent::__construct();
 		$this->model = new BlogpostModel();
+		$this->user(); // workaround for not being created from bootstrap
 	}
 
 	public function setArgs($args) {
@@ -18,7 +19,11 @@ class BlogpostController extends BaseController {
 
 	public function view($blogName, $postName) {
 		$this->loadComments = (isset($this->args[3]) && $this->args[3] == 'comments');
-		$this->view->setVar('blogPosts', $this->model->getPost($blogName, $postName));
+		$commentID = isset($this->args[4]) ? $this->args[4] : false;
+		$post = $this->model->getPost($blogName, $postName);
+		$isOwner = $this->correctUser($post[0]['userID']);
+		$this->view->setVar('isOwner', $isOwner);
+		$this->view->setVar('blogPosts', $post);
 		if($this->loadComments) { // TODO: Fix this
 			$this->view->renderFooter = false;
 		}
@@ -28,7 +33,7 @@ class BlogpostController extends BaseController {
 		if($this->loadComments) {
 			$url = 'blog/view/'. $blogName . '/' . $postName;
 			$commentsController = new CommentsController();
-			$commentsController->loadComments($this->model->postID, $url);
+			$commentsController->loadComments($this->model->postID, $url, $commentID, $isOwner);
 		}
 	}
 
@@ -73,6 +78,6 @@ class BlogpostController extends BaseController {
 	}
 	
 	public function correctUser($userID){
-		return ($this->user->model->userID == $userID);
+		return ($this->user && $this->user->model->userID == $userID);
 	}
 }
