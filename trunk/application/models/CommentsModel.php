@@ -13,11 +13,11 @@ class CommentsModel extends BaseModel {
 	}
 
 	public function getComments($postID) {
-		$query = 'SELECT * FROM comments WHERE postID = :postID AND deleted = 0';
+		$query = 'SELECT * FROM comments WHERE postID = :postID';
 		return $this->db->select($query, array(':postID' => $postID));
 	}
 	public function getComment($commentID) {
-		$query = 'SELECT * FROM comments WHERE commentID = :commentID AND deleted = 0';
+		$query = 'SELECT * FROM comments WHERE commentID = :commentID';
 		return $this->db->select($query, array(':commentID' => $commentID));
 	}
 	public function flagComment($commentID, $form) {
