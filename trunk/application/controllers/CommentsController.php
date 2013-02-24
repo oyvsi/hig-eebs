@@ -11,9 +11,15 @@ class CommentsController extends BaseController	{
 		$this->fbUser = $this->fb->checkLogin();
 	}
 
-	public function loadComments($postID, $insertRedirect) {
-		$comments = $this->model->getComments($postID);
+	public function loadComments($postID, $insertRedirect, $id = false, $isOwner = false) {
+		if($id !== false) {
+			$comments = $this->model->getComment($id);
+		} else {
+			$comments = $this->model->getComments($postID);
+		}
+		$this->view->setVar('isOwner', $isOwner);	
 		$this->view->setVar('comments', $comments);
+
 		$user = false;
 
 		$userInput = new Form('comment', 'comments/commentDo/' . $postID, 'post');
@@ -41,9 +47,11 @@ class CommentsController extends BaseController	{
 
 	public function commentDo() {
 		if($this->user() || $this->fbUser) { 
-			if(isset($this->args[1]) && isset($_POST['name']) && isset($_POST['comment'])) {
+			if(isset($this->args[1]) && isset($_POST['comment'])) {
+				$userName = ($this->user()) ? $this->user->model->userName : $this->fbUser['username'];
+				$_POST['name'] = $userName;
 				$this->model->insertComment($this->args[1], $_POST);	
-				header('Location: '. __URL_PATH . $_POST['redirect'] . '/comments');
+				//header('Location: '. __URL_PATH . $_POST['redirect'] . '/comments');
 			} else {
 				echo 'NOGO!'; print_r($_POST);
 			}
@@ -74,5 +82,11 @@ class CommentsController extends BaseController	{
 		$data = $this->model->getFlagged();
 		$this->view->setVar('flagged', $data);
 		$this->viewFile = 'admin/flaggedComments';
+	}
+
+	public function delete() {
+		if(isset($this->args[1])) {
+			$this->model->delete($this->args[1]);
+		}
 	}
 }

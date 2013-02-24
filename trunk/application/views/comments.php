@@ -4,9 +4,12 @@
 foreach($this->vars['comments'] as $comment) {
 	extract($comment);
 	echo '<div class="comment" id="' . $commentID . '">';
-	echo '<div class="commentName">' . $name . '</div><hr>';
+	echo '<div class="commentHeader"><div class="commentName">' . $name . '</div>';
+	if($this->vars['isOwner'] || Auth::checkAdmin()) 
+		echo '<div class="deleteLink">' . HTML::appLink('comments/delete/' . $commentID, 'Delete comment') . '</div>';
+		echo '<div style="clear: both;"></div>';
 	//	echo HTML::appLink('user/profile/' . $userName, $comment['userName']);
-	echo '<div class="commentText">' . $comment . '</div><hr>';
+	echo '</div><hr><div class="commentText">' . $comment . '</div><hr>';
 	echo '<div class="commentFooter"><div class="reportLink">' . HTML::appLink('comments/flag/'. $commentID, 'Report comment') . '</div><div class="timestamp">' . date('d.m.Y H:i', $timestamp) . '</div></div>';
 	echo '<div style="clear: both;"></div></div>';
 }
