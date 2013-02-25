@@ -5,7 +5,7 @@ class UserModel extends BaseModel {
 								  'userName' => array('table' => 'userName', 'view' => 'Username', 'fieldType' => 'text', 'minLength' => 3, 'maxLength' => 15),
 								  'firstName' => array('table' => 'firstName', 'view' => 'Firstname', 'fieldType' => 'text', 'minLength' => 3, 'maxLength' => 100),
 								  'lastName' => array('table' => 'lastName', 'view' => 'Lastname', 'fieldType' => 'text', 'minLength' => 3, 'maxLength' => 100),
-								  'email' => array('table' => 'email', 'view' => 'Email', 'fieldType' => 'text', 'minLength' => 3, 'maxLength' => 100 =),
+								  'email' => array('table' => 'email', 'view' => 'Email', 'fieldType' => 'text', 'minLength' => 3, 'maxLength' => 100));
 
 
 	public function __construct() {
