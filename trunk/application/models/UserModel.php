@@ -1,7 +1,12 @@
 <?php
 
 class UserModel extends BaseModel {
-	protected $userFields = array('firstName','lastName', 'email', 'userName', 'password', 'password2');
+	protected $userFields = array('password' => array('table' => 'password', 'view' => 'Password', 'fieldType' => 'password', 'minLength' => 5, 'maxLength' => 100),
+								  'userName' => array('table' => 'userName', 'view' => 'Username', 'fieldType' => 'text', 'minLength' => 3, 'maxLength' => 15),
+								  'firstName' => array('table' => 'firstName', 'view' => 'Firstname', 'fieldType' => 'text', 'minLength' => 3, 'maxLength' => 100),
+								  'lastName' => array('table' => 'lastName', 'view' => 'Lastname', 'fieldType' => 'text', 'minLength' => 3, 'maxLength' => 100),
+								  'email' => array('table' => 'email', 'view' => 'Email', 'fieldType' => 'text', 'minLength' => 3, 'maxLength' => 100 =),
+
 
 	public function __construct() {
 		parent::__construct();
