@@ -79,9 +79,14 @@ class CommentsController extends BaseController	{
 	}
 
 	public function getFlagged() {
+		try {
 		$data = $this->model->getFlagged();
 		$this->view->setVar('flagged', $data);
 		$this->viewFile = 'admin/flaggedComments';
+		} catch(Exception $excpt) {
+			$this->view->setError($excpt);
+		}
+		
 	}
 
 	public function delete() {
