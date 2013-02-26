@@ -2,7 +2,6 @@
  
 class UserController extends BaseController	{
 
-	protected $userFields = array('firstName','lastName', 'email', 'userName', 'password', 'password2');
 
 	public function __construct() {
 		parent::__construct();
@@ -33,9 +32,11 @@ class UserController extends BaseController	{
 	}
 
 	public function createAccount() {
+		$userFields = $this->model->getUserFields();
+
 		$userInput = new Form('userInfo', 'user/insertUser', 'post');
-		foreach($this->userFields as $userField) {
-			$userInput->addInput('text', $userField, $userField);
+		foreach($userFields as $userField) {
+			$userInput->addInput($userField['fieldType'], $userField['table'], $userField['view']);
 		}
 		$userInput->addInput('submit', 'button', false, 'Submit');
 		$this->view->setVar('createAccount', $userInput->genForm());
