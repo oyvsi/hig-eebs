@@ -37,9 +37,7 @@ abstract class BaseController {
 		$this->key = $value;
 	}
 	public function render() {
-		if($this->viewFile) {
-			$this->view->render($this->viewFile);
-		}
+		$this->view->render();
 	}
 }
 

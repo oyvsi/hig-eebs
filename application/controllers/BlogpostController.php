@@ -27,7 +27,7 @@ class BlogpostController extends BaseController {
 		if($this->loadComments) { // TODO: Fix this
 			$this->view->renderFooter = false;
 		}
-		$this->view->render('blog/blogPost');
+		$this->view->viewFile = 'blog/blogPost';
 		$this->model->updatePostViewCount($this->model->postID);
 
 		if($this->loadComments) {
@@ -46,7 +46,7 @@ class BlogpostController extends BaseController {
 		$form->addInput('submit', 'Submit');
 		$this->view->setVar('form', $form->genForm());
 		$this->view->setVar('title', 'New post');
-		$this->view->render('blog/createPost');
+		$this->view->viewFile = 'blog/createPost';
 
 	}
 
