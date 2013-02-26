@@ -22,15 +22,20 @@ class UserModel extends BaseModel {
 		return $result;
 	} 
 	public function fetchUserProfile($userName) {
-		$sql = 'SELECT * FROM users WHERE userName = :userName';
-		$result = $this->db->selectOne($sql, array('userName' => $userName));
+		$result = $this->getUser($userName);
 		if($result === false) {
 			throw new Exception('Unable to fetch info for user');
-		}
+	}
 		$this->setInfo($result);
 
 		return $result;
+	}
+
+	private function getUser($userName) {
+		$sql = 'SELECT * FROM users WHERE userName = :userName';
+		return $this->db->selectOne($sql, array('userName' => $userName));
 	}	
+
 	public function getUserProfile() {
 		return array('userName' => $this->userName, 'firstName' => $this->firstName);
 	}
@@ -40,7 +45,7 @@ class UserModel extends BaseModel {
 			$userName = $params['userName'];
 			//echo $userName;
 			if(!empty($userName)) {
-				$result = $this->fetchUserProfile($userName);	
+				$result = $this->getUser($userName);	
 				if($result == false) {				
 					throw new Exception('No matching username');
 				}
@@ -80,18 +85,21 @@ class UserModel extends BaseModel {
 
 		if(isset($_POST['button'])) {
 			if(!empty($userName) && !empty($password) && ($password == $password2)) {
-				$sql = "SELECT * FROM users WHERE userName = :userName"; 
-				$result = $this->fetchUserProfile($userName);
-				if($result === false) {
+				if($this->getUser($userName) === false) {
+				/*	$image = new ImageUpload($_FILES['picture']);
+					$image->setName($userName);
+					$imageFile = $image->process();
+					$imageThumb = $image->genThumb();
+					echo "Image: $imageFile Thumb: $imageThumb"; */
 					$sql= "INSERT INTO users (userName, firstName, email, password) 
-							VALUES (:userName, :firstName, :email, :password)";
+						VALUES (:userName, :firstName, :email, :password)";
 					$param = array(":userName" => $userName, ":firstName" => $firstName, 
 						":email" => $email, ":password" => Helpers::hashPassword($password));	
 
 					$this->db->insert($sql, $param);
 
 				} else {
-					echo "Username " . $_POST['userName'] . "exists";
+					throw new Exception('Username ' . $_POST['userName'] . ' already exists');
 				}
 			} else { 
 				echo "ENTER INFO BOY";
@@ -105,12 +113,12 @@ class UserModel extends BaseModel {
 		if(!empty($userName) && !empty($firstName) && !empty($lastName)) {
 			$param = array();
 			$result = array();
-			if ($this->userName !== $userName){	//if users has changed userName  
+			if($this->userName !== $userName){	//if users has changed userName  
 				$sql = "SELECT userID FROM users WHERE userName = :userName";
-				$result = $this->db->select($sql, array(":userName" => $userName));
+				$result = $this->fetchUserProfile($username);
 			}
 
-			if(count($result) == 0){						//if user changed userName, and didn't exist.
+			if($result === false){						//if user changed userName, and didn't exist.
 				$sql = "UPDATE users SET userName = :userName, firstName = :firstName, 
 					lastName = :lastName, email = :email ";
 				if(!empty($password)){
