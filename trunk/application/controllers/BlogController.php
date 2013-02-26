@@ -21,7 +21,7 @@ class BlogController extends BaseController {
 		}	
 		elseif($this->blogName) {
 			$this->view->setVar('posts', $this->model->getAllPosts($this->blogName));
-			$this->view->render('blog/index');
+			$this->view->viewFile = 'blog/index';
 			$this->model->updateViewCount($this->blogName);
 		}
 	} 

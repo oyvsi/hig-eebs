@@ -5,6 +5,7 @@ class View {
 	private $error = false;
 	public $renderHeader = true;
 	public $renderFooter = true;
+	public $viewFile = false;	
 
 	public function setVar($key, $value) {
 		$this->vars[$key] = $value;
@@ -14,20 +15,21 @@ class View {
 		$this->error = $exception;
 	}
 
-	public function render($name) {
+	public function render() {
 		if($this->renderHeader === true) {
-			require(__SITE_PATH . '/application/views/header.php');
+		  require(__SITE_PATH . '/application/views/header.php');
 		}
 		
 		if($this->error !== false) {
-			require(__SITE_PATH . '/application/views/error.php');
+	         require(__SITE_PATH . '/application/views/error.php');
+		} 	
+		
+		if($this->viewFile  !== false) {
+		 require(__SITE_PATH . '/application/views/' . $this->viewFile . '.php');
 		}
-	
-		require(__SITE_PATH . '/application/views/' . $name . '.php');
 		
 		if($this->renderFooter === true) {
-			require(__SITE_PATH . '/application/views/footer.php');
+		 require(__SITE_PATH . '/application/views/footer.php');
 		}
-	
-	}
+	}	
 } 

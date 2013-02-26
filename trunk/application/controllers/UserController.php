@@ -40,7 +40,7 @@ class UserController extends BaseController	{
 		$userInput->addInput('submit', 'button', false, 'Submit');
 		$this->view->setVar('createAccount', $userInput->genForm());
 		$this->view->setVar('title', 'Register');
-		$this->viewFile = 'user/createAccount';
+		$this->view->viewFile = 'user/createAccount';
 	}
 
 	public function forgotPassword() {
@@ -49,7 +49,7 @@ class UserController extends BaseController	{
 		$userInput->addInput('submit', 'submit', false, 'Submit');
 		$this->view->setVar('forgotPassword', $userInput->genForm());
 		$this->view->setVar('title', 'Forgot password');
-		$this->viewFile = 'user/forgotPassword';
+		$this->view->viewFile = 'user/forgotPassword';
 		try {
 			$this->model->forgotPassword($_REQUEST);
 		} catch (Exception $excpt){
@@ -63,7 +63,7 @@ class UserController extends BaseController	{
 			$this->model->fetchUserProfile($this->args[1]);
 			$this->view->setVar('userProfile', $this->model->getUserProfile());
 			$this->view->setVar('title', $this->model->userName);
-			$this->viewFile = 'user/profile';
+			$this->view->viewFile = 'user/profile';
 		}
 		elseif($this->user()) {
 			$userData = $this->model->fetchUserInfo($_SESSION['userID']);
@@ -76,7 +76,7 @@ class UserController extends BaseController	{
 			$userInput->addInput('submit', 'submit', false, 'Submit');
 			$this->view->setVar('title', $this->model->userName);
 			$this->view->setVar('createAccount', $userInput->genForm());
-			$this->viewFile = 'user/createAccount';	
+			$this->view->viewFile = 'user/createAccount';	
 		}
 		else {
 			echo 'No username specified and you\'re not authed. Goodbye from userController';
@@ -91,7 +91,7 @@ class UserController extends BaseController	{
 		if(Auth::checkLogin()) {
 			echo "Logged in already...";
 		} else {
-			$this->view->render('login');
+			$this->view->viewFile = 'login';
 		}	
 	}
 	public function loginDo() {

@@ -42,7 +42,7 @@ class CommentsController extends BaseController	{
 		$this->view->setVar('commentForm', $userInput->genForm());
 		$this->view->setVar('userName', $user);
 		
-		$this->view->render('comments');
+		$this->view->viewFile = 'comments';
 	}
 
 	public function commentDo() {
@@ -64,7 +64,7 @@ class CommentsController extends BaseController	{
 			$form->addInput('hidden', 'commentID', false, $this->args[1]);
 			$form->addInput('submit', 'submit');
 			$this->view->setVar('form', $form->genForm());
-			$this->viewFile = 'reportComment';
+			$this->view->viewFile = 'reportComment';
 		} 
 		
 		if(isset($_POST['reportComment'])) {
@@ -74,7 +74,7 @@ class CommentsController extends BaseController	{
 			} catch(Exception $excpt) {
 				$this->view->setError($excpt);
 			}
-			$this->viewFile = 'reportComment';
+			$this->view->viewFile = 'reportComment';
 		}
 	}
 
@@ -82,11 +82,11 @@ class CommentsController extends BaseController	{
 		try {
 		$data = $this->model->getFlagged();
 		$this->view->setVar('flagged', $data);
-		$this->viewFile = 'admin/flaggedComments';
+		$this->view->viewFile = 'admin/flaggedComments';
 		} catch(Exception $excpt) {
 			$this->view->setError($excpt);
+				
 		}
-		
 	}
 
 	public function delete() {
