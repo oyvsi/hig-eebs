@@ -38,7 +38,6 @@ abstract class BaseController {
 	}
 	public function render() {
 		$this->view->render();
-		echo "HEHE";
 	}
 }
 
