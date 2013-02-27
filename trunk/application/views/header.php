@@ -8,7 +8,9 @@
 			echo HTML::jsLink('tiny_mce/tiny_mce');
 			echo HTML::jsLink('hig-eebs');
 			echo HTML::jsLink('fancybox/jquery.fancybox.pack.js?v=2.1.4');
+			echo HTML::jsLink('fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5');
 			echo HTML::cssLink('jquery.fancybox.css?v=2.1.4');
+			echo HTML::cssLink('jquery.fancybox-buttons.css?v=1.0.5');
 			echo HTML::cssLink('blog'); ?>
 	</head>
 	<body>
