@@ -68,15 +68,19 @@ class UserController extends BaseController	{
 		}
 		elseif($this->user()) {
 			$userData = $this->model->fetchUserInfo($_SESSION['userID']);
-			$userData['password2'] = $userData['password'] = '';
+			$userData['password2'] = $userData['password'] = $userData['picture'] = '';
 
 			$userInput = new Form('userInfo', 'user/updateUser', 'post');
-			foreach($this->userFields as $userField) {
-				$userInput->addInput('text', $userField, $userField, $userData[$userField]);
+			foreach($this->model->getUserFields() as $userField) {
+				$userInput->addInput($userField['fieldType'], $userField['table'], $userField['view'], $userData[$userField['table']]);
 			}
 			$userInput->addInput('submit', 'submit', false, 'Submit');
 			$this->view->setVar('title', $this->model->userName);
 			$this->view->setVar('createAccount', $userInput->genForm());
+			if($userData['pictureURL'] != null) {
+				$this->view->setVar('profilePicture', $userData['pictureURL']);
+				$this->view->setVar('profilePictureThumb', ImageUpload::thumbURLfromURL($userData['pictureURL']));
+			}
 			$this->view->viewFile = 'user/createAccount';	
 		}
 		else {

@@ -1,8 +1,8 @@
 <?php
 
 class ImageUpload extends FileUpload {
+	protected static $thumbPostfix = '_thumb';
 	protected $thumbWidthRes = 100;
-	protected $thumbPostfix = '_thumb';
 	protected $res;
 	protected $minRes = null;
 	protected $maxRes = null;
@@ -27,6 +27,11 @@ class ImageUpload extends FileUpload {
 		return $file;
 	}
 
+	public static function thumbURLfromURL($pictureURL) {
+		$pathInfo = pathinfo($pictureURL);
+
+		return $pathInfo['dirname'] . '/' . $pathInfo['filename'] . self::$thumbPostfix . '.' . $pathInfo['extension'];
+	}
 	public function setMinRes($res) {
 		$this->minRes = $res;
 	}
@@ -37,7 +42,7 @@ class ImageUpload extends FileUpload {
 
 	public function getThumbURL() {
 		if($this->thumbGenerated) {
-			return $this->uploadURLDIR . $this->fileName . $this->thumbPostfix . '.' . $this->fileExt;
+			return $this->uploadURLDIR . $this->fileName . self::$thumbPostfix . '.' . $this->fileExt;
 		} else {
 			throw new Exception('Thumb is not generated yet. Call genThumb()');
 		}
@@ -46,7 +51,7 @@ class ImageUpload extends FileUpload {
 	public function genThumb() {
 		$ratio = $this->thumbWidthRes / $this->res[0];
 		$thumbHeight = round($this->res[1] * $ratio);
-		$thumbPath =  $this->uploadDir . $this->fileName . $this->thumbPostfix . '.' . $this->fileExt;
+		$thumbPath =  $this->uploadDir . $this->fileName . self::$thumbPostfix . '.' . $this->fileExt;
 
 		if($this->fileExt == 'jpg' || $this->fileExt == 'jpeg') {
 			$origImage = imagecreatefromjpeg($this->fullPath);
