@@ -17,10 +17,10 @@ class BlogpostController extends BaseController {
 		$this->args = $args;
 	}
 
-	public function view($blogName, $postName) {
+	public function view() {
 		$this->loadComments = (isset($this->args[3]) && $this->args[3] == 'comments');
 		$commentID = isset($this->args[4]) ? $this->args[4] : false;
-		$post = $this->model->getPost($blogName, $postName);
+		$post = $this->model->getPost($this->args[1], $this->args[2]);
 		$isOwner = $this->correctUser($post[0]['userID']);
 		$this->view->setVar('isOwner', $isOwner);
 		$this->view->setVar('blogPosts', $post);
@@ -31,7 +31,7 @@ class BlogpostController extends BaseController {
 		$this->model->updatePostViewCount($this->model->postID);
 
 		if($this->loadComments) {
-			$url = 'blog/view/'. $blogName . '/' . $postName;
+			$url = 'blogpost/view/'. $this->args[1] . '/' . $this->args[2];
 			$commentsController = new CommentsController();
 			$commentsController->loadComments($this->model->postID, $url, $commentID, $isOwner);
 		}
@@ -47,7 +47,6 @@ class BlogpostController extends BaseController {
 		$this->view->setVar('form', $form->genForm());
 		$this->view->setVar('title', 'New post');
 		$this->view->viewFile = 'blog/createPost';
-
 	}
 
 	public function createDo() {
