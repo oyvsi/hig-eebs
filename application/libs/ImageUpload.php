@@ -6,9 +6,10 @@ class ImageUpload extends FileUpload {
 	protected $res;
 	protected $minRes = null;
 	protected $maxRes = null;
-	
-	public function __construct($file) {
-		parent::__construct($file);
+	protected $thumbGenerated = false;
+
+	public function __construct($file, $path) {
+		parent::__construct($file, $path);
 		if ((extension_loaded('gd') && function_exists('gd_info')) == false) {
 			throw new Exception('The GD-library was not detected on the server');
 		}	
@@ -23,7 +24,7 @@ class ImageUpload extends FileUpload {
 		if($this->maxRes != null && ($this->res[0] > $this->maxRes[0] || $this->res[1] > $this->maxRes[1])) {
 			throw new Exception('Maximum resolution is set to ' . $this->maxRes[0] . 'x' . $this->maxRes[1]);
 		}
-		return $this->fullPath;
+		return $file;
 	}
 
 	public function setMinRes($res) {
@@ -32,6 +33,14 @@ class ImageUpload extends FileUpload {
 
 	public function setMaxRes($res) {
 		$this->maxRes = $res;
+	}
+
+	public function getThumbURL() {
+		if($this->thumbGenerated) {
+			return $this->uploadURLDIR . $this->fileName . $this->thumbPostfix . '.' . $this->fileExt;
+		} else {
+			throw new Exception('Thumb is not generated yet. Call genThumb()');
+		}
 	}
 
 	public function genThumb() {
@@ -53,6 +62,7 @@ class ImageUpload extends FileUpload {
 		if($this->fileExt == 'jpg' || $this->fileExt == 'jpeg') {
 			$thumbImage = imagepng($image, $thumbPath);
 		}
+		$this->thumbGenerated = true;
 
 		return $thumbPath;
 	}

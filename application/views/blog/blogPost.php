@@ -3,6 +3,9 @@
 //print_r($this->vars);
 foreach($this->vars['blogPosts'] as $blogPost) {
 	extract($blogPost);
+	if($deleted) {
+		$postText = 'Post is deleted by the blogger or an administrator';
+	}
 	echo '<div class="blogPostSummary" id="' . $postID . '">';
 	echo '<div class="blogPostTitle"><h1>' . $postTitle . '</h1>';
 	if (isset($_SESSION['userID']) && $_SESSION['userID'] == $userID) { //logged in user can delete own posts

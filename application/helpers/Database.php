@@ -4,7 +4,7 @@ class Database extends PDO {
 
 	public function __construct($dbType, $dbHost, $dbName, $dbUser, $dbPassword) {
 		parent::__construct($dbType . ':host=' . $dbHost . '; dbname=' . $dbName, $dbUser, $dbPassword, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8")
-	);
+		);
 	}
 
 	public function selectOne($sqlQuery, $params = false) {
@@ -15,9 +15,9 @@ class Database extends PDO {
 			return $result[0];
 		}
 	}
-	
+
 	public function select($sqlQuery, $params = false) {
-	//	echo "SQL query! $sqlQuery <br />";	
+		//	echo "SQL query! $sqlQuery <br />";	
 		$handler = $this->prepare($sqlQuery);
 		if($params !== false) {
 			foreach($params as $param => $value) {
@@ -30,7 +30,7 @@ class Database extends PDO {
 				}
 			}
 		}
-		
+
 		if($handler->execute()) {
 			return $handler->fetchAll(PDO::FETCH_ASSOC);
 		} else {
@@ -62,7 +62,7 @@ class Database extends PDO {
 	}
 
 	public function insert($sqlQuery, $params = false) {
-//		echo "Query was $sqlQuery";
+		//		echo "Query was $sqlQuery";
 		$handler = $this->prepare($sqlQuery);
 		if($params !== false) {
 			foreach($params as $param => $value) {
@@ -74,9 +74,9 @@ class Database extends PDO {
 				}
 			}
 		}
-		
+
 		if($handler->execute()) {
-			return $handler->fetchAll(PDO::FETCH_ASSOC);
+			return $this->lastInsertId();	// You would think this should be in a transaction. But according to manual this is done per connection.
 		} else {
 			echo "Fool"; print_r($handler->errorInfo());
 			return false;

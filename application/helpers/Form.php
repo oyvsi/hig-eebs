@@ -46,7 +46,7 @@ class Form {
 	} 
 
 	public function genForm() {
-		$html = '<form name="' . $this->name . '" id="' . $this->name . '" action="' . $this->action . '" method="' . $this->method . '">';   
+		$html = '<form name="' . $this->name . '" id="' . $this->name . '" action="' . $this->action . '" method="' . $this->method . '" enctype="multipart/form-data">';   
 		foreach($this->inputFields as $input) {
 			$html .= "\n\t" . $input;
 		}
