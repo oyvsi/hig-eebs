@@ -2,20 +2,28 @@
  
 class CommentsController extends BaseController	{
 	private $fb;
-   private $fbUser;
-
+   	private $fbUser;
+	private $blogpostModel;
+	private $commentModel;
 	public function __construct() {
 		parent::__construct();
-		$this->model = new CommentsModel();
+		$this->commentModel = new CommentsModel();
+		$this->blogpostModel = new BlogpostModel();
 		$this->fb  = new FacebookLogin();
 		$this->fbUser = $this->fb->checkLogin();
+		$this->user(); // workaround for not being created from bootstrap
 	}
 
-	public function loadComments($postID, $insertRedirect, $id = false, $isOwner = false) {
+	public function view() {
+		$blogName = $this->args[1];
+		$postID = $this->args[2];
+		$id = isset($this->args[4]) ? $this->args[4] : false;
+		$post = $this->blogpostModel->getPost($blogName, $postID);
+		$isOwner = $this->correctUser($post[0]['userID']);
 		if($id !== false) {
-			$comments = $this->model->getComment($id);
+			$comments = $this->commentModel->getComment($id);
 		} else {
-			$comments = $this->model->getComments($postID);
+			$comments = $this->commentModel->getComments($this->blogpostModel->postID);
 		}
 		$this->view->setVar('isOwner', $isOwner);	
 		$this->view->setVar('comments', $comments);
@@ -23,7 +31,7 @@ class CommentsController extends BaseController	{
 		$user = false;
 
 		$userInput = new Form('comment', 'comments/commentDo/' . $postID, 'post');
-		$userInput->addInput('hidden', 'redirect', false, $insertRedirect);
+		#$userInput->addInput('hidden', 'redirect', false, $insertRedirect);
 		if($this->user()) {
 			$user = $this->user->model->userName;
 		} else {
@@ -50,7 +58,7 @@ class CommentsController extends BaseController	{
 			if(isset($this->args[1]) && isset($_POST['comment'])) {
 				$userName = ($this->user()) ? $this->user->model->userName : $this->fbUser['username'];
 				$_POST['name'] = $userName;
-				$this->model->insertComment($this->args[1], $_POST);	
+				$this->commentModel->insertComment($this->args[1], $_POST);	
 				//header('Location: '. __URL_PATH . $_POST['redirect'] . '/comments');
 			} else {
 				echo 'NOGO!'; print_r($_POST);
@@ -69,7 +77,7 @@ class CommentsController extends BaseController	{
 		
 		if(isset($_POST['reportComment'])) {
 			try {
-				$this->model->flagComment($_POST['commentID'], $_POST);
+				$this->commentModel->flagComment($_POST['commentID'], $_POST);
 				$this->view->setVar('message', 'Thank you. Your report will be brought to the administrators');
 			} catch(Exception $excpt) {
 				$this->view->setError($excpt);
@@ -80,7 +88,7 @@ class CommentsController extends BaseController	{
 
 	public function getFlagged() {
 		try {
-		$data = $this->model->getFlagged();
+		$data = $this->commentModel->getFlagged();
 		$this->view->setVar('flagged', $data);
 		$this->view->viewFile = 'admin/flaggedComments';
 		} catch(Exception $excpt) {
@@ -91,7 +99,12 @@ class CommentsController extends BaseController	{
 
 	public function delete() {
 		if(isset($this->args[1])) {
-			$this->model->delete($this->args[1]);
+			$this->commentModel->delete($this->args[1]);
 		}
 	}
+	
+         public function correctUser($userID){
+                return ($this->user && $this->user->model->userID == $userID);
+        }
+
 }
