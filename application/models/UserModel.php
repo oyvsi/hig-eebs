@@ -6,7 +6,7 @@ class UserModel extends BaseModel {
 								  'lastName' => array('table' => 'lastName', 'view' => 'Lastname', 'fieldType' => 'text', 'minLength' => 3, 'maxLength' => 100),
 								  'email' => array('table' => 'email', 'view' => 'Email', 'fieldType' => 'text', 'minLength' => 3, 'maxLength' => 100),
 								  'password' => array('table' => 'password', 'view' => 'Password', 'fieldType' => 'password', 'minLength' => 5, 'maxLength' => 100),
-								  'password2' => array('table' => 'password2', 'view' => 'Password2', 'fieldType' => 'password', 'minLength' => 5, 'maxLength' => 100),
+								  'password2' => array('table' => 'password2', 'view' => 'Repeat password', 'fieldType' => 'password', 'minLength' => 5, 'maxLength' => 100),
 								  'picture' => array('table' => 'picture', 'view' => 'Picture', 'fieldType' => 'file'));
 
 	public function __construct() {
@@ -19,13 +19,20 @@ class UserModel extends BaseModel {
 
 	public function fetchUserInfo($userID) {
 		$sql = 'SELECT * FROM users WHERE userID = :userID';
-		$result = $this->db->selectOne($sql, array('userID' => $userID));
-		if($result === false) {
+		$userInfo = $this->db->selectOne($sql, array('userID' => $userID));
+		if($userInfo === false) {
 			throw new Exception('Unable to fetch info for user');
 		}
-		$this->setInfo($result);
+		if($userInfo['pictureID']) {
+			$sql = 'SELECT * FROM pictures WHERE pictureID = :pictureID';
+			$pic = $this->db->selectOne($sql, array(':pictureID' => $userInfo['pictureID']));
+			$userInfo['pictureURL'] = $pic['url'];
+		} else {
+			$userInfo['pictureURL'] = null;
+		}
+		$this->setInfo($userInfo);
 
-		return $result;
+		return $userInfo;
 	} 
 	public function fetchUserProfile($userName) {
 		$result = $this->getUser($userName);
@@ -85,6 +92,27 @@ class UserModel extends BaseModel {
 		}
 	}
 
+	private function updateProfilePicture($file, $userName) {
+		try {
+			$image = new ImageUpload($_FILES['picture'], 'profileImages');
+			$image->setName($userName);
+			$image->setAllowed(array('jpg', 'jpeg', 'png'));
+			$image->setMinRes(array('100', '100'));
+			$image->setMaxRes(array('1280', '800'));
+
+			$imageFile = $image->process();
+			$imageThumb = $image->genThumb();
+
+			$sql = 'INSERT INTO pictures(url, timestamp) VALUES(:url, :timestamp)';
+			$picture = $this->db->insert($sql, array(':url' => $image->getURL(), ':timestamp' => time()));
+		} catch(Exception $excpt) {
+			throw new Exception($excpt->getMessage());
+		}
+
+		return $picture;
+	}
+
+
 	// TODO: Validate form
 	public function insertUser($params) {
 		extract($params);
@@ -92,21 +120,11 @@ class UserModel extends BaseModel {
 		if(isset($_POST['button'])) {
 			if(!empty($userName) && !empty($password) && ($password == $password2)) {
 				if($this->getUser($userName) === false) {
-					
+
 					$picture = null;
 					if(!empty($_FILES['picture'])) {
 						try {
-							$image = new ImageUpload($_FILES['picture'], 'profileImages');
-							$image->setName($userName);
-							$image->setAllowed(array('jpg', 'jpeg', 'png'));
-							$image->setMinRes(array('100', '100'));
-							$image->setMaxRes(array('1280', '800'));
-
-							$imageFile = $image->process();
-							$imageThumb = $image->genThumb();
-
-							$sql = 'INSERT INTO pictures(url, timestamp) VALUES(:url, :timestamp)';
-							$picture = $this->db->insert($sql, array(':url' => $image->getURL(), ':timestamp' => time()));
+							$picture = $this->updateProfilePicture($_FILES['picture'], $userName);
 						} catch(Exception $excpt) {
 							throw new Exception($excpt->getMessage());
 						}
@@ -131,12 +149,13 @@ class UserModel extends BaseModel {
 	public function updateUser($params) {
 		extract($params);
 		//BURDE VÆRE EN FUNKSJON SOM KAN SØRGE FOR REQUIRED FILDS, SÅ IFSLØYFA BLIR PENERE, OG DET BLIR MINDRE KODE
+
 		if(!empty($userName) && !empty($firstName) && !empty($lastName)) {
 			$param = array();
-			$result = array();
-			if($this->userName !== $userName){	//if users has changed userName  
-				$sql = "SELECT userID FROM users WHERE userName = :userName";
-				$result = $this->fetchUserProfile($username);
+			$result = false;
+
+			if($this->userName !== $userName) {	//if users has changed userName  
+				$result = $this->getUser($userName);
 			}
 
 			if($result === false){						//if user changed userName, and didn't exist.
@@ -151,13 +170,25 @@ class UserModel extends BaseModel {
 					}
 				} 
 
-				$sql = $sql . "WHERE userName = :loggedIn";
-				//echo $sql;
+				$picture = null;
+				if(!empty($_FILES['picture'])) {
+					try {
+						$picture = $this->updateProfilePicture($_FILES['picture'], $userName);
+						$sql .= ', pictureID = :pictureID';
+						$param += array(':pictureID' => $picture);
+					} catch(Exception $excpt) {
+						throw new Exception($excpt->getMessage());
+					}
+				}
+
+					$sql = $sql . " WHERE userName = :loggedIn";
+//				echo $sql;
 				$param += array(":userName" => $userName, ":firstName" => $firstName, ":lastName" => $lastName, 
 					":email" => $email, ":loggedIn" => $this->userName);
-				//print_r($param);
+//				print_r($param);
 				$this->db->insert($sql, $param);
 
+			
 			} else {
 				throw new Exception('Username exists');
 			}
