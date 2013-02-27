@@ -6,8 +6,8 @@ class UserModel extends BaseModel {
 								  'lastName' => array('table' => 'lastName', 'view' => 'Lastname', 'fieldType' => 'text', 'minLength' => 3, 'maxLength' => 100),
 								  'email' => array('table' => 'email', 'view' => 'Email', 'fieldType' => 'text', 'minLength' => 3, 'maxLength' => 100),
 								  'password' => array('table' => 'password', 'view' => 'Password', 'fieldType' => 'password', 'minLength' => 5, 'maxLength' => 100),
-								  'password2' => array('table' => 'password2', 'view' => 'Password2', 'fieldType' => 'password', 'minLength' => 5, 'maxLength' => 100));
-
+								  'password2' => array('table' => 'password2', 'view' => 'Password2', 'fieldType' => 'password', 'minLength' => 5, 'maxLength' => 100),
+								  'picture' => array('table' => 'picture', 'view' => 'Picture', 'fieldType' => 'file'));
 
 	public function __construct() {
 		parent::__construct();
@@ -85,22 +85,37 @@ class UserModel extends BaseModel {
 		}
 	}
 
-
+	// TODO: Validate form
 	public function insertUser($params) {
 		extract($params);
 
 		if(isset($_POST['button'])) {
 			if(!empty($userName) && !empty($password) && ($password == $password2)) {
 				if($this->getUser($userName) === false) {
-				/*	$image = new ImageUpload($_FILES['picture']);
-					$image->setName($userName);
-					$imageFile = $image->process();
-					$imageThumb = $image->genThumb();
-					echo "Image: $imageFile Thumb: $imageThumb"; */
-					$sql= "INSERT INTO users (userName, firstName, email, password) 
-						VALUES (:userName, :firstName, :email, :password)";
+					
+					$picture = null;
+					if(!empty($_FILES['picture'])) {
+						try {
+							$image = new ImageUpload($_FILES['picture'], 'profileImages');
+							$image->setName($userName);
+							$image->setAllowed(array('jpg', 'jpeg', 'png'));
+							$image->setMinRes(array('100', '100'));
+							$image->setMaxRes(array('1280', '800'));
+
+							$imageFile = $image->process();
+							$imageThumb = $image->genThumb();
+
+							$sql = 'INSERT INTO pictures(url, timestamp) VALUES(:url, :timestamp)';
+							$picture = $this->db->insert($sql, array(':url' => $image->getURL(), ':timestamp' => time()));
+						} catch(Exception $excpt) {
+							throw new Exception($excpt->getMessage());
+						}
+					}
+
+					$sql= "INSERT INTO users (userName, firstName, email, password, pictureID) 
+						VALUES (:userName, :firstName, :email, :password, :pictureID)";
 					$param = array(":userName" => $userName, ":firstName" => $firstName, 
-						":email" => $email, ":password" => Helpers::hashPassword($password));	
+						":email" => $email, ":password" => Helpers::hashPassword($password), ':pictureID' => $picture);	
 
 					$this->db->insert($sql, $param);
 
@@ -158,7 +173,6 @@ class UserModel extends BaseModel {
 		print($lols[0]['lastName']);
 
 	}
-
 
 	public function removeUser() {
 

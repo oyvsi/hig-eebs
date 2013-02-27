@@ -36,6 +36,7 @@ abstract class BaseController {
 	public function __set($key, $value) {
 		$this->key = $value;
 	}
+
 	public function render() {
 		$this->view->render();
 	}
