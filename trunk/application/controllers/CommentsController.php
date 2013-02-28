@@ -60,6 +60,7 @@ class CommentsController extends BaseController	{
 			if(isset($this->args[1]) && isset($_POST['comment'])) {
 				$userName = ($this->user()) ? $this->user->model->userName : $this->fbUser['username'];
 				$_POST['name'] = $userName;
+				print_r($this->args);
 				$this->commentModel->insertComment($this->args[1], $_POST);	
 				header('Location: '. __URL_PATH . 'comments' . $_POST['redirect']);
 			} else {

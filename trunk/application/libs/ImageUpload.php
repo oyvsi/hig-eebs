@@ -52,10 +52,9 @@ class ImageUpload extends FileUpload {
 		$ratio = $this->thumbWidthRes / $this->res[0];
 		$thumbHeight = round($this->res[1] * $ratio);
 		$thumbPath =  $this->uploadDir . $this->fileName . self::$thumbPostfix . '.' . $this->fileExt;
-
 		if($this->fileExt == 'jpg' || $this->fileExt == 'jpeg') {
 			$origImage = imagecreatefromjpeg($this->fullPath);
-		} elseif($this->fileExt == 'png') {
+	} else if($this->fileExt == 'png') { 
 			$origImage = imagecreatefrompng($this->fullPath);
 		} else {
 			throw new Exception('Only thumbnails from jpg or png is supported');
@@ -65,6 +64,8 @@ class ImageUpload extends FileUpload {
 		$thumb = imagecopyresized($image, $origImage, 0, 0, 0, 0, $this->thumbWidthRes, $thumbHeight, $this->res[0], $this->res[1]);  
 
 		if($this->fileExt == 'jpg' || $this->fileExt == 'jpeg') {
+			$thumbImage = imagejpeg($image, $thumbPath);
+		} else if($this->fileExt == 'png') {
 			$thumbImage = imagepng($image, $thumbPath);
 		}
 		$this->thumbGenerated = true;
