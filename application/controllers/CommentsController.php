@@ -5,6 +5,8 @@ class CommentsController extends BaseController	{
    	private $fbUser;
 	private $blogpostModel;
 	private $commentModel;
+	private $postID = '';
+	private $post = '';
 	public function __construct() {
 		parent::__construct();
 		$this->commentModel = new CommentsModel();
@@ -16,22 +18,23 @@ class CommentsController extends BaseController	{
 
 	public function view() {
 		$blogName = $this->args[1];
-		$postID = $this->args[2];
+		$postURL = $this->args[2];
 		$id = isset($this->args[4]) ? $this->args[4] : false;
-		$post = $this->blogpostModel->getPost($blogName, $postID);
-		$isOwner = $this->correctUser($post[0]['userID']);
+		$this->post = $this->blogpostModel->getPost($blogName, $postURL);
+                $this->postID = $this->post[0]['postID'];
+		$isOwner = $this->correctUser($this->post[0]['userID']);
 		if($id !== false) {
 			$comments = $this->commentModel->getComment($id);
 		} else {
-			$comments = $this->commentModel->getComments($this->blogpostModel->postID);
+			$comments = $this->commentModel->getComments($this->postID);
 		}
 		$this->view->setVar('isOwner', $isOwner);	
 		$this->view->setVar('comments', $comments);
 
 		$user = false;
 
-		$userInput = new Form('comment', 'comments/commentDo/' . $postID, 'post');
-		#$userInput->addInput('hidden', 'redirect', false, $insertRedirect);
+		$userInput = new Form('comment', 'comments/commentDo/' . $this->postID, 'post');
+		$userInput->addInput('hidden', 'redirect', false, '/view/' . $blogName . '/' . $postURL);
 		if($this->user()) {
 			$user = $this->user->model->userName;
 		} else {
@@ -46,7 +49,6 @@ class CommentsController extends BaseController	{
 		$userInput->addTextArea('comment', 10, 60);
 		$userInput->addInput('submit', 'submit', false, 'Submit');
 
-		$this->view->renderHeader = false;
 		$this->view->setVar('commentForm', $userInput->genForm());
 		$this->view->setVar('userName', $user);
 		
@@ -59,7 +61,7 @@ class CommentsController extends BaseController	{
 				$userName = ($this->user()) ? $this->user->model->userName : $this->fbUser['username'];
 				$_POST['name'] = $userName;
 				$this->commentModel->insertComment($this->args[1], $_POST);	
-				//header('Location: '. __URL_PATH . $_POST['redirect'] . '/comments');
+				header('Location: '. __URL_PATH . 'comments' . $_POST['redirect']);
 			} else {
 				echo 'NOGO!'; print_r($_POST);
 			}
