@@ -1,8 +1,6 @@
 <?php
  
 class UserController extends BaseController	{
-
-
 	public function __construct() {
 		parent::__construct();
 		$this->model = new UserModel();
@@ -19,16 +17,20 @@ class UserController extends BaseController	{
 	}
 	
 	public function updateUser() {
-		try {
+		if($this->user) {
 			$this->model->fetchUserInfo($this->user->model->userID);
-			$this->model->updateUser($_REQUEST);
-			$this->view->setVar('message', 'Updated profile');
-		} catch(Exception $excpt) {
-			//die($excpt->getMessage());
-			//echo $excpt->getMessage();
-			$this->view->setError($excpt);
+			try {
+				$this->model->updateUser($_REQUEST);
+				$this->view->setVar('message', 'Updated profile');
+			} catch(Exception $excpt) {
+				//die($excpt->getMessage());
+				//echo $excpt->getMessage();
+				$this->view->setError($excpt);
+			}
+			$this->profile();	// No finally in php until 5.5 :(
+		} else {	
+			$this->view->setError(new Exception('Not accessible when not authed...'));
 		}
-	  $this->profile();	// No finally in php until 5.5 :(
 	}
 
 	public function createAccount() {
@@ -51,6 +53,7 @@ class UserController extends BaseController	{
 		$this->view->setVar('forgotPassword', $userInput->genForm());
 		$this->view->setVar('title', 'Forgot password');
 		$this->view->viewFile = 'user/forgotPassword';
+
 		try {
 			$this->model->forgotPassword($_REQUEST);
 		} catch (Exception $excpt){
