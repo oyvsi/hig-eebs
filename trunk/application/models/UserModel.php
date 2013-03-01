@@ -54,28 +54,20 @@ class UserModel extends BaseModel {
 	}
 
 	public function forgotPassword($params){
-		if(isset($_POST['submit'])){
-			$userName = $params['userName'];
-			//echo $userName;
-			if(!empty($userName)) {
-				$result = $this->getUser($userName);	
-				if($result == false) {				
-					throw new Exception('No matching username');
-				}
+		$userName = $params['userName'];
+		$user = $this->getUser($userName);	
+		if($user == false) {				
+			throw new Exception('No matching username');
+		}
 
-				$newPassword = Helpers::generateRandomPassword();
-				$sqlInsert = "UPDATE users SET password = :password WHERE userID = :userID";
-				$param = array(":password" => Helpers::hashPassword($newPassword), ":userID" => $result[0]['userID']);
+		$newPassword = Helpers::generateRandomPassword();
+		$sqlInsert = "UPDATE users SET password = :password WHERE userID = :userID";
+		$param = array(":password" => Helpers::hashPassword($newPassword), ":userID" => $user['userID']);
 
-				if(!$this->db->insert($sqlInsert, $param)){
-					$text = 'Hello, ' . $result['firstName'] . '. Your new password for HiG-EEBS is: ' . $newPassword;
-					//echo($text);
-					if (!PhpMail::mail($result['email'], 'New password', $text)){
-						throw new Exception('Mail not sent');
-					}
-				}
-			} else {
-				throw new Exception('No username entered');
+		if($this->db->insert($sqlInsert, $param)) {
+			$text = 'Hello, ' . $result['firstName'] . '. Your new password for HiG-EEBS is: ' . $newPassword;
+			if(!PhpMail::mail($result['email'], 'New password', $text)) {
+				throw new Exception('Mail not sent');
 			}
 		}
 	}
@@ -171,7 +163,7 @@ class UserModel extends BaseModel {
 				} 
 
 				$picture = null;
-				if(!empty($_FILES['picture'])) {
+				if(isset($_FILES['picture']['tmp_name']) && is_uploaded_file($_FILES['picture']['tmp_name'])) {
 					try {
 						$picture = $this->updateProfilePicture($_FILES['picture'], $userName);
 						$sql .= ', pictureID = :pictureID';
@@ -181,14 +173,14 @@ class UserModel extends BaseModel {
 					}
 				}
 
-					$sql = $sql . " WHERE userName = :loggedIn";
-//				echo $sql;
+				$sql = $sql . " WHERE userName = :loggedIn";
+				//				echo $sql;
 				$param += array(":userName" => $userName, ":firstName" => $firstName, ":lastName" => $lastName, 
 					":email" => $email, ":loggedIn" => $this->userName);
-//				print_r($param);
+				//				print_r($param);
 				$this->db->insert($sql, $param);
 
-			
+
 			} else {
 				throw new Exception('Username exists');
 			}
