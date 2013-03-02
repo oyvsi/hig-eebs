@@ -28,10 +28,8 @@ echo '<br>
 				<img src="'.__URL_PATH.$this->vars['userProfile']['pictureUrl'].'" height="280" width="280"/>
 			</div>
 		</div>
-	<br>
-		<div class="profile">
-			<h3>These are the blogs that '.$this->vars['userProfile']['userName'].' is involved with: </h3>
-		</div>';
+		</p>
+	<br>';
 
 /*
 print_r($this->vars['title']);

@@ -1,5 +1,4 @@
 <?php
-//print_r($this->vars);
 foreach($this->vars['blogPosts'] as $blogPost) {
 	extract($blogPost);
 	$postURL = 'blogpost/view/' . $blogPost['userName'] . '/' . $blogPost['postURL'];
@@ -10,7 +9,7 @@ foreach($this->vars['blogPosts'] as $blogPost) {
 	echo HTML::appLink($postURL,'Read more');
 	echo '<div class="blogPostFooter"><p class="commentsLink">';
 	echo HTML::appLink('comments/view/' .  $blogPost['userName'] . '/' . $blogPost['postURL'], $noComments . ' comment' . ($noComments != 1 ? 's' : ''));
-	echo '</p><p class="byLine">By ' . HTML::appLink('user/profile/' . $userName, $userName) . ' ' . date('d.m.Y H:i', $timestamp) . '</p>';
+	echo '</p><p class="byLine">By ' . HTML::appLink('blog/view/' . $userName, $userName) . ' ' . date('d.m.Y H:i', $timestamp) . '</p>';
 	echo '<div style="clear: both;"></div></div></div>';
 	
 }

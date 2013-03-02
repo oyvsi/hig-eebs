@@ -67,12 +67,13 @@ class UserController extends BaseController	{
 	public function profile() {
 		if(isset($this->args[1])) {
 			//echo 'Show info for user ' . $this->args[1];
-			$this->model->fetchUserProfile($this->args[1]);
-			$this->view->setVar('userProfile', $this->model->getUserProfile());
-			$this->view->setVar('title', $this->model->userName);
-			$this->view->viewFile = 'user/profile';
+			//$this->view->addViewFile('blogPosts');
+			$this->view->addViewFile('user/profile');
+			$blog = new BlogController();
+			$blog->view($this->args[1]);
 		}
 		elseif($this->user()) {
+
 			$userData = $this->model->fetchUserInfo($_SESSION['userID']);
 			$userData['password2'] = $userData['password'] = $userData['picture'] = '';
 
@@ -87,7 +88,7 @@ class UserController extends BaseController	{
 				$this->view->setVar('profilePicture', $userData['pictureURL']);
 				$this->view->setVar('profilePictureThumb', ImageUpload::thumbURLfromURL($userData['pictureURL']));
 			}
-			$this->view->viewFile = 'user/createAccount';	
+			$this->view->addViewFile('user/createAccount');	
 		}
 		else {
 			echo 'No username specified and you\'re not authed. Goodbye from userController';

@@ -5,7 +5,8 @@ class View {
 	private $error = false;
 	public $renderHeader = true;
 	public $renderFooter = true;
-	public $viewFile = false;	
+	protected $viewFile = array();
+
 
 	public function setVar($key, $value) {
 		$this->vars[$key] = $value;
@@ -24,12 +25,19 @@ class View {
 	         require(__SITE_PATH . '/application/views/error.php');
 		} 	
 		
-		if($this->viewFile  !== false) {
-		 require(__SITE_PATH . '/application/views/' . $this->viewFile . '.php');
-		}
+		if(!empty($this->viewFile)) {
+			foreach($this->viewFile as $views) {
+					require(__SITE_PATH . '/application/views/' . $views . '.php');
+			}
+		} 
 		
 		if($this->renderFooter === true) {
 		 require(__SITE_PATH . '/application/views/footer.php');
 		}
+	}
+
+
+	public function addViewFile($viewFile) {
+		array_push($this->viewFile, $viewFile);
 	}	
 } 

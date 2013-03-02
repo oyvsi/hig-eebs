@@ -35,6 +35,7 @@
 ?>
 		</ul>
 		</div>
+		
 	<div id="contents">
 <?php
 			if(isset($this->vars['message'])) {

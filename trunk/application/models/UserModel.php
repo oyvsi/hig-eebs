@@ -25,7 +25,7 @@ class UserModel extends BaseModel {
 		}
 		if($userInfo['pictureID']) {
 			$sql = 'SELECT * FROM pictures WHERE pictureID = :pictureID';
-			$pic = $this->db->selectOne($sql, array(':pictureID' => $userInfo['pictureID']));
+			$pic = $this->db->selectOne($sql, array('pictureID' => $userInfo['pictureID']));
 			$userInfo['pictureURL'] = $pic['url'];
 		} else {
 			$userInfo['pictureURL'] = null;
@@ -49,6 +49,12 @@ class UserModel extends BaseModel {
 		return $result;
 	}
 
+	public function getField($field, $userName) {
+		$sql = 'SELECT ' . $field . ' FROM users WHERE userName = :userName';
+
+		return $this->db->selectOne($sql, array('userName' => $userName));
+	}
+
 	private function getUser($userName) {
 		$sql = 'SELECT * FROM users WHERE userName = :userName';
 		return $this->db->selectOne($sql, array('userName' => $userName));
@@ -64,7 +70,6 @@ class UserModel extends BaseModel {
 
 		return array('userName' => $this->userName, 'firstName' => $this->firstName, 'lastName' => $this->lastName, 'email' => $this->email, 'pictureUrl' => $this->pictureID);
 	}
-
 
 	public function forgotPassword($params){
 		
