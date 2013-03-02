@@ -66,7 +66,7 @@ class UserController extends BaseController	{
 
 	public function profile() {
 		if(isset($this->args[1])) {
-			echo 'Show info for user ' . $this->args[1];
+			//echo 'Show info for user ' . $this->args[1];
 			$this->model->fetchUserProfile($this->args[1]);
 			$this->view->setVar('userProfile', $this->model->getUserProfile());
 			$this->view->setVar('title', $this->model->userName);

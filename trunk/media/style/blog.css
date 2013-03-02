@@ -44,12 +44,42 @@
 	margin-right: 15px;
 }
 
+div .profile {
+	text-align: left;
+	width: 600px;
+	background: #ddd;
+	overflow: hidden;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+div .info {
+	width: 50%;
+	height: 300px;
+	float: left;
+	position: relative;
+}
+
+div .picture {
+	margin-left: 300px;
+	height: 300px;
+	border: 10px solid #ddd;
+}
+
+div .inner {
+	position: absolute;
+	top: 50%;
+	height: 10em;
+	margin-top: -5em;
+}
+
 #footer {
 margin-top: 2%;
 text-align: center;
 background-color: gray;
-/*position:absolute;
-bottom:0;*/
+bottom: 0px;
+position: fixed;
+width: 100%;
 }
 
 #navigation {
@@ -107,4 +137,3 @@ bottom:0;*/
 	padding: 5px;
 }
 					 */
-
