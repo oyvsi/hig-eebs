@@ -5,13 +5,14 @@ class IndexController extends BaseController {
 		parent::__construct();
 		$this->model = new IndexModel();
 		$this->view->setVar('title', 'HiG-eebs');
+		$this->view->addViewFile('blogPosts');
+
 	}
 
 	public function loadIndex() {
 		if($this->user) {
 			echo 'Welcome, '. $this->user->model->userName;
 			$this->view->setVar('blogPosts', $this->model->getPostsByUser($this->user->model->userID));
-			$this->view->viewFile = 'blogPosts';
 		} else {
 			$this->lastPosts();
 		}
@@ -20,18 +21,15 @@ class IndexController extends BaseController {
 	public function mostRead() {
 		$this->view->setVar('title', 'Most read');
 		$this->view->setVar('blogPosts', $this->model->mostRead(14));
-		$this->view->viewFile = 'blogPosts';	
 	}
 
 	public function mostCommented() {
 		$this->view->setVar('title', 'Most commented');
 		$this->view->setVar('blogPosts', $this->model->mostCommented(14));
-		$this->view->viewFile = 'blogPosts';
 	}
 
 	public function lastPosts() {
 		$this->view->setVar('title', 'Bloggsystem2kPro');
 		$this->view->setVar('blogPosts', $this->model->lastPosts(10));
-		$this->view->viewFile = 'blogPosts';
 	}
 }
