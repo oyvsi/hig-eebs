@@ -18,33 +18,46 @@ class BlogpostController extends BaseController {
 	}
 
 	public function view() {
+		$this->view->viewFile = 'blog/blogPost';
 		$this->loadComments = (isset($this->args[3]) && $this->args[3] == 'comments');
-		$commentID = isset($this->args[4]) ? $this->args[4] : false;
-		$post = $this->model->getPost($this->args[1], $this->args[2]);
-		$isOwner = $this->correctUser($post[0]['userID']);
-		$this->view->setVar('isOwner', $isOwner);
-		$this->view->setVar('blogPosts', $post);
+		$commentID = isset($this->args[4]) ? $this->args[4] : false;  // see specific comment
+
 		if($this->loadComments) { // TODO: Fix this
 			$this->view->renderFooter = false;
 		}
-		$this->view->viewFile = 'blog/blogPost';
-		$this->model->updatePostViewCount($this->model->postID);
 
-		if($this->loadComments) {
-			$url = 'blogpost/view/'. $this->args[1] . '/' . $this->args[2];
-			$commentsController = new CommentsController();
-			$commentsController->loadComments($this->model->postID, $url, $commentID, $isOwner);
+		try {
+			$post = $this->model->getPostFromURL($this->args[1], $this->args[2]);
+			$isOwner = $this->correctUser($post['userID']);
+			$this->view->setVar('isOwner', $isOwner);
+			$this->view->setVar('blogPosts', array($post));
+			$this->model->updatePostViewCount($this->model->postID);
+
+			if($this->loadComments) {
+				$url = 'blogpost/view/'. $this->args[1] . '/' . $this->args[2];
+				$commentsController = new CommentsController();
+				try {
+					$commentsController->loadComments($this->model->postID, $url, $commentID, $isOwner);
+				} catch(Exception $excpt) {
+					$this->view->setError($excpt);
+				}
+			}
+
+		}
+		catch(Exception $excpt) {
+			$this->view->setError($excpt);
 		}
 	}
 
-	public function create($value = false) {
+	public function create($updateID = false) {
 		// umh Should it be here???
-		if ($value !== false){
-			$post = $this->model->getPostValues($value);
-			$form = new Form('blogPost', 'blogpost/updateDo/' . $value, 'POST');
-			$form->addInput('text', 'title', 'Title: ', $post[0]['postTitle']);
-			$form->addTextArea('postIngress', 5, 100, 'Ingress', $post[0]['postIngress']);
-			$form->addTextArea('postText', 30, 100, 'Post text', $post[0]['postText']);
+		if ($updateID !== false){
+			$post = $this->model->getPostFromID($updateID);
+
+			$form = new Form('blogPost', 'blogpost/updateDo/' . $updateID, 'POST');
+			$form->addInput('text', 'title', 'Title: ', $post['postTitle']);
+			$form->addTextArea('postIngress', 5, 100, 'Ingress', $post['postIngress']);
+			$form->addTextArea('postText', 30, 100, 'Post text', $post['postText']);
 			//print_r($post);
 		} else {
 			$form = new Form('blogPost', 'blogpost/createDo', 'POST');
@@ -72,17 +85,18 @@ class BlogpostController extends BaseController {
 		$postID = $this->args[1];
 		$this->create($postID);
 	}
-	
+
 	public function updateDo() {
 		try {
-			$url = $this->model->createPost($_POST, $this->args[1], true);
+//			print_r($_POST);
+			$url = $this->model->createPost($_POST, false, $this->args[1]);
 			HTML::redirect('blogpost/view/' . $this->user->model->userName . '/' . $url);
 		} catch(Exception $excpt) {
 			$this->view->setError($excpt);	
-			$this->create();
+			$this->update();
 		}
 	}
-	
+
 	public function delete() {
 		try {
 			$this->model->deletePost($this->args[1]);
@@ -95,7 +109,7 @@ class BlogpostController extends BaseController {
 	public function flag() {
 		echo 'Mark no-good';
 	}
-	
+
 	public function correctUser($userID){
 		return ($this->user && $this->user->model->userID == $userID);
 	}

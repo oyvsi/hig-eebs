@@ -54,10 +54,13 @@ class UserController extends BaseController	{
 		$this->view->setVar('title', 'Forgot password');
 		$this->view->viewFile = 'user/forgotPassword';
 
-		try {
-			$this->model->forgotPassword($_REQUEST);
-		} catch (Exception $excpt){
-			$this->view->setError($excpt);
+		if(isset($_POST['userName'])) {
+			try {
+				$this->model->forgotPassword($_REQUEST);
+				$this->view->setVar('message', 'We sent you an email with a new password');
+			} catch (Exception $excpt){
+				$this->view->setError($excpt);
+			}
 		}
 	}
 
