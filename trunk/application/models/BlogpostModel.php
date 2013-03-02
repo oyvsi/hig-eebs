@@ -5,13 +5,31 @@ class BlogpostModel extends BaseModel {
 		parent::__construct();
 	}	
 
-	public function getPost($blogName, $postURL) {
-		$userID = $this->db->select('SELECT userID from users WHERE userName = :userName', array(':userName' => $blogName));
+	public function getPostFromID($postID) {
+		$query = "SELECT * FROM blogPosts WHERE postID = :postID";
+		$found = $this->db->selectOne($query, array(':postID' => $postID));
+		if ($found) {
+			return $found;
+		} else {
+			throw new Exception('Blogpost not found');
+		}
+
+	}
+	public function getPostFromURL($blogName, $postURL) {
+		$userID = $this->db->selectOne('SELECT userID from users WHERE userName = :userName', array(':userName' => $blogName));
+		if($userID === false) {
+			throw new Exception('Error. No such user');
+		}
+
 		$query = 'SELECT blogPosts.*, (SELECT COUNT(comments.commentID) FROM comments WHERE comments.postID = blogPosts.postID AND comments.deleted = 0) as noComments FROM blogPosts 
-						WHERE blogPosts.postURL = :postURL AND blogPosts.userID = :userID';
-		$result = $this->db->select($query, array('postURL' => $postURL, 'userID' => $userID[0]['userID']));
-		$result[0]['userName'] = $blogName;
-		$this->setInfo($result[0]);
+			WHERE blogPosts.postURL = :postURL AND blogPosts.userID = :userID';
+		$result = $this->db->selectOne($query, array('postURL' => $postURL, 'userID' => $userID['userID']));
+		if($result === false) {
+			throw new Exception('Unable to get blogpost');
+		}
+
+		$result['userName'] = $blogName;
+		$this->setInfo($result);
 
 		return $result;
 	}
@@ -21,19 +39,19 @@ class BlogpostModel extends BaseModel {
 		$ipAddress = BlogModel::getRealIpAddress();
 		$reReadLimit = 24;
 		$limitTime = strtotime('-' . $reReadLimit . ' hours');
-		$check = $this->db->select('SELECT viewID FROM postViews 
+		$check = $this->db->selectOne('SELECT viewID FROM postViews 
 			WHERE postID = :postID AND ipAddress = :ipAddress AND timestamp BETWEEN :startTime AND :stopTime',
 			array(':postID' => $postID, ':ipAddress' => $ipAddress, ':startTime' => $limitTime, ':stopTime' => time()));
 
 		// User has not seen this post yet, or not since timelimit. Insert a post view.
-		if(count($check) == 0) {
+		if($check === false) {
 			$query = 'INSERT INTO postViews(postID, timestamp, ipAddress) VALUES (:postID, :timestamp, :ipAddress)';
 			$values = array(':postID' => $postID, ':timestamp' => time(), 'ipAddress' => $_SERVER['REMOTE_ADDR']); 
 			$this->db->insert($query, $values);
 		}
 	}
 
-	public function createPost($data, $userID, $update = false) {
+	public function createPost($data, $userID, $updatePostID = false) {
 		// Do some validation shit and check for XSS
 		$validate = new ValidateForm($data);
 		$validate->setRequired(array('title', 'postIngress', 'postText'));
@@ -47,20 +65,19 @@ class BlogpostModel extends BaseModel {
 		$ingress = $data['postIngress'];
 		$contents = $data['postText'];
 		$url = Helpers::makePostUrl($title);
-		if ($update !== false) {
-			echo "her er eg!!";
-			$titleEdited = $this->db->select('SELECT postTitle, userID, postURL FROM blogPosts WHERE postID = :postID', array(':postID' => $userID));
-			if ($titleEdited['postTitle'] == $title);
-			else {
-				$notUnique = $this->db->select('SELECT postID FROM blogPosts WHERE userID = :userID AND postURL = :postURL', array(':userID' => $titleEdited['userID'], ':postURL' => $titleEdited['postURL']));
-				if(count($notUnique)) {
+
+		if ($updatePostID !== false) { // Updating existing post
+			$post = $this->getPostFromID($updatePostID);
+			if ($post['postTitle'] != $title) {
+				$notUnique = $this->db->selectOne('SELECT postID FROM blogPosts WHERE userID = :userID AND postURL = :postURL', array(':userID' => $post['userID'], ':postURL' => $url));
+				if($notUnique) {
 					$url .= '_';
 				}
 			}
 			$query = 'UPDATE blogPosts SET postTitle = :postTitle, postURL = :postURL, postText = :postText, postIngress = :postIngress WHERE postID = :postID';
-			$this->db->insert($query, array(':postTitle' => $title, ':postURL' => $url, ':postText' => $contents, ':postIngress' => $ingress, ':postID' => $userID));
-			
-		} else {
+			$this->db->insert($query, array(':postTitle' => $title, ':postURL' => $url, ':postText' => $contents, ':postIngress' => $ingress, ':postID' => $updatePostID));
+
+		} else { // Inserting a new post
 			$notUnique = $this->db->select('SELECT postID FROM blogPosts WHERE userID = :userID AND postURL = :postURL', array(':userID' => $userID, ':postURL' => $url));
 			if(count($notUnique)) {
 				$url .= '_';
@@ -71,7 +88,7 @@ class BlogpostModel extends BaseModel {
 
 		return $url;
 	}
-	
+
 	public function deletePost($postID) {
 		$find = "SELECT * FROM blogPosts WHERE postID = :postID";
 		$found = $this->db->select($find, array(':postID' => $postID));
@@ -82,15 +99,6 @@ class BlogpostModel extends BaseModel {
 			throw new Exception('Blogpost not found');
 		}
 	}
-	
-	public function getPostValues($postID) {
-		$query = "SELECT * FROM blogPosts WHERE postID = :postID";
-		$found = $this->db->select($query, array(':postID' => $postID));
-		if (count($found != 0)) {
-			return $found;
-		} else {
-			throw new Exception('Blogpost not found');
-		}
-		
-	}
+
+
 }

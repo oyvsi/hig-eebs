@@ -2,11 +2,12 @@
  
 class CommentsController extends BaseController	{
 	private $fb;
-   	private $fbUser;
+   private $fbUser;
 	private $blogpostModel;
 	private $commentModel;
-	private $postID = '';
-	private $post = '';
+	private $postID;
+	private $post;
+
 	public function __construct() {
 		parent::__construct();
 		$this->commentModel = new CommentsModel();
@@ -20,9 +21,10 @@ class CommentsController extends BaseController	{
 		$blogName = $this->args[1];
 		$postURL = $this->args[2];
 		$id = isset($this->args[4]) ? $this->args[4] : false;
-		$this->post = $this->blogpostModel->getPost($blogName, $postURL);
-                $this->postID = $this->post[0]['postID'];
-		$isOwner = $this->correctUser($this->post[0]['userID']);
+		$this->post = $this->blogpostModel->getPostFromURL($blogName, $postURL);
+      $this->postID = $this->post['postID'];
+		$isOwner = $this->correctUser($this->post['userID']);
+
 		if($id !== false) {
 			$comments = $this->commentModel->getComment($id);
 		} else {
@@ -34,7 +36,7 @@ class CommentsController extends BaseController	{
 		$user = false;
 
 		$userInput = new Form('comment', 'comments/commentDo/' . $this->postID, 'post');
-		$userInput->addInput('hidden', 'redirect', false, '/view/' . $blogName . '/' . $postURL);
+		$userInput->addInput('hidden', 'redirect', false, 'blogpost/view/' . $blogName . '/' . $postURL);
 		if($this->user()) {
 			$user = $this->user->model->userName;
 		} else {
@@ -57,14 +59,21 @@ class CommentsController extends BaseController	{
 
 	public function commentDo() {
 		if($this->user() || $this->fbUser) { 
-			if(isset($this->args[1]) && isset($_POST['comment'])) {
+			if(isset($this->args[1]) && isset($_POST['comment']) && isset($_POST['redirect'])) {
 				$userName = ($this->user()) ? $this->user->model->userName : $this->fbUser['username'];
 				$_POST['name'] = $userName;
-				print_r($this->args);
-				$this->commentModel->insertComment($this->args[1], $_POST);	
-				header('Location: '. __URL_PATH . 'comments' . $_POST['redirect']);
+
+				try {
+					$this->commentModel->insertComment($this->args[1], $_POST);	
+					print_r($_POST);
+					HTML::redirect($_POST['redirect']);
+				} catch(Exception $excpt) {
+					$this->view->setError($excpt);
+				}
+
+				//				header('Location: '. __URL_PATH . 'comments' . $_POST['redirect']);
 			} else {
-				echo 'NOGO!'; print_r($_POST);
+				$this->view->setError(new Exception('Unable to set up function'));
 			}
 		}
 	}
@@ -77,7 +86,7 @@ class CommentsController extends BaseController	{
 			$this->view->setVar('form', $form->genForm());
 			$this->view->viewFile = 'reportComment';
 		} 
-		
+
 		if(isset($_POST['reportComment'])) {
 			try {
 				$this->commentModel->flagComment($_POST['commentID'], $_POST);
@@ -91,12 +100,12 @@ class CommentsController extends BaseController	{
 
 	public function getFlagged() {
 		try {
-		$data = $this->commentModel->getFlagged();
-		$this->view->setVar('flagged', $data);
-		$this->view->viewFile = 'admin/flaggedComments';
+			$data = $this->commentModel->getFlagged();
+			$this->view->setVar('flagged', $data);
+			$this->view->viewFile = 'admin/flaggedComments';
 		} catch(Exception $excpt) {
 			$this->view->setError($excpt);
-				
+
 		}
 	}
 
@@ -105,9 +114,9 @@ class CommentsController extends BaseController	{
 			$this->commentModel->delete($this->args[1]);
 		}
 	}
-	
-         public function correctUser($userID){
-                return ($this->user && $this->user->model->userID == $userID);
-        }
+
+	public function correctUser($userID){
+		return ($this->user && $this->user->model->userID == $userID);
+	}
 
 }

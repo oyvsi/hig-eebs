@@ -54,6 +54,7 @@ class UserModel extends BaseModel {
 	}
 
 	public function forgotPassword($params){
+		
 		$userName = $params['userName'];
 		$user = $this->getUser($userName);	
 		if($user == false) {				
@@ -63,13 +64,14 @@ class UserModel extends BaseModel {
 		$newPassword = Helpers::generateRandomPassword();
 		$sqlInsert = "UPDATE users SET password = :password WHERE userID = :userID";
 		$param = array(":password" => Helpers::hashPassword($newPassword), ":userID" => $user['userID']);
-
-		if($this->db->insert($sqlInsert, $param)) {
-			$text = 'Hello, ' . $result['firstName'] . '. Your new password for HiG-EEBS is: ' . $newPassword;
-			if(!PhpMail::mail($result['email'], 'New password', $text)) {
+//		if($this->db->insert($sqlInsert, $param)) { //TODO: won't work cause insert func will return 0 on update
+			$text = 'Hello, ' . $user['firstName'] . '. Your new password for HiG-EEBS is: ' . $newPassword;
+			if(!PhpMail::mail($user['email'], 'New password', $text)) {
 				throw new Exception('Mail not sent');
 			}
-		}
+//		} else {
+//			echo "error";
+//		}
 	}
 
 	public function checkLogin($userInfo) {
