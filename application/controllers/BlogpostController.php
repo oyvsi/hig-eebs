@@ -18,7 +18,7 @@ class BlogpostController extends BaseController {
 	}
 
 	public function view() {
-		$this->view->viewFile = 'blog/blogPost';
+		$this->view->addViewFile('blog/blogPost');
 		$this->loadComments = (isset($this->args[3]) && $this->args[3] == 'comments');
 		$commentID = isset($this->args[4]) ? $this->args[4] : false;  // see specific comment
 
@@ -68,7 +68,7 @@ class BlogpostController extends BaseController {
 		$form->addInput('submit', 'Submit');
 		$this->view->setVar('form', $form->genForm());
 		$this->view->setVar('title', 'New post');
-		$this->view->viewFile = 'blog/createPost';
+		$this->view->addViewFile('blog/createPost');
 	}
 
 	public function createDo() {

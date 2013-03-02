@@ -17,20 +17,15 @@ class BlogController extends BaseController {
 	public function view() {	
 		$this->blogName = (isset($this->args[1])) ? $this->args[1] : NULL;
 		if($this->blogName !== NULL) {
-			$this->userModel->fetchUserProfile($this->blogName);
-
-			$userID = $this->userModel->getField('userID', $this->blogName);
-
-			$this->view->setVar('blogPosts', $this->indexModel->getPostsByUser($userID['userID']));
-			
-			$this->view->setVar('userProfile', $this->userModel->getUserProfile());
-
+			$user = $this->userModel->fetchUserProfile($this->blogName);
+			$this->view->setVar('blogPosts', $this->indexModel->getPostsByUser($user['userID']));
+			$this->view->setVar('userProfile', $user);
 
 			$this->view->addViewFile('user/profile');
 			$this->view->addViewFile('blogPosts');
 			
 		} else {
-			$this->view->viewFile = 'blog/index';
+			$this->view->addViewFile = 'blog/index';
 		
 		}
 		//$this->model->updateViewCount($this->blogName);

@@ -66,8 +66,6 @@ class UserController extends BaseController	{
 
 	public function profile() {
 		if(isset($this->args[1])) {
-			//echo 'Show info for user ' . $this->args[1];
-			//$this->view->addViewFile('blogPosts');
 			$this->view->addViewFile('user/profile');
 			$blog = new BlogController();
 			$blog->view($this->args[1]);
@@ -82,12 +80,10 @@ class UserController extends BaseController	{
 				$userInput->addInput($userField['fieldType'], $userField['table'], $userField['view'], $userData[$userField['table']]);
 			}
 			$userInput->addInput('submit', 'submit', false, 'Submit');
+
+			$this->view->setVar('userInfo', $userData);
 			$this->view->setVar('title', $this->model->userName);
 			$this->view->setVar('createAccount', $userInput->genForm());
-			if($userData['pictureURL'] != null) {
-				$this->view->setVar('profilePicture', $userData['pictureURL']);
-				$this->view->setVar('profilePictureThumb', ImageUpload::thumbURLfromURL($userData['pictureURL']));
-			}
 			$this->view->addViewFile('user/createAccount');	
 		}
 		else {
@@ -103,7 +99,7 @@ class UserController extends BaseController	{
 		if(Auth::checkLogin()) {
 			echo "Logged in already...";
 		} else {
-			$this->view->viewFile = 'login';
+			$this->view->addViewFile('login');
 		}	
 	}
 	public function loginDo() {
