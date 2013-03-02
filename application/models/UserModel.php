@@ -38,9 +38,14 @@ class UserModel extends BaseModel {
 		$result = $this->getUser($userName);
 		if($result === false) {
 			throw new Exception('Unable to fetch info for user');
-	}
-		$this->setInfo($result);
+		}
 
+		//give 'hig-eebs\media\images\defaultProfileImage.png' a pictureID within the databse, and set it to default for all users?
+		if(!$result['pictureID']) {
+			$result['pictureID'] = '/media/images/defaultProfileImage.png';
+		}
+		
+		$this->setInfo($result);
 		return $result;
 	}
 
@@ -49,9 +54,17 @@ class UserModel extends BaseModel {
 		return $this->db->selectOne($sql, array('userName' => $userName));
 	}	
 
-	public function getUserProfile() {
-		return array('userName' => $this->userName, 'firstName' => $this->firstName);
+	private function getPicture($pictureId) {
+		$sql = 'SELECT url FROM pictures WHERE pictureID = :pictureId';
+		return $this->db->selectOne($sql, array('pictureId' => $pictureId));
 	}
+
+
+	public function getUserProfile() {
+
+		return array('userName' => $this->userName, 'firstName' => $this->firstName, 'lastName' => $this->lastName, 'email' => $this->email, 'pictureUrl' => $this->pictureID);
+	}
+
 
 	public function forgotPassword($params){
 		
