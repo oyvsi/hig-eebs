@@ -77,6 +77,7 @@ class UserModel extends BaseModel {
 		$newPassword = Helpers::generateRandomPassword();
 		$sqlInsert = "UPDATE users SET password = :password WHERE userID = :userID";
 		$param = array(":password" => Helpers::hashPassword($newPassword), ":userID" => $user['userID']);
+		$this->db->insert($sqlInsert, $param);
 //		if($this->db->insert($sqlInsert, $param)) { //TODO: won't work cause insert func will return 0 on update
 			$text = 'Hello, ' . $user['firstName'] . '. Your new password for HiG-EEBS is: ' . $newPassword;
 			if(!PhpMail::mail($user['email'], 'New password', $text)) {
