@@ -37,12 +37,21 @@ class BlogpostController extends BaseController {
 		}
 	}
 
-	public function create() {
+	public function create($value = false) {
 		// umh Should it be here???
-		$form = new Form('blogPost', 'blogpost/createDo', 'POST');
-		$form->addInput('text', 'title', 'Title: ');
-		$form->addTextArea('postIngress', 5, 100, 'Ingress');
-		$form->addTextArea('postText', 30, 100, 'Post text');
+		if ($value !== false){
+			$post = $this->model->getPostValues($value);
+			$form = new Form('blogPost', 'blogpost/updateDo/' . $value, 'POST');
+			$form->addInput('text', 'title', 'Title: ', $post[0]['postTitle']);
+			$form->addTextArea('postIngress', 5, 100, 'Ingress', $post[0]['postIngress']);
+			$form->addTextArea('postText', 30, 100, 'Post text', $post[0]['postText']);
+			//print_r($post);
+		} else {
+			$form = new Form('blogPost', 'blogpost/createDo', 'POST');
+			$form->addInput('text', 'title', 'Title: ');
+			$form->addTextArea('postIngress', 5, 100, 'Ingress');
+			$form->addTextArea('postText', 30, 100, 'Post text');
+		}
 		$form->addInput('submit', 'Submit');
 		$this->view->setVar('form', $form->genForm());
 		$this->view->setVar('title', 'New post');
@@ -52,7 +61,7 @@ class BlogpostController extends BaseController {
 	public function createDo() {
 		try {
 			$url = $this->model->createPost($_POST, $this->user->model->userID);
-			HTML::redirect('blog/view/' . $this->user->model->userName . '/' . $url);
+			HTML::redirect('blogpost/view/' . $this->user->model->userName . '/' . $url);
 		} catch(Exception $excpt) {
 			$this->view->setError($excpt);	
 			$this->create();
@@ -60,7 +69,18 @@ class BlogpostController extends BaseController {
 	}
 
 	public function update() {
-		//$this->create(true);
+		$postID = $this->args[1];
+		$this->create($postID);
+	}
+	
+	public function updateDo() {
+		try {
+			$url = $this->model->createPost($_POST, $this->args[1], true);
+			HTML::redirect('blogpost/view/' . $this->user->model->userName . '/' . $url);
+		} catch(Exception $excpt) {
+			$this->view->setError($excpt);	
+			$this->create();
+		}
 	}
 	
 	public function delete() {
