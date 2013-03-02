@@ -17,34 +17,41 @@ class UserModel extends BaseModel {
 		return $this->userFields;
 	}
 
+	private function getUser($userName) {
+		$user = $this->getField('userID', $userName);
+		return $this->fetchUserInfo($user['userID']);
+	}	
+
 	public function fetchUserInfo($userID) {
 		$sql = 'SELECT * FROM users WHERE userID = :userID';
-		$userInfo = $this->db->selectOne($sql, array('userID' => $userID));
+		$userInfo = $this->db->selectOne($sql, array(':userID' => $userID));
 		if($userInfo === false) {
 			throw new Exception('Unable to fetch info for user');
 		}
-		if($userInfo['pictureID']) {
+		if($userInfo['pictureID'] != null) {
 			$sql = 'SELECT * FROM pictures WHERE pictureID = :pictureID';
 			$pic = $this->db->selectOne($sql, array('pictureID' => $userInfo['pictureID']));
-			$userInfo['pictureURL'] = $pic['url'];
+			$userInfo['profilePicture'] = $pic['url'];
+
 		} else {
-			$userInfo['pictureURL'] = null;
+			$userInfo['profilePicture'] = __URL_PATH . 'media/images/defaultProfileImage.png';
 		}
+		$userInfo['profilePictureThumb'] = ImageUpload::thumbURLfromURL($userInfo['profilePicture']);
 		$this->setInfo($userInfo);
 
 		return $userInfo;
 	} 
+
 	public function fetchUserProfile($userName) {
 		$result = $this->getUser($userName);
 		if($result === false) {
 			throw new Exception('Unable to fetch info for user');
 		}
-
-		//give 'hig-eebs\media\images\defaultProfileImage.png' a pictureID within the databse, and set it to default for all users?
+/*
 		if(!$result['pictureID']) {
 			$result['pictureID'] = '/media/images/defaultProfileImage.png';
 		}
-		
+ */
 		$this->setInfo($result);
 		return $result;
 	}
@@ -55,24 +62,15 @@ class UserModel extends BaseModel {
 		return $this->db->selectOne($sql, array('userName' => $userName));
 	}
 
-	private function getUser($userName) {
-		$sql = 'SELECT * FROM users WHERE userName = :userName';
-		return $this->db->selectOne($sql, array('userName' => $userName));
-	}	
+
 
 	private function getPicture($pictureId) {
 		$sql = 'SELECT url FROM pictures WHERE pictureID = :pictureId';
 		return $this->db->selectOne($sql, array('pictureId' => $pictureId));
 	}
 
-
-	public function getUserProfile() {
-
-		return array('userName' => $this->userName, 'firstName' => $this->firstName, 'lastName' => $this->lastName, 'email' => $this->email, 'pictureUrl' => $this->pictureID);
-	}
-
 	public function forgotPassword($params){
-		
+
 		$userName = $params['userName'];
 		$user = $this->getUser($userName);	
 		if($user == false) {				
@@ -83,14 +81,14 @@ class UserModel extends BaseModel {
 		$sqlInsert = "UPDATE users SET password = :password WHERE userID = :userID";
 		$param = array(":password" => Helpers::hashPassword($newPassword), ":userID" => $user['userID']);
 		$this->db->insert($sqlInsert, $param);
-//		if($this->db->insert($sqlInsert, $param)) { //TODO: won't work cause insert func will return 0 on update
-			$text = 'Hello, ' . $user['firstName'] . '. Your new password for HiG-EEBS is: ' . $newPassword;
-			if(!PhpMail::mail($user['email'], 'New password', $text)) {
-				throw new Exception('Mail not sent');
-			}
-//		} else {
-//			echo "error";
-//		}
+		//		if($this->db->insert($sqlInsert, $param)) { //TODO: won't work cause insert func will return 0 on update
+		$text = 'Hello, ' . $user['firstName'] . '. Your new password for HiG-EEBS is: ' . $newPassword;
+		if(!PhpMail::mail($user['email'], 'New password', $text)) {
+			throw new Exception('Mail not sent');
+		}
+		//		} else {
+		//			echo "error";
+		//		}
 	}
 
 	public function checkLogin($userInfo) {
@@ -135,7 +133,7 @@ class UserModel extends BaseModel {
 				if($this->getUser($userName) === false) {
 
 					$picture = null;
-					if(!empty($_FILES['picture'])) {
+					if(isset($_FILES['picture']['tmp_name']) && is_uploaded_file($_FILES['picture']['tmp_name'])) {
 						try {
 							$picture = $this->updateProfilePicture($_FILES['picture'], $userName);
 						} catch(Exception $excpt) {

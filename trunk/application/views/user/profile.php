@@ -24,8 +24,8 @@ echo '<br>
 					</table>
 				</div>
 			</div>
-			<div class="picture">
-				<img src="'.__URL_PATH.$this->vars['userProfile']['pictureUrl'].'" height="280" width="280"/>
+			<div class="picture">' .
+				HTML::fancyBoxImage($this->vars['userProfile']['profilePicture'], $this->vars['userProfile']['profilePictureThumb']) . ' 
 			</div>
 		</div>
 		</p>
