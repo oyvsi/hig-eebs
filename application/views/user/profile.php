@@ -1,40 +1,32 @@
 <?php
-
-echo '<br> 
+extract($this->vars['userProfile']);
+echo '
 		<div class="profile">
+			<div class="picture">
+				'. HTML::fancyBoxImage($this->vars['userProfile']['profilePicture'], $this->vars['userProfile']['profilePictureThumb']) . ' 
+			</div>
 			<div class="info">
 				<div class="inner">
 					<table>
 						<tr>
 							<th>Username:</th>
-							<td>&nbsp;'.$this->vars['userProfile']['userName'].'</td>
+							<td>&nbsp;'.$userName.'</td>
 						</tr>
 						<tr>
 							<th>First Name:</th>
-							<td>&nbsp;'.$this->vars['userProfile']['firstName'].'</td>
+							<td>&nbsp;'.$firstName.'</td>
 						</tr>
 						<tr>
 							<th>Last Name:</th>
-							<td>&nbsp;'.$this->vars['userProfile']['lastName'].'</td>
+							<td>&nbsp;'.$lastName.'</td>
 						</tr>
 						<tr>
 							<th>Email:</th>
-							<td>&nbsp;'.$this->vars['userProfile']['email'].'</td>
+							<td>&nbsp;'.$email.'</td>
 						</tr>
 					</table>
 				</div>
 			</div>
-			<div class="picture">' .
-				HTML::fancyBoxImage($this->vars['userProfile']['profilePicture'], $this->vars['userProfile']['profilePictureThumb']) . ' 
+
 			</div>
-		</div>
-		</p>
-	<br>';
-
-/*
-print_r($this->vars['title']);
-print_r($this->vars['userProfile']['userName']);
-
-print_r($this->vars['userProfile']['firstName']);
-print_r($this->vars['userProfile']['pictureID']);
-*/
+		</div>';
