@@ -33,7 +33,7 @@ class BlogpostModel extends BaseModel {
 		}
 	}
 
-	public function createPost($data, $userID) {
+	public function createPost($data, $userID, $update = false) {
 		// Do some validation shit and check for XSS
 		$validate = new ValidateForm($data);
 		$validate->setRequired(array('title', 'postIngress', 'postText'));
@@ -47,12 +47,27 @@ class BlogpostModel extends BaseModel {
 		$ingress = $data['postIngress'];
 		$contents = $data['postText'];
 		$url = Helpers::makePostUrl($title);
-		$notUnique = $this->db->select('SELECT postID FROM blogPosts WHERE userID = :userID AND postURL = :postURL', array(':userID' => $userID, ':postURL' => $url));
-		if(count($notUnique)) {
-			$url .= '_';
+		if ($update !== false) {
+			echo "her er eg!!";
+			$titleEdited = $this->db->select('SELECT postTitle, userID, postURL FROM blogPosts WHERE postID = :postID', array(':postID' => $userID));
+			if ($titleEdited['postTitle'] == $title);
+			else {
+				$notUnique = $this->db->select('SELECT postID FROM blogPosts WHERE userID = :userID AND postURL = :postURL', array(':userID' => $titleEdited['userID'], ':postURL' => $titleEdited['postURL']));
+				if(count($notUnique)) {
+					$url .= '_';
+				}
+			}
+			$query = 'UPDATE blogPosts SET postTitle = :postTitle, postURL = :postURL, postText = :postText, postIngress = :postIngress WHERE postID = :postID';
+			$this->db->insert($query, array(':postTitle' => $title, ':postURL' => $url, ':postText' => $contents, ':postIngress' => $ingress, ':postID' => $userID));
+			
+		} else {
+			$notUnique = $this->db->select('SELECT postID FROM blogPosts WHERE userID = :userID AND postURL = :postURL', array(':userID' => $userID, ':postURL' => $url));
+			if(count($notUnique)) {
+				$url .= '_';
+			}
+			$query = 'INSERT INTO blogPosts (userID, postTitle, postURL, timestamp, postText, postIngress) VALUES (:userID, :postTitle, :postURL, :timestamp, :postText, :postIngress)';
+			$this->db->insert($query, array(':userID' => $userID, ':postTitle' => $title, ':postURL' => $url, ':timestamp' => time(), ':postText' => $contents, ':postIngress' => $ingress));
 		}
-		$query = 'INSERT INTO blogPosts (userID, postTitle, postURL, timestamp, postText, postIngress) VALUES (:userID, :postTitle, :postURL, :timestamp, :postText, :postIngress)';
-		$this->db->insert($query, array(':userID' => $userID, ':postTitle' => $title, ':postURL' => $url, ':timestamp' => time(), ':postText' => $contents, ':postIngress' => $ingress));
 
 		return $url;
 	}
@@ -66,5 +81,16 @@ class BlogpostModel extends BaseModel {
 		} else {
 			throw new Exception('Blogpost not found');
 		}
+	}
+	
+	public function getPostValues($postID) {
+		$query = "SELECT * FROM blogPosts WHERE postID = :postID";
+		$found = $this->db->select($query, array(':postID' => $postID));
+		if (count($found != 0)) {
+			return $found;
+		} else {
+			throw new Exception('Blogpost not found');
+		}
+		
 	}
 }

@@ -36,12 +36,19 @@ class Form {
 
 		array_push($this->inputFields, $input);
 	}
-	public function addTextArea($name, $rows, $cols, $lead=false) {
+	public function addTextArea($name, $rows, $cols, $lead=false, $value=false) {
 		$html = '<p class="textarea">';
 		if($lead !== false) {
 			$html .= '<p>' . $lead . '</p>';
 		}
-		$html .= '<textarea name="' . $name . '" id="' . $name . '"  rows="' . $rows . '" cols="' . $cols . '"></textarea></p>';
+		
+		$html .= '<textarea name="' . $name . '" id="' . $name . '"  rows="' . $rows . '" cols="' . $cols . '">';
+		
+		if ($value !== false) {
+			$html .= $value;
+		}
+
+		$html .= '</textarea></p>';
 		array_push($this->inputFields, $html);
 	} 
 
