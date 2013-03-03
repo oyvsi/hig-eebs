@@ -4,7 +4,7 @@ foreach($this->vars['blogPosts'] as $blogPost) {
 	extract($blogPost);
 	$postURL = 'blogpost/view/' . $blogPost['userName'] . '/' . $blogPost['postURL'];
 
-	echo '<div class="blogPostSummary">';// id="' . $blogPost['postID'] . '">';
+	echo '<div class="blogPostSummary default">';// id="' . $blogPost['postID'] . '">';
 	echo '<div class="blogPostTitle"><h1>' . $blogPost['postTitle'] . '</h1></div>';
 	//echo '<div class="deletePost"><a href="deletePost">Delete post</a></div>';
 	echo '<div class="blogPostSummaryText"><p>' . $blogPost['postIngress'] . '</p></div>';
