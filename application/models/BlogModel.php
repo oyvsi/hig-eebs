@@ -5,25 +5,20 @@ class BlogModel extends BaseModel {
 		parent::__construct();
 	}	
 	
-	/*
-	 * No idea where this belongs...
-	 */	
-	public static function getRealIpAddress() {
-		if(!empty($_SERVER['HTTP_CLIENT_IP'])){  
-			$ip=$_SERVER['HTTP_CLIENT_IP']; 
+	public function updateViewCount($userID) {
+		$ipAddress = Helpers::getRealIpAddress();
+		$reReadLimit = 24;
+		$limitTime = strtotime('-' . $reReadLimit . ' hours');
+		$check = $this->db->selectOne('SELECT viewID FROM blogViews 
+			WHERE userID = :userID AND ipAddress = :ipAddress AND timestamp BETWEEN :startTime AND :stopTime',
+			array(':userID' => $userID, ':ipAddress' => $ipAddress, ':startTime' => $limitTime, ':stopTime' => time()));
+ 
 
-		} elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) { 
-			$ip=$_SERVER['HTTP_X_FORWARDED_FOR']; 
-
-		} else { 
-			$ip=$_SERVER['REMOTE_ADDR']; 
+		// User has not seen this post yet, or not since timelimit. Insert a post view.
+		if($check === false) {
+			$query = 'INSERT INTO blogViews(userID, timestamp, ipAddress) VALUES (:userID, :timestamp, :ipAddress)';
+			$values = array(':userID' => $userID, ':timestamp' => time(), 'ipAddress' => $ipAddress); 
+			$this->db->insert($query, $values);
 		}
-		return $ip; 
-	}
-	public function getAllPosts($blogName) {
-		return array("Post 1<br />",
-			"Post 2<br />",
-			"Post 3<br />",
-			"Post 4<br />");
 	}
 }

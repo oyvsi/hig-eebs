@@ -95,7 +95,6 @@ class CommentsController extends BaseController	{
 			} catch(Exception $excpt) {
 				$this->view->setError($excpt);
 			}
-			$this->view->addViewFile('reportComment');
 		}
 	}
 

@@ -1,5 +1,5 @@
 <?php
-class Helpers{
+class Helpers {
 	//source: http://stackoverflow.com/questions/1837432/how-to-generate-random-password-with-php
 	public static function generateRandomPassword() {  
 		//Initialize the random password
@@ -39,7 +39,16 @@ class Helpers{
 		return $title;
 	}
 
-	 public static function redirect($to, $error=false) {
-	 	
+	 public static function getRealIpAddress() {
+		 if(!empty($_SERVER['HTTP_CLIENT_IP'])){  
+			 $ip=$_SERVER['HTTP_CLIENT_IP']; 
+
+		 } elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) { 
+			 $ip=$_SERVER['HTTP_X_FORWARDED_FOR']; 
+
+		 } else { 
+			 $ip=$_SERVER['REMOTE_ADDR']; 
+		 }
+		 return $ip; 
 	 }
 }
