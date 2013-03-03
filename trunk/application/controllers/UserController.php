@@ -43,7 +43,7 @@ class UserController extends BaseController	{
 		$userInput->addInput('submit', 'button', false, 'Submit');
 		$this->view->setVar('createAccount', $userInput->genForm());
 		$this->view->setVar('title', 'Register');
-		$this->view->viewFile = 'user/createAccount';
+		$this->view->addViewFile('user/createAccount');
 	}
 
 	public function forgotPassword() {

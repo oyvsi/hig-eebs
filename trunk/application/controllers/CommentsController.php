@@ -65,7 +65,7 @@ class CommentsController extends BaseController	{
 
 				try {
 					$this->commentModel->insertComment($this->args[1], $_POST);	
-					print_r($_POST);
+//					print_r($_POST);
 					HTML::redirect($_POST['redirect']);
 				} catch(Exception $excpt) {
 					$this->view->setError($excpt);
@@ -77,6 +77,7 @@ class CommentsController extends BaseController	{
 			}
 		}
 	}
+
 	public function flag() {
 		if(isset($this->args[1])) {
 			$form = new Form('reportComment', 'comments/flag/' . $this->args[1], 'post');
@@ -84,7 +85,7 @@ class CommentsController extends BaseController	{
 			$form->addInput('hidden', 'commentID', false, $this->args[1]);
 			$form->addInput('submit', 'submit');
 			$this->view->setVar('form', $form->genForm());
-			$this->view->addViewFile('reportComment');
+			$this->view->addViewFile('report');
 		} 
 
 		if(isset($_POST['reportComment'])) {

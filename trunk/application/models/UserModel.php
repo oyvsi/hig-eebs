@@ -18,8 +18,13 @@ class UserModel extends BaseModel {
 	}
 
 	private function getUser($userName) {
-		$user = $this->getField('userID', $userName);
-		return $this->fetchUserInfo($user['userID']);
+		try { // probably not the way to go...
+			$user = $this->getField('userID', $userName);
+			
+			return $this->fetchUserInfo($user['userID']);
+		} catch(Exception $excpt) {
+			return false;
+		}
 	}	
 
 	public function fetchUserInfo($userID) {

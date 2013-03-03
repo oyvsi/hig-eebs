@@ -101,4 +101,30 @@ class BlogpostModel extends BaseModel {
 	}
 
 
+	public function flag($postID, $form) {
+		$valid = new ValidateForm($form);
+		$valid->setRequired(array('reportText'));
+		$valid->setMinLength(array('reportText' => 5));
+		if(Auth::CheckLogin() === false) {
+			throw new Exception('Can\'t report blog post when you\'re not logged in');
+		}
+
+		if($valid->check() === false) {
+			$errors = implode('<br />', $valid->getErrors());
+			throw new Exception($errors);
+		}
+
+		$query = 'INSERT INTO blogPostReports(postID, userID, reportText, timestamp) VALUES(:postID, :userID, :reportText, :timestamp)';
+		$this->db->insert($query, array(':postID' => $postID, ':userID' => $_SESSION['userID'], ':reportText' => $form['reportText'], ':timestamp' => time()));
+	}
+
+	public function getFlagged() {
+		if(Auth::checkAdmin()) {
+			$query = 'SELECT reportText, blogPosts.PostURL, users.userName as postAuthor, (SELECT userName FROM users WHERE userID = blogPostReports.userID) as reportAuthor FROM blogPostReports LEFT JOIN blogPosts ON blogPostReports.postID = blogPosts.postID LEFT JOIN users ON blogPosts.userID = users.userID WHERE blogPosts.deleted = 0;';
+			return $this->db->select($query);
+		} else {
+			throw new Exception('Admin function. Login as an admin or GTFO');
+		}	
+	}
+
 }

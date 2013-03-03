@@ -35,6 +35,7 @@ class CommentsModel extends BaseModel {
 
 		$query = 'INSERT INTO commentReports(commentID, userID, reportText, timestamp) VALUES(:commentID, :userID, :reportText, :timestamp)';
 		$this->db->insert($query, array(':commentID' => $commentID, ':userID' => $_SESSION['userID'], ':reportText' => $form['reportComment'], ':timestamp' => time()));
+
 	}
 
 	public function getFlagged() {

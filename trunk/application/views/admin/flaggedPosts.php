@@ -1,6 +1,7 @@
 <?php
 echo '<pre>';
-
+print_r($this->vars);
+/*
 foreach($this->vars['flagged'] as $comment) {
 	//print_r($comment);
 	extract($comment);
@@ -9,3 +10,4 @@ foreach($this->vars['flagged'] as $comment) {
 	echo ' Report: ' . $reportText;
 	echo ' Reported by ' . $name . ' at ' . date('d.m.y H:i', $timestamp) . '</p>';
 }
+ */
