@@ -1,10 +1,8 @@
 <?php
 
 class BlogController extends BaseController {
-	protected $blogpostController;
 	protected $indexModel;
 	protected $blogName;
-	protected $postName;
 	protected $userModel;
 
 	public function __construct() {
@@ -20,7 +18,7 @@ class BlogController extends BaseController {
 			$user = $this->userModel->fetchUserProfile($this->blogName);
 			$this->view->setVar('blogPosts', $this->indexModel->getPostsByUser($user['userID']));
 			$this->view->setVar('userProfile', $user);
-
+			$this->view->setVar('title', $this->blogName);
 			$this->view->addViewFile('user/profile');
 			$this->view->addViewFile('blogPosts');
 			
@@ -28,14 +26,6 @@ class BlogController extends BaseController {
 			$this->view->addViewFile = 'blog/index';
 		
 		}
-		//$this->model->updateViewCount($this->blogName);
-	}
- 
-
-	public function create() {
-		echo 'Yo dewg! We heard you like da bloggs, so we created one for ya';
-	} 
-	public function delete() {
-		echo 'Remove my stuff';
+		$this->model->updateViewCount($user['userID']);
 	}
 }
