@@ -21,9 +21,10 @@ class BlogController extends BaseController {
 			$this->view->setVar('title', $this->blogName);
 			$this->view->addViewFile('user/profile');
 			$this->view->addViewFile('blogPosts');
-			
+			//$this->model->updateViewCount($this->blogName);	
+	
 		} else {
-			$this->view->addViewFile = 'blog/index';
+			HTML::redirect("");
 		
 		}
 		$this->model->updateViewCount($user['userID']);

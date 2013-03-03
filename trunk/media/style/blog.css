@@ -46,43 +46,54 @@
 
 #contents {
 
-	margin-top: 90px;
-	width: 100%;
+	margin-top: 100px;
 }
+
 
 div .blogPostSummary {
+
+}
+/* THEMES: */
+.default {
+
+	color: black;
+	background: #ddd;
 }
 
+.swede {
+	color: blue;
+	background: yellow;
+	}
+
 div .posts {
-	float: left;
+	margin-top: 2%;
 	width: 60%;
-	margin-left: 5%;
+	margin-right: auto;
+	margin-left: auto;
 }
 
 div .profile {
-	text-align: left;
-	width: 30%;
-	background: #ddd;
-	float: right;
-	overflow: hidden;
-	border: 10px solid #ddd;
 	margin-right: auto;
-
+	margin-left: auto;
+	text-align: left;
+	width: 60%;
+	background: #ddd;
+	overflow: hidden;
 }
 
 div .picture {
-	height: 300px;
+	float: left;
+	border: 10px solid #ddd;
+
 }
 
 div .info {
-	height: 200px;
-	position: relative;
+	float: right;
+	width: 80%;
 }
 
 
 div .inner {
-	position: absolute;
-	top: 20%;
 }
 
 #footer {
