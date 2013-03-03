@@ -107,7 +107,37 @@ class BlogpostController extends BaseController {
 	}
 
 	public function flag() {
-		echo 'Mark no-good';
+		if(isset($this->args[1])) {
+			$form = new Form('reportPost', 'blogpost/flagDo/', 'POST');
+			$form->addTextArea('reportText', 10, 60, 'Report post because');
+			$form->addInput('hidden', 'postID', false, $this->args[1]);
+			$form->addInput('submit', 'submit');
+			$this->view->setVar('form', $form->genForm());
+			$this->view->addViewFile('report');
+		} 
+
+	}
+
+	public function flagDo() {
+		if(isset($_POST['postID'])) {
+			try {
+				$this->model->flag($_POST['postID'], $_POST);
+				$this->view->setVar('message', 'Thank you. Your report will be brought to the administrators');
+			} catch(Exception $excpt) {
+				$this->view->setError($excpt);
+			}
+//			$this->view->addViewFile('report');
+		}
+	}
+	public function getFlagged() {
+		try {
+			$data = $this->model->getFlagged();
+			$this->view->setVar('flagged', $data);
+			$this->view->addViewFile('admin/flaggedPosts');
+		} catch(Exception $excpt) {
+			$this->view->setError($excpt);
+
+		}
 	}
 
 	public function correctUser($userID){

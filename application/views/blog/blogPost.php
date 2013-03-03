@@ -18,7 +18,7 @@ foreach($this->vars['blogPosts'] as $blogPost) {
 	echo HTML::appLink('comments/view/' .  $blogPost['userName'] . '/' . $blogPost['postURL'], $noComments . ' comment' . ($noComments != 1 ? 's' : ''));	     echo '</p><p class="byLine">By ' . HTML::appLink('user/profile/' . $userName, $userName) . ' ' . date('d.m.Y H:i', $timestamp) . '</p>';
 
 	echo '<div style="clear: both;"></div></div>';
-	
+	echo '<div>' . HTML::appLink('blogpost/flag/' . $postID, 'Report post') . '</div>';	
 }
 ?>
 <div class="fb-like" data-send="false" data-width="450" data-show-faces="true"></div>
