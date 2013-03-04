@@ -42,6 +42,8 @@ class IndexModel extends BaseModel {
 	}
 
 	public function topTen() {
+		$ratings = array();
+
 		$postCountQuery = 'SELECT COUNT(blogPosts.postID) AS postCount, users.userName FROM blogPosts LEFT JOIN users ON users.userID = blogPosts.userID GROUP BY users.userID';	
 
 		$postCount = $this->db->select($postCountQuery);
@@ -84,23 +86,11 @@ class IndexModel extends BaseModel {
 		$this->saveResult($commentCount, 'commentCount');
 		$this->saveResult($postViewCount, 'postViewCount');
 
-		$ratings = array();
-
-		
-
 		foreach($this->blogStats as $user) {
 			if(count($user) > 3) {
 				$ratings[$user['userName']] = ($user['viewCount'] + $user['commentCount'] / $user['postCount']) * log($user['postCount']);
 			}
-
 		}
-
-			print_r($ratings);
-
-			print_r($this->blogStats);
-
-
-		//	$ratings[$key] = ($user['viewCount'] + $user['commentCount'] / $user['postCount']) * log($user['postCount']);
 		
 			return $ratings;
 	}
