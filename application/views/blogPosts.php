@@ -3,6 +3,11 @@
 // Html for each post:
 //PS! minor cleaning needed to appear similar to profile.php.
 
+// failsafe for when loading blogcontroller without profile (which sets theme).
+if(!isset($theme)) {
+	$theme = 'default';
+}
+
 echo '<div class=posts>';
 foreach($this->vars['blogPosts'] as $blogPost) {
 	extract($blogPost);
