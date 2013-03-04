@@ -41,6 +41,7 @@ class UserController extends BaseController	{
 			$userInput->addInput($userField['fieldType'], $userField['table'], $userField['view']);
 		}
 		$userInput->addInput('submit', 'button', false, 'Submit');
+		print_r($userFields);
 		$this->view->setVar('createAccount', $userInput->genForm());
 		$this->view->setVar('title', 'Register');
 		$this->view->addViewFile('user/createAccount');

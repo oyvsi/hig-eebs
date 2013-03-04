@@ -18,7 +18,7 @@ class Form {
 		$input = '<p class="input">';
 
 		if($lead !== false) {
-			$input .= '<label for="' . $name . '">' . $lead  .'</label>' . "\n";
+			$input .= '<label for="' . $name . '">' . $lead  .':</label>' . "\n";
 		}
 
 		$input .= "\t" . '<input type="' . $type .'" name="' . $name . '"';
