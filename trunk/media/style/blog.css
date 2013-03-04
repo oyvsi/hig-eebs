@@ -51,14 +51,15 @@ body {
 }
 
 div .posts {
-	margin-top: 2%;
 	width: 60%;
 	margin-right: auto;
 	margin-left: auto;
+	overflow: hidden;
 }
 
 #contents {
-	margin-top: 2%;
+	margin-top: 5%;
+
 }
 
 
@@ -99,6 +100,7 @@ div .profile {
 	margin-left: auto;
 	width: 60%;
 	overflow: hidden;
+	margin-bottom: 10px;
 }
 
 div .picture {
