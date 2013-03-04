@@ -88,10 +88,11 @@ class IndexModel extends BaseModel {
 
 		foreach($this->blogStats as $user) {
 			if(count($user) > 3) {
-				$ratings[$user['userName']] = ($user['viewCount'] + $user['commentCount'] / $user['postCount']) * log($user['postCount']);
+				$ratings[$user['userName']] = ($user['postViewCount'] + $user['viewCount'] + $user['commentCount'] / $user['postCount']) * log($user['postCount']);
 			}
 		}
 		
+            arsort($ratings);
 			return $ratings;
 	}
 
@@ -109,11 +110,6 @@ class IndexModel extends BaseModel {
 	}
 
 }
-
-
-//print_r($postViewResult);
-//print_r($viewArray);
-//print_r($commentResult);
 
 
 

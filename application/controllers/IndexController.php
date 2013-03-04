@@ -21,11 +21,13 @@ class IndexController extends BaseController {
 	 }
 
 	public function mostRead() {
+		$this->topTen();
 		$this->view->setVar('title', 'Most read');
 		$this->view->setVar('blogPosts', $this->model->mostRead(14));
 	}
 
 	public function mostCommented() {
+		$this->topTen();
 		$this->view->setVar('title', 'Most commented');
 		$this->view->setVar('blogPosts', $this->model->mostCommented(14));
 	}
