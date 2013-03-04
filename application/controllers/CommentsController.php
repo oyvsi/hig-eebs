@@ -4,17 +4,16 @@ class CommentsController extends BaseController	{
 	private $fb;
    private $fbUser;
 	private $blogpostModel;
-	private $commentModel;
+	private $commentsModel;
 	private $postID;
 	private $post;
 
 	public function __construct() {
 		parent::__construct();
-		$this->commentModel = new CommentsModel();
+		$this->commentsModel = new CommentsModel();
 		$this->blogpostModel = new BlogpostModel();
 		$this->fb  = new FacebookLogin();
 		$this->fbUser = $this->fb->checkLogin();
-		$this->user(); // workaround for not being created from bootstrap
 	}
 
 	public function view() {
@@ -26,9 +25,9 @@ class CommentsController extends BaseController	{
 		$isOwner = $this->correctUser($this->post['userID']);
 
 		if($id !== false) {
-			$comments = $this->commentModel->getComment($id);
+			$comments = $this->commentsModel->getComment($id);
 		} else {
-			$comments = $this->commentModel->getComments($this->postID);
+			$comments = $this->commentsModel->getComments($this->postID);
 		}
 		$this->view->setVar('isOwner', $isOwner);	
 		$this->view->setVar('comments', $comments);
@@ -64,43 +63,20 @@ class CommentsController extends BaseController	{
 				$_POST['name'] = $userName;
 
 				try {
-					$this->commentModel->insertComment($this->args[1], $_POST);	
-//					print_r($_POST);
+					$this->commentsModel->insertComment($this->args[1], $_POST);	
 					HTML::redirect($_POST['redirect']);
 				} catch(Exception $excpt) {
 					$this->view->setError($excpt);
 				}
-
-				//				header('Location: '. __URL_PATH . 'comments' . $_POST['redirect']);
 			} else {
 				$this->view->setError(new Exception('Unable to set up function'));
 			}
 		}
 	}
 
-	public function flag() {
-		if(isset($this->args[1])) {
-			$form = new Form('reportComment', 'comments/flag/' . $this->args[1], 'post');
-			$form->addTextArea('reportComment', 10, 60, 'Report comment because');
-			$form->addInput('hidden', 'commentID', false, $this->args[1]);
-			$form->addInput('submit', 'submit');
-			$this->view->setVar('form', $form->genForm());
-			$this->view->addViewFile('report');
-		} 
-
-		if(isset($_POST['reportComment'])) {
-			try {
-				$this->commentModel->flagComment($_POST['commentID'], $_POST);
-				$this->view->setVar('message', 'Thank you. Your report will be brought to the administrators');
-			} catch(Exception $excpt) {
-				$this->view->setError($excpt);
-			}
-		}
-	}
-
 	public function getFlagged() {
 		try {
-			$data = $this->commentModel->getFlagged();
+			$data = $this->commentsModel->getFlagged();
 			$this->view->setVar('flagged', $data);
 			$this->view->addViewFile('admin/flaggedComments');
 		} catch(Exception $excpt) {
@@ -111,7 +87,7 @@ class CommentsController extends BaseController	{
 
 	public function delete() {
 		if(isset($this->args[1])) {
-			$this->commentModel->delete($this->args[1]);
+			$this->commentsModel->delete($this->args[1]);
 		}
 	}
 

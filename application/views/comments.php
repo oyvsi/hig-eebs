@@ -14,7 +14,7 @@ foreach($this->vars['comments'] as $comment) {
 	//	echo HTML::appLink('user/profile/' . $userName, $comment['userName']);
 	echo '<hr><div class="commentText">' . $comment . '</div>';
 		if($deleted == 0)
-			echo '<hr><div class="commentFooter"><div class="reportLink">' . HTML::appLink('comments/flag/'. $commentID, 'Report comment' . '</div>');
+			echo '<hr><div class="commentFooter"><div class="reportLink">' . HTML::appLink('report/report/comments/'. $commentID, 'Report comment' . '</div>');
 		
 	echo '</div><div class="timestamp">' . date('d.m.Y H:i', $timestamp) . '</div></div>';
 	echo '<div style="clear: both;"></div></div>';

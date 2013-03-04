@@ -1,56 +1,70 @@
 <?php
 /**
-* 
+* @author Team Henkars
 *
+* This class holds functions for a blog post
 */
 
 class BlogpostController extends BaseController {
-	private $loadComments = false;
+	//private $loadComments = false;
 
+   /**
+    * Default constructor
+    * Sets up the model
+    */
 	public function __construct() {
 		parent::__construct();
 		$this->model = new BlogpostModel();
-		$this->user(); // workaround for not being created from bootstrap
 	}
 
 	public function setArgs($args) {
 		$this->args = $args;
 	}
 
+   /**
+    * Function to show a blog post
+    * Arguments from url: postName the post name to show 
+    * 
+    * @url blogpost/view/$userName/$postName/
+    */
 	public function view() {
-		$this->view->addViewFile('blog/blogPost');
-		$this->loadComments = (isset($this->args[3]) && $this->args[3] == 'comments');
-		$commentID = isset($this->args[4]) ? $this->args[4] : false;  // see specific comment
+   
+      if(isset($this->args[1]) && isset($this->args[2])) {
+         $this->view->addViewFile('blog/blogPost');
+         //$this->loadComments = (isset($this->args[3]) && $this->args[3] == 'comments');
+         //$commentID = isset($this->args[4]) ? $this->args[4] : false;  // see specific comment
 
-		if($this->loadComments) { // TODO: Fix this
-			$this->view->renderFooter = false;
-		}
+         /*if($this->loadComments) { // TODO: Fix this
+            $this->view->renderFooter = false;
+         }*/
 
-		try {
-			$post = $this->model->getPostFromURL($this->args[1], $this->args[2]);
-			$isOwner = $this->correctUser($post['userID']);
-			$this->view->setVar('isOwner', $isOwner);
-			$this->view->setVar('blogPosts', array($post));
-			$this->model->updatePostViewCount($this->model->postID);
+         try {
+            $post = $this->model->getPostFromURL($this->args[1], $this->args[2]);
+            $isOwner = $this->correctUser($post['userID']);
+            $this->view->setVar('isOwner', $isOwner);
+            $this->view->setVar('blogPosts', array($post));
+            $this->model->updateViewCount($this->model->postID, 'postID', 'postViews');
 
-			if($this->loadComments) {
-				$url = 'blogpost/view/'. $this->args[1] . '/' . $this->args[2];
-				$commentsController = new CommentsController();
-				try {
-					$commentsController->loadComments($this->model->postID, $url, $commentID, $isOwner);
-				} catch(Exception $excpt) {
-					$this->view->setError($excpt);
-				}
-			}
+            /*if($this->loadComments) {
+               $url = 'blogpost/view/'. $this->args[1] . '/' . $this->args[2];
+               $commentsController = new CommentsController();
+               try {
+                  $commentsController->loadComments($this->model->postID, $url, $commentID, $isOwner);
+               } catch(Exception $excpt) {
+                  $this->view->setError($excpt);
+               }
+            }*/
 
-		}
-		catch(Exception $excpt) {
-			$this->view->setError($excpt);
-		}
+         }
+         catch(Exception $excpt) {
+            $this->view->setError($excpt);
+         }
+      } else {
+         HTML::redirect('');  // No username and postname is URL, show index
+      }
 	}
 
 	public function create($updateID = false) {
-		// umh Should it be here???
 		if ($updateID !== false){
 			$post = $this->model->getPostFromID($updateID);
 
@@ -88,7 +102,6 @@ class BlogpostController extends BaseController {
 
 	public function updateDo() {
 		try {
-//			print_r($_POST);
 			$url = $this->model->createPost($_POST, false, $this->args[1]);
 			HTML::redirect('blogpost/view/' . $this->user->model->userName . '/' . $url);
 		} catch(Exception $excpt) {
@@ -106,29 +119,6 @@ class BlogpostController extends BaseController {
 		}	
 	}
 
-	public function flag() {
-		if(isset($this->args[1])) {
-			$form = new Form('reportPost', 'blogpost/flagDo/', 'POST');
-			$form->addTextArea('reportText', 10, 60, 'Report post because');
-			$form->addInput('hidden', 'postID', false, $this->args[1]);
-			$form->addInput('submit', 'submit');
-			$this->view->setVar('form', $form->genForm());
-			$this->view->addViewFile('report');
-		} 
-
-	}
-
-	public function flagDo() {
-		if(isset($_POST['postID'])) {
-			try {
-				$this->model->flag($_POST['postID'], $_POST);
-				$this->view->setVar('message', 'Thank you. Your report will be brought to the administrators');
-			} catch(Exception $excpt) {
-				$this->view->setError($excpt);
-			}
-//			$this->view->addViewFile('report');
-		}
-	}
 	public function getFlagged() {
 		try {
 			$data = $this->model->getFlagged();
