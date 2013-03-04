@@ -52,11 +52,7 @@ class UserModel extends BaseModel {
 		if($result === false) {
 			throw new Exception('Unable to fetch info for user');
 		}
-/*
-		if(!$result['pictureID']) {
-			$result['pictureID'] = '/media/images/defaultProfileImage.png';
-		}
- */
+		
 		$this->setInfo($result);
 		return $result;
 	}

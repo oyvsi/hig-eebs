@@ -1,10 +1,14 @@
 <?php
+
+// Html for each post:
+//PS! minor cleaning needed to appear similar to profile.php.
+
 echo '<div class=posts>';
 foreach($this->vars['blogPosts'] as $blogPost) {
 	extract($blogPost);
-	$postURL = 'blogpost/view/' . $blogPost['userName'] . '/' . $blogPost['postURL'];
+	$postURL = 'blogpost/view/' . $userName . '/' . $postURL;
 
-	echo '<div class="blogPostSummary default">';// id="' . $blogPost['postID'] . '">';
+	echo '<div class="blogPostSummary ' . $theme . '">';// id="' . $blogPost['postID'] . '">';
 	echo '<div class="blogPostTitle"><h1>' . $blogPost['postTitle'] . '</h1></div>';
 	//echo '<div class="deletePost"><a href="deletePost">Delete post</a></div>';
 	echo '<div class="blogPostSummaryText"><p>' . $blogPost['postIngress'] . '</p></div>';
@@ -18,5 +22,8 @@ foreach($this->vars['blogPosts'] as $blogPost) {
 	
 }
 echo '</div>';
+
+// wrapper for background image ends:
+//echo '</div>';
 
 //if ($this->user->model->userID == $blogPost['UserID'])
