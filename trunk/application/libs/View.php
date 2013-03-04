@@ -6,6 +6,7 @@ class View {
 	public $renderHeader = true;
 	public $renderFooter = true;
 	protected $viewFile = array();
+	public $renderSideBar = false;
 
 
 	public function setVar($key, $value) {
@@ -21,6 +22,10 @@ class View {
 		  require(__SITE_PATH . '/application/views/header.php');
 		}
 		
+		if($this->renderSideBar !== false) {
+			require(__SITE_PATH . '/application/views/sideBar.php');
+		}
+
 		if($this->error !== false) {
 	         require(__SITE_PATH . '/application/views/error.php');
 		} 	
