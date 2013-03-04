@@ -23,8 +23,6 @@ class UserController extends BaseController	{
 				$this->model->updateUser($_REQUEST);
 				$this->view->setVar('message', 'Updated profile');
 			} catch(Exception $excpt) {
-				//die($excpt->getMessage());
-				//echo $excpt->getMessage();
 				$this->view->setError($excpt);
 			}
 			$this->profile();	// No finally in php until 5.5 :(
@@ -40,11 +38,12 @@ class UserController extends BaseController	{
 		foreach($userFields as $userField) {
 			$userInput->addInput($userField['fieldType'], $userField['table'], $userField['view']);
 		}
+      
 		$userInput->addInput('submit', 'button', false, 'Submit');
-		print_r($userFields);
 		$this->view->setVar('createAccount', $userInput->genForm());
 		$this->view->setVar('title', 'Register');
 		$this->view->addViewFile('user/createAccount');
+      
 	}
 
 	public function forgotPassword() {
@@ -82,7 +81,7 @@ class UserController extends BaseController	{
 			}
 			$userInput->addInput('submit', 'submit', false, 'Submit');
 
-			$this->view->setVar('userInfo', $userData);
+         $this->view->setVar('userInfo', $userData);
 			$this->view->setVar('title', $this->model->userName);
 			$this->view->setVar('createAccount', $userInput->genForm());
 			$this->view->addViewFile('user/createAccount');	
@@ -90,10 +89,6 @@ class UserController extends BaseController	{
 		else {
 			echo 'No username specified and you\'re not authed. Goodbye from userController';
 		}
-	}
-
-	public function changeDisplayName() {
-		echo "Ive hated on some peeps";
 	}
 
 	public function login() {
@@ -116,6 +111,6 @@ class UserController extends BaseController	{
 	}
 	public function logOut() {
 		session_destroy();
-		header('location: ' . __URL_PATH);
+		HTML::redirect('');
 	}
 }

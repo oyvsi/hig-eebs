@@ -34,7 +34,7 @@ class BlogpostModel extends BaseModel {
 		return $result;
 	}
 
-	public function updatePostViewCount($postID) {
+/*	public function updatePostViewCount($postID) {
 		// Maybe do this with cookies
 		$ipAddress = Helpers::getRealIpAddress();
 		$reReadLimit = 24;
@@ -49,7 +49,7 @@ class BlogpostModel extends BaseModel {
 			$values = array(':postID' => $postID, ':timestamp' => time(), 'ipAddress' => $ipAddress); 
 			$this->db->insert($query, $values);
 		}
-	}
+	}*/
 
 	public function createPost($data, $userID, $updatePostID = false) {
 		// Do some validation shit and check for XSS
@@ -98,24 +98,6 @@ class BlogpostModel extends BaseModel {
 		} else {
 			throw new Exception('Blogpost not found');
 		}
-	}
-
-
-	public function flag($postID, $form) {
-		$valid = new ValidateForm($form);
-		$valid->setRequired(array('reportText'));
-		$valid->setMinLength(array('reportText' => 5));
-		if(Auth::CheckLogin() === false) {
-			throw new Exception('Can\'t report blog post when you\'re not logged in');
-		}
-
-		if($valid->check() === false) {
-			$errors = implode('<br />', $valid->getErrors());
-			throw new Exception($errors);
-		}
-
-		$query = 'INSERT INTO blogPostReports(postID, userID, reportText, timestamp) VALUES(:postID, :userID, :reportText, :timestamp)';
-		$this->db->insert($query, array(':postID' => $postID, ':userID' => $_SESSION['userID'], ':reportText' => $form['reportText'], ':timestamp' => time()));
 	}
 
 	public function getFlagged() {
