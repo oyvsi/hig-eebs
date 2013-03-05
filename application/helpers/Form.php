@@ -36,6 +36,7 @@ class Form {
 
 		array_push($this->inputFields, $input);
 	}
+
 	public function addTextArea($name, $rows, $cols, $lead=false, $value=false) {
 		$html = '<p class="textarea">';
 		if($lead !== false) {
@@ -51,6 +52,26 @@ class Form {
 		$html .= '</textarea></p>';
 		array_push($this->inputFields, $html);
 	} 
+
+
+	public function addSelect($name, $lead, $values, $selected=false) {
+
+			$html = '<tr><td colspan=2><p class="input"><label for="' .$name. '">' .$lead. ':</label><select name="' .$name. '">';
+
+			foreach($values as $value) {
+				$html .= '<option value="' .$value['value']. '"';
+
+				if($value['value'] === $selected) {
+					$html .= ' selected';
+				}
+
+				$html .= '>' .$value['view']. '</option>';
+			}
+
+			$html .= '</select></p></td></tr>';
+
+			array_push($this->inputFields, $html);
+	}
 
 	public function genForm() {
 		$html = '<form name="' . $this->name . '" id="' . $this->name . '" action="' . $this->action . '" method="' . $this->method . '" enctype="multipart/form-data">';   

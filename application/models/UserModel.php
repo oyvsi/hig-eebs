@@ -10,6 +10,12 @@ class UserModel extends BaseModel {
 								  'picture' => array('table' => 'picture', 'view' => 'Picture', 'fieldType' => 'file'));
 
 	/**
+	* The different  color themes:
+	*/
+	protected $themes = array(	'default' => array('value' => 'default', 'view' => 'Default'),
+								'northug' => array('value' => 'northug', 'view' => 'Northug'),
+								'hellner' => array('value' => 'hellner', 'view' => 'Hellner'));
+	/**
 	* Default constructor
 	*/
 	public function __construct() {
@@ -22,6 +28,10 @@ class UserModel extends BaseModel {
 	*/
 	public function getUserFields() {
 		return $this->userFields;
+	}
+
+	public function getThemes() {
+		return $this->themes;
 	}
 
 	/**
@@ -219,7 +229,7 @@ class UserModel extends BaseModel {
 
 			if($result === false){						//if user changed userName, and didn't exist.
 				$sql = "UPDATE users SET userName = :userName, firstName = :firstName, 
-					lastName = :lastName, email = :email ";
+					lastName = :lastName, email = :email, theme = :theme";
 				if(!empty($password)){
 					if($password == $password2){
 						$sql = $sql . ", password = :password ";
@@ -240,10 +250,12 @@ class UserModel extends BaseModel {
 					}
 				}
 
+
 				$sql = $sql . " WHERE userName = :loggedIn";
 				//				echo $sql;
 				$param += array(":userName" => $userName, ":firstName" => $firstName, ":lastName" => $lastName, 
-					":email" => $email, ":loggedIn" => $this->userName);
+					":email" => $email, ":loggedIn" => $this->userName, ":theme" => $theme);
+
 				//				print_r($param);
 				$this->db->insert($sql, $param);
 

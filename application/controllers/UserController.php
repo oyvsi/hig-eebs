@@ -56,12 +56,13 @@ class UserController extends BaseController	{
 	* a new account.
 	*/
 	public function createAccount() {
-		$userFields = $this->model->getUserFields();
 
 		$userInput = new Form('userInfo', 'user/insertUser', 'post');
-		foreach($userFields as $userField) {
+		foreach($this->model->getUserFields() as $userField) {
 			$userInput->addInput($userField['fieldType'], $userField['table'], $userField['view']);
 		}
+
+		$userInput->addSelect('theme', 'Theme', $this->model->getThemes());
       
 		$userInput->addInput('submit', 'button', false, 'Submit');
 		$this->view->setVar('createAccount', $userInput->genForm());
@@ -115,9 +116,11 @@ class UserController extends BaseController	{
 			foreach($this->model->getUserFields() as $userField) {
 				$userInput->addInput($userField['fieldType'], $userField['table'], $userField['view'], $userData[$userField['table']]);
 			}
+
+			$userInput->addSelect('theme', 'Theme', $this->model->getThemes(), $userData['theme']);
 			$userInput->addInput('submit', 'submit', false, 'Submit');
 
-         $this->view->setVar('userInfo', $userData);
+         	$this->view->setVar('userInfo', $userData);
 			$this->view->setVar('title', $this->model->userName);
 			$this->view->setVar('createAccount', $userInput->genForm());
 			$this->view->addViewFile('user/createAccount');	
