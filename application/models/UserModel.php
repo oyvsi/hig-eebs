@@ -196,6 +196,23 @@ class UserModel extends BaseModel {
 		return $picture;
 	}
 
+	private function updateBackgroundPicture($file, $userName) {
+		try {
+			$image = new ImageUpload($file, 'profileImages');
+			$image->setName($userName . '_background');
+			$image->setAllowed(array('jpg', 'jpeg', 'png'));
+			$image->setMinRes(array('600', '400'));
+			$image->setMaxRes(array('1280', '800'));
+
+			$imageFile = $image->process();
+
+			$sql = 'INSERT INTO pictures(url, timestamp) VALUES(:url, :timestamp)';
+			$picture = $this->db->insert($sql, array(':url' => $image->getURL(), ':timestamp' => time()));
+		} catch(Exception $excpt) {
+			throw new Exception($excpt->getMessage());
+		}
+		return $picture;
+	}
 
 	// TODO: Validate form
 	public function insertUser($params) {
@@ -214,6 +231,18 @@ class UserModel extends BaseModel {
 						}
 					}
 
+					$themePicture = null;
+					if(isset($_FILES['background']['tmp_name']) && is_uploaded_file($_FILES['background']['tmp_name'])) {
+						try {
+							$themePicture = $this->updateBackgroundPicture($_FILES['picture'], $userName);
+							//$sql .= ', pictureID = :pictureID';
+							//$param += array(':pictureID' => $picture);
+							echo "Picture $themePicture";
+							die();
+						} catch(Exception $excpt) {
+							throw new Exception($excpt->getMessage());
+						}
+					}
 					$sql= "INSERT INTO users (userName, firstName, email, password, pictureID) 
 						VALUES (:userName, :firstName, :email, :password, :pictureID)";
 					$param = array(":userName" => $userName, ":firstName" => $firstName, 
@@ -265,6 +294,16 @@ class UserModel extends BaseModel {
 					}
 				}
 
+				$themePicture = null;
+				if(isset($_FILES['background']['tmp_name']) && is_uploaded_file($_FILES['background']['tmp_name'])) {
+					try {
+						$themePicture = $this->updateBackgroundPicture($_FILES['background'], $userName);
+						$sql .= ', backgroundID = :backgroundID';
+						$param += array(':backgroundID' => $themePicture);
+					} catch(Exception $excpt) {
+						throw new Exception($excpt->getMessage());
+					}
+				}
 
 				$sql = $sql . " WHERE userName = :loggedIn";
 				//				echo $sql;
