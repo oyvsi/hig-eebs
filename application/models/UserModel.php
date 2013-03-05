@@ -9,14 +9,26 @@ class UserModel extends BaseModel {
 								  'password2' => array('table' => 'password2', 'view' => 'Repeat password', 'fieldType' => 'password', 'minLength' => 5, 'maxLength' => 100),
 								  'picture' => array('table' => 'picture', 'view' => 'Picture', 'fieldType' => 'file'));
 
+	/**
+	* Default constructor
+	*/
 	public function __construct() {
 		parent::__construct();
 	}
 
+	/**
+	* function returns user data
+	* @return array
+	*/
 	public function getUserFields() {
 		return $this->userFields;
 	}
 
+	/**
+	* fuction returns a user data based on userName.
+	* @param string $userName
+	* @return bool|array
+	*/
 	private function getUser($userName) {
 		try { // probably not the way to go...
 			$user = $this->getField('userID', $userName);
@@ -27,6 +39,12 @@ class UserModel extends BaseModel {
 		}
 	}	
 
+	/**
+	* fuction returns users data based on UserID.
+	* data is fetched from the database
+	* @param int $userID
+	* @return array
+	*/
 	public function fetchUserInfo($userID) {
 		$sql = 'SELECT * FROM users WHERE userID = :userID';
 		$userInfo = $this->db->selectOne($sql, array(':userID' => $userID));
@@ -45,8 +63,14 @@ class UserModel extends BaseModel {
 		$this->setInfo($userInfo);
 
 		return $userInfo;
-	} 
+	}
 
+	/**
+	* fuction returns users data based on Username,
+	* and sets user info
+	* @param string $userName
+	* @return array
+	*/
 	public function fetchUserProfile($userName) {
 		$result = $this->getUser($userName);
 		if($result === false) {
@@ -56,20 +80,35 @@ class UserModel extends BaseModel {
 		$this->setInfo($result);
 		return $result;
 	}
-
+	
+	/**
+	* gets a given field from database based
+	* on a users userName.
+	* @param string $field
+	* @param string $userName
+	* @return array
+	*/
 	public function getField($field, $userName) {
 		$sql = 'SELECT ' . $field . ' FROM users WHERE userName = :userName';
 
 		return $this->db->selectOne($sql, array('userName' => $userName));
 	}
 
-
-
+	/**
+	* fuction returns a picture url based on its ID
+	* @param int $pictureID
+	* @return string
+	*/
 	private function getPicture($pictureId) {
 		$sql = 'SELECT url FROM pictures WHERE pictureID = :pictureId';
 		return $this->db->selectOne($sql, array('pictureId' => $pictureId));
 	}
 
+	/**
+	* fuction creates a new hashed password
+	* and sends it by mail to a user.
+	* @param array $params
+	*/
 	public function forgotPassword($params){
 
 		$userName = $params['userName'];
@@ -87,11 +126,13 @@ class UserModel extends BaseModel {
 		if(!PhpMail::mail($user['email'], 'New password', $text)) {
 			throw new Exception('Mail not sent');
 		}
-		//		} else {
-		//			echo "error";
-		//		}
 	}
 
+	/**
+	* fuction validates a login attempt.
+	* @param array $userInfo
+	* @return bool
+	*/
 	public function checkLogin($userInfo) {
 		$sql = 'SELECT * from users WHERE userName = :userName AND password = :password';
 		$result = $this->db->selectOne($sql, array(':userName' => $userInfo['userName'], 
@@ -104,6 +145,12 @@ class UserModel extends BaseModel {
 		}
 	}
 
+	/**
+	* fuction updates a users profile picture.
+	* @param sting $file
+	* @param string $userName
+	* @return bool
+	*/
 	private function updateProfilePicture($file, $userName) {
 		try {
 			$image = new ImageUpload($_FILES['picture'], 'profileImages');

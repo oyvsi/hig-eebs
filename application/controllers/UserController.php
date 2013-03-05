@@ -1,21 +1,41 @@
 <?php
+/**
+* @author Team Henkars
+*
+* This class holds functions for a user
+*/
  
 class UserController extends BaseController	{
+	/**
+	* Default constructor
+	* sets up the user info
+	*/
 	public function __construct() {
 		parent::__construct();
 		$this->model = new UserModel();
 		$this->view->setVar('title', 'User');
 	}
 
+	/**
+	* Fuction that fetches user info
+	* based on its userID
+	* @param string $userID
+	*/
 	public function fetchUserInfo($userID) {
 		$this->model->fetchUserInfo($userID);
 	}
-
+	
+	/**
+	* Fuction to insert a new user into the database
+	*/
 	public function insertUser() {
 		$this->model->insertUser($_REQUEST);
-
 	}
 	
+	/**
+	* Fuction to update user profile
+	* Only accesseble by autenticated users
+	*/
 	public function updateUser() {
 		if($this->user) {
 			$this->model->fetchUserInfo($this->user->model->userID);
@@ -31,6 +51,10 @@ class UserController extends BaseController	{
 		}
 	}
 
+	/**
+	* Fuction to generate form when creating 
+	* a new account.
+	*/
 	public function createAccount() {
 		$userFields = $this->model->getUserFields();
 
@@ -46,13 +70,17 @@ class UserController extends BaseController	{
       
 	}
 
+	/**
+	* Fuction tat generates a form so
+	* users can request a new password
+	*/
 	public function forgotPassword() {
 		$userInput= new Form('userInfo', 'user/forgotPassword', 'post');
 		$userInput->addInput('text', 'userName', 'Insert username');
 		$userInput->addInput('submit', 'submit', false, 'Submit');
 		$this->view->setVar('forgotPassword', $userInput->genForm());
 		$this->view->setVar('title', 'Forgot password');
-		$this->view->viewFile = 'user/forgotPassword';
+		$this->view->addViewFile('user/forgotPassword');
 
 		if(isset($_POST['userName'])) {
 			try {
@@ -64,6 +92,14 @@ class UserController extends BaseController	{
 		}
 	}
 
+	/**
+	* Fuction that views a users profile.
+	* optional arguments from url: userName
+	* shows either a requested user or 
+	* the logged in users profileinfo.
+	*
+	* @url blog/view/$userName/
+	*/
 	public function profile() {
 		if(isset($this->args[1])) {
 			$this->view->addViewFile('user/profile');
@@ -91,6 +127,10 @@ class UserController extends BaseController	{
 		}
 	}
 
+	/**
+	* function sends unautenticated user
+	* to loginscreen.
+	*/
 	public function login() {
 		if(Auth::checkLogin()) {
 			echo "Logged in already...";
@@ -98,6 +138,10 @@ class UserController extends BaseController	{
 			$this->view->addViewFile('login');
 		}	
 	}
+	
+	/**
+	* Function cheks login and sets session variables.
+	*/	
 	public function loginDo() {
 		try {
 			$this->model->checkLogin($_POST);
@@ -109,6 +153,10 @@ class UserController extends BaseController	{
 			$this->login();
 		}	
 	}
+	
+	/**
+	* Fuction to log out a user.
+	*/
 	public function logOut() {
 		session_destroy();
 		HTML::redirect('');
