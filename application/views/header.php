@@ -38,7 +38,7 @@
 
 <?php
 			if(isset($this->vars['message'])) {
-				echo '<div id="message"><p>' . $this->vars['message'] . '</p></div>';
+				echo '<div class="message green"><p>' . $this->vars['message'] . '</p></div>';
 			}
 ?>
 	<div id="contents">

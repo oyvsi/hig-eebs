@@ -110,7 +110,7 @@ class UserController extends BaseController	{
 		elseif($this->user()) {
 
 			$userData = $this->model->fetchUserInfo($_SESSION['userID']);
-			$userData['password2'] = $userData['password'] = $userData['picture'] = '';
+			$userData['password2'] = $userData['password'] = $userData['picture'] = $userData['background'] = '';
 
 			$userInput = new Form('userInfo', 'user/updateUser', 'post');
 			foreach($this->model->getUserFields() as $userField) {

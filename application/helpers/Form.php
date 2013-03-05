@@ -56,7 +56,7 @@ class Form {
 
 	public function addSelect($name, $lead, $values, $selected=false) {
 
-			$html = '<tr><td colspan=2><p class="input"><label for="' .$name. '">' .$lead. ':</label><select name="' .$name. '">';
+			$html = '<p class="input"><label for="' .$name. '">' .$lead. ':</label><select name="' .$name. '">';
 
 			foreach($values as $value) {
 				$html .= '<option value="' .$value['value']. '"';
@@ -68,7 +68,7 @@ class Form {
 				$html .= '>' .$value['view']. '</option>';
 			}
 
-			$html .= '</select></p></td></tr>';
+			$html .= '</select></p>';
 
 			array_push($this->inputFields, $html);
 	}

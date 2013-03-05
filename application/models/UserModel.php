@@ -7,7 +7,8 @@ class UserModel extends BaseModel {
 								  'email' => array('table' => 'email', 'view' => 'Email', 'fieldType' => 'text', 'minLength' => 3, 'maxLength' => 100),
 								  'password' => array('table' => 'password', 'view' => 'Password', 'fieldType' => 'password', 'minLength' => 5, 'maxLength' => 100),
 								  'password2' => array('table' => 'password2', 'view' => 'Repeat password', 'fieldType' => 'password', 'minLength' => 5, 'maxLength' => 100),
-								  'picture' => array('table' => 'picture', 'view' => 'Picture', 'fieldType' => 'file'));
+								  'picture' => array('table' => 'picture', 'view' => 'Picture', 'fieldType' => 'file'), 
+								  'background' => array('table' => 'background', 'view' => 'Background', 'fieldType' => 'file'));
 
 	/**
 	* The different  color themes:
@@ -61,6 +62,8 @@ class UserModel extends BaseModel {
 		if($userInfo === false) {
 			throw new Exception('Unable to fetch info for user');
 		}
+
+		//gets / sets profile picture info.
 		if($userInfo['pictureID'] != null) {
 			$sql = 'SELECT * FROM pictures WHERE pictureID = :pictureID';
 			$pic = $this->db->selectOne($sql, array('pictureID' => $userInfo['pictureID']));
@@ -69,6 +72,18 @@ class UserModel extends BaseModel {
 		} else {
 			$userInfo['profilePicture'] = __URL_PATH . 'media/images/defaultProfileImage.png';
 		}
+
+		//gets background profile url if any.
+		if($userInfo['backgroundID'] != null) {
+			$sql = 'SELECT * FROM pictures WHERE pictureID = :backgroundID';
+			$pic = $this->db->selectOne($sql, array('backgroundID' => $userInfo['backgroundID']));
+			$userInfo['backgroundPicture'] = $pic['url'];
+
+		// set this variable to load default background. blablab O-ALF
+		} else {
+			$userInfo['backgroundPicture'] = '';
+		}
+
 		$userInfo['profilePictureThumb'] = ImageUpload::thumbURLfromURL($userInfo['profilePicture']);
 		$this->setInfo($userInfo);
 

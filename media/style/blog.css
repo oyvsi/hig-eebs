@@ -13,16 +13,28 @@ select, textarea {
 }
 
 /* Error/messages CSS*/
-.error {
-	background-color: red;
-}
-.error, #message {
+
+.message {
 	text-align: center;
 	font-weight: bold;
+	color: black;
+	display:block;
 	width: 100%;
-	margin-top: 55px;
+	margin-top: -20px;
+	position: fixed;
+	height: 20px;
+	vertical-align: middle;
 }
-#message {
+
+.message p {
+	margin-top: 0;
+}
+
+.red {
+	background-color: red;
+}
+
+.green {
 	background-color: #33CC66;
 }
 
@@ -31,6 +43,7 @@ select, textarea {
 .comments {
 	margin-top: 25px;
 }
+
 .comment {
 	margin-top: 15px;
 }
@@ -65,13 +78,17 @@ select, textarea {
 
 div .posts {
 	width: 60%;
+	min-width: 500px;
 	margin-right: auto;
 	margin-left: auto;
 	overflow: hidden;
 }
 
+
+/*The contents ID*/
 #contents {
-	margin-top: 30px;
+	margin-top: 75px;
+	z-index: 1;
 }
 
 
@@ -110,6 +127,7 @@ a {
 /* Profile CSS beneath */
 
 div .profile {
+	min-width: 500px;
 	margin-right: auto;
 	margin-left: auto;
 	width: 60%;
@@ -130,6 +148,7 @@ div .picture {
 
 /* change/create CSS beneath: */
 div .createAccount {
+	min-width: 550px;
 	width: 50%;
 	margin-right: auto;
 	margin-left: auto;
