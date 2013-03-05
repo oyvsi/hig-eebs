@@ -12,18 +12,22 @@ select, textarea {
 	border: none;
 }
 
-
+/* Error/messages CSS*/
 .error {
 	background-color: red;
 }
 .error, #message {
 	text-align: center;
 	font-weight: bold;
-	margin-top: 20px;
+	width: 100%;
+	margin-top: 55px;
 }
 #message {
 	background-color: #33CC66;
 }
+
+/* Error/messages CSS, end.*/
+
 .comments {
 	margin-top: 25px;
 }
@@ -67,8 +71,7 @@ div .posts {
 }
 
 #contents {
-	margin-top: 5%;
-	position: relative;
+	margin-top: 30px;
 }
 
 
@@ -126,12 +129,10 @@ div .picture {
 /* Profile CSS above */
 
 /* change/create CSS beneath: */
-#createAccount {
-	margin-top:7%;
+div .createAccount {
 	width: 50%;
 	margin-right: auto;
 	margin-left: auto;
-	background: #ddd;
 }
 
 #profilePicture {
@@ -153,6 +154,8 @@ div .picture {
 	margin-left: 30%;
 }
 
+
+/*Change/create CSS above*/
 
 
 #footer {
