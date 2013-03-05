@@ -5,13 +5,14 @@
 //echo ' <div style="background-image:url(' . $variable . ')>';
 
 	echo '<div class="createAccount ' .$userInfo['theme']. '">';
+
+	//shows set profilepicture
 	if(isset($userInfo['profilePicture']) && $userInfo['profilePicture'] != null) {
 		echo '<div id="profilePicture">';
 		echo HTML::fancyBoxImage($userInfo['profilePicture'], $userInfo['profilePictureThumb']);
 		echo '</div>';
 	}
+
 	echo '<div id="form">' .$createAccount. '	</div></div>';
 
-// wrapper for background image ends:
-//echo '</div>';
 ?>

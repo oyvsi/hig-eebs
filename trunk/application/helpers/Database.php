@@ -34,7 +34,8 @@ class Database extends PDO {
 		if($handler->execute()) {
 			return $handler->fetchAll(PDO::FETCH_ASSOC);
 		} else {
-			echo "Fool"; print_r($handler->errorInfo());
+			// WHAT IS THIS? fucks up the profile css. regards, lulaf
+			//echo "Fool"; print_r($handler->errorInfo());
 			return false;
 		}
 	}
