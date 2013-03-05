@@ -171,10 +171,10 @@ class UserModel extends BaseModel {
 	}
 
 	/**
-	* fuction updates a users profile picture.
+	* fuction updates a users profile picture and returns picture ID.
 	* @param sting $file
 	* @param string $userName
-	* @return bool
+	* @return int
 	*/
 	private function updateProfilePicture($file, $userName) {
 		try {
@@ -196,6 +196,12 @@ class UserModel extends BaseModel {
 		return $picture;
 	}
 
+	/**
+	* fuction updates a users background picture and returns picture ID
+	* @param sting $file
+	* @param string $userName
+	* @return int
+	*/
 	private function updateBackgroundPicture($file, $userName) {
 		try {
 			$image = new ImageUpload($file, 'profileImages');
@@ -215,6 +221,10 @@ class UserModel extends BaseModel {
 	}
 
 	// TODO: Validate form
+	/**
+	* fuction inserts a new user. 
+	* @param array $params
+	*/
 	public function insertUser($params) {
 		extract($params);
 
@@ -259,6 +269,10 @@ class UserModel extends BaseModel {
 		}
 	}
 
+	/**
+	* fuction updates a user.
+	* @param array $params
+	*/
 	public function updateUser($params) {
 		extract($params);
 		//BURDE VÆRE EN FUNKSJON SOM KAN SØRGE FOR REQUIRED FILDS, SÅ IFSLØYFA BLIR PENERE, OG DET BLIR MINDRE KODE
@@ -323,7 +337,7 @@ class UserModel extends BaseModel {
 	}
 
 
-
+/*
 	public function listUserInfo($username) {
 		$lol = $this->db->select("SELECT * FROM users WHERE userName='$username'");
 		print($lols[0]['lastName']);
@@ -332,6 +346,6 @@ class UserModel extends BaseModel {
 
 	public function removeUser() {
 
-	}
+	}*/
 
 }
