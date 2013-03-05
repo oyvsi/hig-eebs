@@ -9,18 +9,36 @@ class IndexModel extends BaseModel {
 	protected $blogStats = array();
 	
 
-
+	/**
+	* constructor. sets up basic info.
+	*/	
 	public function __construct() {
 		parent::__construct();
 	}
 
+	/**
+	* Fuction returns a limited number of a users last blogposts.
+	* @param int $limit
+	* @return array
+	*/
 	public function lastPosts($limit) {
-		return $this->db->select($this->baseQuery . ' GROUP BY blogPosts.postID ORDER BY timestamp DESC LIMIT :limit', array(':limit'=> 10));
+		return $this->db->select($this->baseQuery . ' GROUP BY blogPosts.postID ORDER BY timestamp DESC LIMIT :limit', array(':limit'=> $limit));
 	}
+	
+	/**
+	* Fuction returns a given users blogposts.
+	* @param int $userID
+	* @return array
+	*/	
 	public function getPostsByUser($userID) {
 		return $this->db->select($this->baseQuery . ' AND blogPosts.userID = :userID GROUP BY blogPosts.postID ORDER BY timestamp DESC', array(':userID' => $userID));
 	}
 
+	/**
+	* Fuction returns most read posts withit tha last given days
+	* @param int $days
+	* @return array
+	*/	
 	public function mostRead($days) {
 		$startTime = strtotime('-' . $days . 'days');
 		$endTime = strtotime('now');
@@ -31,6 +49,11 @@ class IndexModel extends BaseModel {
 		return $this->db->select($query, array(':startTime' => $startTime, ':endTime' => $endTime));
 	}
 
+	/**
+	* Fuction returns most commented bolgpost within the last given days.
+	* @param int $days
+	* @return array
+	*/	
 	public function mostCommented($days) {
 		$startTime = strtotime('-' . $days . 'days');
 		$endTime = strtotime('now');
@@ -41,23 +64,25 @@ class IndexModel extends BaseModel {
 		return $this->db->select($query, array(':startTime' => $startTime, ':endTime' => $endTime));
 	}
 
+	/**
+	* Fuction calculates top ten most popular blogs.
+	* The rating is based on blog views, post views
+	* number of comments and total number of posts.
+	* @return array
+	*/	
 	public function topTen() {
 		$ratings = array();
 
 		$postCountQuery = 'SELECT COUNT(blogPosts.postID) AS postCount, users.userName FROM blogPosts LEFT JOIN users ON users.userID = blogPosts.userID GROUP BY users.userID';	
 
 		$postCount = $this->db->select($postCountQuery);
-
 		
 		$blogViewsQuery = 'SELECT COUNT(blogViews.viewID) AS viewCount, blogViews.userID,users.userName FROM blogViews 
 						   LEFT JOIN users ON users.userID = blogViews.userID 
 						   GROUP BY users.userID
 						   HAVING COUNT(blogViews.viewID) > 0';
-		
 
 		$viewCount = $this->db->select($blogViewsQuery);
-		
-		
 		
 		$commentQuery = 'SELECT COUNT(comments.commentID) AS commentCount, users.userName FROM blogPosts 
 						 LEFT JOIN comments ON blogPosts.postID = comments.postID 
@@ -66,9 +91,6 @@ class IndexModel extends BaseModel {
 						 HAVING COUNT(comments.commentID) > 0';
 		
 		$commentCount = $this->db->select($commentQuery);
-		
-		
-
 
 		$postViewQuery = 'SELECT COUNT(postViews.viewID) AS postViewCount, users.userName FROM postViews 
 						  LEFT JOIN blogPosts ON blogPosts.postID = postViews.postID 
@@ -77,8 +99,6 @@ class IndexModel extends BaseModel {
 		                  HAVING COUNT(postViews.viewID) > 0';
 		
 		$postViewCount = $this->db->select($postViewQuery);
-		
-
 	
 		$this->saveResult($postCount, 'userName');
 		$this->saveResult($postCount, 'postCount');
@@ -93,23 +113,30 @@ class IndexModel extends BaseModel {
 			}
 		}
 		
-            arsort($ratings);
-			return $ratings;
+        arsort($ratings);
+        return $ratings;
 	}
 
-
+	/**
+	* Function saves given parameters inn protected variable blogStats.
+	* @param array $container
+	* @param string $identifyer
+	*/	
 	public function saveResult($container, $identifier) {
 		foreach($container as $array) {
-				$this->blogStats[$array['userName']][$identifier] = $array[$identifier];
+			$this->blogStats[$array['userName']][$identifier] = $array[$identifier];
 		}
 	}
 
-
+	/**
+	* Fuction sets key for an array??
+	* @param array $array
+	* @return array
+	*/	
 	public function getKeys($array) {
-			$keys = array_keys($array);
-			return $keys;
+		$keys = array_keys($array);
+		return $keys;
 	}
-
 }
 
 
