@@ -113,8 +113,13 @@ class CommentsController extends BaseController	{
    * @url comments/delete/$commentID/
    */
 	public function delete() {
-		if(isset($this->args[1])) {
-			$this->commentsModel->delete($this->args[1]);
+		if(isset($this->args[1]) && $this->user()) {
+			try {
+				$this->commentsModel->delete($this->args[1], $this->user->model->userID);
+				$this->view->setVar('message', 'Deleted comment');
+			} catch(exception $excpt) {
+				$this->view->setError($excpt);
+			}
 		}
 	}
 }

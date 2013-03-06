@@ -29,9 +29,17 @@ class CommentsModel extends BaseModel {
 			throw new Exception('Admin function. Login as an admin or GTFO');
 		}	
 	}
-	public function delete($commentID) {
-		$query = 'UPDATE comments SET deleted = 1 WHERE commentID = :commentID';
-		$result = $this->db->insert($query, array(':commentID' => $commentID));
-		return $result;
+	public function delete($commentID, $userID) {
+		$postOwner = $this->db->selectOne('SELECT comments.postID, blogPosts.userID FROM comments LEFT JOIN blogPosts on comments.postID = blogPosts.postID WHERE comments.commentID = :commentID AND blogPosts.userID = :userID', array(':commentID' => $commentID, ':userID' => $userID));
+		if(Auth::checkAdmin() || $postOwner) {
+
+			$query = 'UPDATE comments SET deleted = 1 WHERE commentID = :commentID';
+			$result = 1;
+			$result = $this->db->insert($query, array(':commentID' => $commentID));
+			
+			return $result;
+		} else {
+			throw new Exception('Admin/owner function. Login as an admin or the owner or GTFO!');
+		}
 	}
 }
