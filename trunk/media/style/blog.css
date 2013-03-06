@@ -120,8 +120,8 @@ select, textarea {
 
 .northug {
 	background: red;
-	color: blue;
-	border-bottom: 5px solid white;
+	color: white;
+	border-bottom: 5px solid blue;
 }
 
 /*Links*/
