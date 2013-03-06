@@ -1,6 +1,7 @@
 <?php
 
 abstract class BaseController {
+   protected $render = true;
 	protected $user;
 	protected $args;
 	protected $view;
@@ -38,7 +39,9 @@ abstract class BaseController {
 	}
 
 	public function render() {
-		$this->view->render();
+      if($this->render) {
+         $this->view->render();
+      }
 	}
 }
 

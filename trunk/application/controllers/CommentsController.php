@@ -22,7 +22,7 @@ class CommentsController extends BaseController	{
 		$id = isset($this->args[4]) ? $this->args[4] : false;
 		$this->post = $this->blogpostModel->getPostFromURL($blogName, $postURL);
       $this->postID = $this->post['postID'];
-		$isOwner = $this->correctUser($this->post['userID']);
+		$isOwner = ($this->post['userID'] == $this->user->model->userID);
 
 		if($id !== false) {
 			$comments = $this->commentsModel->getComment($id);
@@ -91,9 +91,4 @@ class CommentsController extends BaseController	{
 			$this->commentsModel->delete($this->args[1]);
 		}
 	}
-
-	public function correctUser($userID){
-		return ($this->user && $this->user->model->userID == $userID);
-	}
-
 }
