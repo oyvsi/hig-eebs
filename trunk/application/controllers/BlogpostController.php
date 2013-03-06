@@ -121,8 +121,8 @@ class BlogpostController extends BaseController {
 
 	public function delete() {
 		try {
-			$this->model->deletePost($this->args[1]);
-			HTML::redirect('');
+			$this->model->deletePost($this->args[1], $this->args[2] );
+			HTML::redirect('/blog/view/'. $this->args[1]);
 		} catch(Exception $excpt){
 			$this->view->setError($excpt);
 		}	

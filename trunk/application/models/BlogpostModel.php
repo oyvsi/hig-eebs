@@ -90,12 +90,12 @@ class BlogpostModel extends BaseModel {
 		return $url;
 	}
 
-	public function deletePost($postID) {
-		$find = "SELECT * FROM blogPosts WHERE postID = :postID";
-		$found = $this->db->select($find, array(':postID' => $postID));
-		if (count($found) != 0){
+	public function deletePost($userName, $postURL) {
+		$find = "SELECT * FROM blogPosts LEFT JOIN users ON users.userID = blogPosts.userID WHERE postURL = :postURL AND userName = :userName AND deleted = 0";
+		$post = $this->db->selectOne($find, array(':postURL' => $postURL, ':userName' => $userName));
+		if (count($post) != 0){
 			$query = 'UPDATE blogPosts SET deleted = 1 WHERE postID = :postID';
-			$this->db->insert($query, array(':postID' => $postID));
+			$this->db->insert($query, array(':postID' => $post['postID']));
 		} else {
 			throw new Exception('Blogpost not found');
 		}
