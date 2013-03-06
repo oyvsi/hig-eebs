@@ -21,8 +21,7 @@ select, textarea {
 	display:block;
 	width: 100%;
 	margin-top: -20px;
-	position: fixed;
-	height: 20px;
+	height: 100%;
 	vertical-align: middle;
 }
 
@@ -63,19 +62,21 @@ select, textarea {
 
 /* */
 
-.comments {
-	height: 100%;
+.comment {
+	height: 200px;
+
 }
 
 .commentName {
 	font-weight: bold;
+	background: gray;
+	width: 100%;
 }
 .blogPostSummary {
 	margin-bottom: 10px;
 	border-bottom: 5px solid black;
 }
-.blogPostFooter {
-}
+
 .byLine, .timestamp, .deleteLink{
 	float: right;
 }
@@ -99,7 +100,7 @@ select, textarea {
 
 /*The contents ID*/
 #contents {
-	margin-top: 75px;
+	margin-top: 20px;
 	margin-bottom: 20px;
 	z-index: 1;
 	height: 100%;
@@ -223,7 +224,6 @@ width: 100%;
 		background:#fff;
 		border-bottom:2px solid #000;
 		overflow:hidden;
-		position:fixed;
 		background-color: gray;
 		top: 0px;
 		width: 100%;
