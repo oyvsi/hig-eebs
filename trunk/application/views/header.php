@@ -45,24 +45,18 @@
 
 	<div id="contents">
 		<?php	
-
-
 			//sidebar
 			if($this->renderSideBar === true) {
-				echo' 	<div class="sidebar default">Ti på Topp
-	 						<table class="leftAlign">
-								<tr>
-									<th>1.</th>
-										<td>&nbsp;'. $this->vars['topTenKeys'][0] . '   ' . $this->vars['topTen'][$this->vars['topTenKeys'][0]] . '</td>
-								</tr>
-								<tr>
-									<th>2.</th>
-										<td>&nbsp;'. $this->vars['topTenKeys'][1] . '   ' . $this->vars['topTen'][$this->vars['topTenKeys'][1]].'</td>
-								</tr>
-								<tr>
-									<th>3.</th>
-										<td>&nbsp;'. $this->vars['topTenKeys'][2] . '   ' . $this->vars['topTen'][$this->vars['topTenKeys'][2]].'</td>
-								</tr>
-							</table>
+				echo' 	<div class="sidebar default">Ti på Topp 
+							<table class="leftAlign">';
+	 			for($i=0; $i < count($this->vars['topTenKeys']); $i++) {
+						echo '	<tr>
+									<th>'. ($i+1) . '</th>
+										<td>&nbsp;'. $this->vars['topTenKeys'][$i] . '   ' . intval($this->vars['topTen'][$this->vars['topTenKeys'][$i]]) . '</td>
+							    </tr>';
+					}
+				echo '		</table>
 						</div>';
+
+
 	} ?>
