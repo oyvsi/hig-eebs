@@ -21,10 +21,6 @@ class View {
 		if($this->renderHeader === true) {
 		  require(__SITE_PATH . '/application/views/header.php');
 		}
-		
-		if($this->renderSideBar !== false) {
-			require(__SITE_PATH . '/application/views/sideBar.php');
-		}
 
 		if($this->error !== false) {
 	         require(__SITE_PATH . '/application/views/error.php');
