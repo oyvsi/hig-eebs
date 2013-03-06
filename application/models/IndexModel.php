@@ -73,7 +73,7 @@ class IndexModel extends BaseModel {
 	public function topTen() {
 		$ratings = array();
 
-		$postCountQuery = 'SELECT COUNT(blogPosts.postID) AS postCount, users.userName FROM blogPosts LEFT JOIN users ON users.userID = blogPosts.userID GROUP BY users.userID';	
+		$postCountQuery = 'SELECT COUNT(blogPosts.postID) AS postCount, users.userName FROM blogPosts LEFT JOIN users ON users.userID = blogPosts.userID WHERE blogPosts.deleted = 0 GROUP BY users.userID';	
 
 		$postCount = $this->db->select($postCountQuery);
 		
@@ -87,6 +87,7 @@ class IndexModel extends BaseModel {
 		$commentQuery = 'SELECT COUNT(comments.commentID) AS commentCount, users.userName FROM blogPosts 
 						 LEFT JOIN comments ON blogPosts.postID = comments.postID 
 						 LEFT JOIN users ON blogPosts.userID = users.userID
+						 WHERE blogPosts.deleted = 0
 						 GROUP BY users.userID
 						 HAVING COUNT(comments.commentID) > 0';
 		
@@ -95,6 +96,7 @@ class IndexModel extends BaseModel {
 		$postViewQuery = 'SELECT COUNT(postViews.viewID) AS postViewCount, users.userName FROM postViews 
 						  LEFT JOIN blogPosts ON blogPosts.postID = postViews.postID 
 		                  LEFT JOIN users ON users.userID = blogPosts.userID 
+		                  WHERE blogPosts.deleted = 0
 		                  GROUP BY users.userID
 		                  HAVING COUNT(postViews.viewID) > 0';
 		
@@ -108,7 +110,7 @@ class IndexModel extends BaseModel {
 
 		foreach($this->blogStats as $user) {
 			if(count($user) > 4) {
-				$ratings[$user['userName']] = ($user['postViewCount'] + $user['viewCount'] + $user['commentCount'] / $user['postCount']) * log($user['postCount']) * log($user['viewCount']);
+				$ratings[$user['userName']] = ($user['postViewCount'] + $user['viewCount'] + $user['commentCount'] / $user['postCount']) * log($user['postCount']) * log($user['viewCount'] * 5) / 100;
 			}
 		}
 		
