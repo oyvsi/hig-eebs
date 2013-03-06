@@ -65,6 +65,12 @@ class BlogpostController extends BaseController {
       }
 	}
 
+   /**
+    * Function to create and update blogposts.
+    * creates a form witch either is emty or 
+    * contains current info from blogpost.
+    * @param int $updateID
+    */
 	public function create($updateID = false) {
 		if(Auth::checkLogin()) {	
 			if ($updateID !== false){
@@ -90,6 +96,12 @@ class BlogpostController extends BaseController {
 		}
 	}
 	
+   /**
+    * 
+    *  
+    * 
+    * 
+    */
 	public function createDo() {
       $this->render = false;
       
@@ -104,11 +116,20 @@ class BlogpostController extends BaseController {
 		}
 	}
 
+   /**
+    * update blogpost. just calls create with an parameter.
+    */
 	public function update() {
 		$postID = $this->args[1];
 		$this->create($postID);
 	}
 
+   /**
+    * 
+    *  
+    * 
+    * 
+    */
 	public function updateDo() {
 		$this->render = false;
 		try {
@@ -119,6 +140,12 @@ class BlogpostController extends BaseController {
 		}
 	}
 
+   /**
+    * deletes a blogpost. blogpost is marked as deleted.
+    * Arguments from url: userID to postowner and postURL to post
+    * 
+    * @url comments/delete/$userID/$postURL
+    */
 	public function delete() {
 		try {
 			$this->model->deletePost($this->args[1], $this->args[2] );
@@ -128,6 +155,9 @@ class BlogpostController extends BaseController {
 		}	
 	}
 
+   /**
+    * flags a blogpost.
+    */
 	public function getFlagged() {
 		try {
 			$data = $this->model->getFlagged();
@@ -140,6 +170,12 @@ class BlogpostController extends BaseController {
 		}
 	}
 
+   /**
+    * fuction returns true or false if 
+    * current userID is equal to parameter.
+    * @param int $userID
+    * @return bool
+    */
 	public function correctUser($userID){
 		return ($this->user && $this->user->model->userID == $userID);
 	}
