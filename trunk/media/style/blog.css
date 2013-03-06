@@ -138,20 +138,16 @@ select, textarea {
 	color: white;
 }
 
-/************/
-
-/* FIX LINKS? waiting for possible implementation of fancydropdown(its css).
-or using the css of fancybox. need to clear up the css and make the style similar->class/id etc.
-*/
+/*Links*/
 a {
 	color: black;
 	text-decoration: none;
 	font-weight: bold;
 }
 
+/************/
 
-
-/* Profile CSS beneath */
+/* Helpers */
 
 .leftAlign {
 	text-align: left;
@@ -160,6 +156,32 @@ a {
 .rightAlign {
 	text-align: right;
 }
+
+/*********/
+
+
+/*Table specifix*/
+.table {
+	border: 1px solid gray;
+	border-collapse: collapse;
+	margin-left:auto;
+	margin-right:auto;
+
+}
+
+.table th {
+	width: 130px;
+	border: 1px solid black;
+	text-align: center;
+	background: gray;
+}
+.table td {
+	border: 1px solid gray;
+	padding: 4px;
+}
+
+/********/
+
 
 /* Profile CSS above */
 
