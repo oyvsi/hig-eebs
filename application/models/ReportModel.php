@@ -12,6 +12,14 @@
  */
 class ReportModel extends BaseModel {
 
+	/**
+	* Fuction that updates reports. gets all parameters 
+	* 
+	* @param int $id
+	* @param string $table
+	* @param string $field
+	* @param array $data			
+	*/
    public function report($id, $table, $field, $data) {
       $valid = new ValidateForm($data);
       $valid->setRequired(array('reportText'));
