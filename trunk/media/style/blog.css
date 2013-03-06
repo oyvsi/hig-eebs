@@ -61,6 +61,7 @@ select, textarea {
 	margin-bottom: 10px;
 	height: 100%;
 	border-bottom: 5px solid black;
+	
 }
 
 /************/
@@ -108,16 +109,19 @@ select, textarea {
 .default {
 	background: #ddd;
 	color: black;
+	border-bottom: 5px solid black;
 }
 
 .hellner {
 	background: blue;
 	color: yellow;
+	border-bottom: 5px solid yellow;
 }
 
 .northug {
 	background: red;
 	color: white;
+	border-bottom: 5px solid white;
 }
 
 /*Links*/
@@ -137,6 +141,7 @@ a:hover {
 
 .leftAlign {
 	text-align: left;
+	width: 60%;
 }
 
 .rightAlign {
