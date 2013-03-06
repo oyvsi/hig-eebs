@@ -45,7 +45,6 @@ class ValidateForm {
 					} 
 						
 					if(array_key_exists('regex', $value)) {
-						print($value['regex']);
 						if(!preg_match($value['regex'], $this->form[$key])) {
 							array_push($this->errors, $key . ' is SHIT ' . $key .  ' characters');
 					}
