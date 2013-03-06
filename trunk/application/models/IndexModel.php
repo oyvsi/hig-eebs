@@ -73,24 +73,6 @@ class IndexModel extends BaseModel {
 	public function topTen() {
 		$ratings = array();
 
-
-
-
-
-		$wtfLOL = $this->db->select('SELECT COUNT(blogPosts.postID) AS postCount, 
-				COUNT(blogViews.viewID) AS viewCount, 
-				COUNT(comments.commentID) commentCount, 
-				COUNT(postViews.viewID) AS postViewCount blogViews.userID, users.userName 
-				FROM blogViews, postViews, blogPosts 
-				LEFT JOIN blogPosts ON blogPosts.postID = postViews.postID
-				LEFT JOIN comments ON blogPosts.postID = comments.postID		   
-				LEFT JOIN users ON users.userID = blogViews.userID 
-				GROUP BY users.userID
-				HAVING postCount AND viewCount AND commentCount AND postViewCount > 0 ');
-		
-		print("LOOOL");
-		print_r($wtfLOL);
-
 		$postCountQuery = 'SELECT COUNT(blogPosts.postID) AS postCount, users.userName FROM blogPosts LEFT JOIN users ON users.userID = blogPosts.userID GROUP BY users.userID';	
 
 		$postCount = $this->db->select($postCountQuery);
