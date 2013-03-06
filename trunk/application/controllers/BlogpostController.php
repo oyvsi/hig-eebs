@@ -66,26 +66,30 @@ class BlogpostController extends BaseController {
 	}
 
 	public function create($updateID = false) {
-		if ($updateID !== false){
-			$post = $this->model->getPostFromID($updateID);
+		if(Auth::checkLogin()) {	
+			if ($updateID !== false){
+				$post = $this->model->getPostFromID($updateID);
 
-			$form = new Form('blogPost', 'blogpost/updateDo/' . $updateID, 'POST');
-			$form->addInput('text', 'title', 'Title: ', $post['postTitle']);
-			$form->addTextArea('postIngress', 5, 100, 'Ingress', $post['postIngress']);
-			$form->addTextArea('postText', 30, 100, 'Post text', $post['postText']);
-			//print_r($post);
+				$form = new Form('blogPost', 'blogpost/updateDo/' . $updateID, 'POST');
+				$form->addInput('text', 'title', 'Title: ', $post['postTitle']);
+				$form->addTextArea('postIngress', 5, 100, 'Ingress', $post['postIngress']);
+				$form->addTextArea('postText', 30, 100, 'Post text', $post['postText']);
+				//print_r($post);
+			} else {
+				$form = new Form('blogPost', 'blogpost/createDo', 'POST');
+				$form->addInput('text', 'title', 'Title: ');
+				$form->addTextArea('postIngress', 5, 100, 'Ingress');
+				$form->addTextArea('postText', 30, 100, 'Post text');
+			}
+			$form->addInput('submit', 'Submit');
+			$this->view->setVar('form', $form->genForm());
+			$this->view->setVar('title', 'New post');
+			$this->view->addViewFile('blog/createPost');
 		} else {
-			$form = new Form('blogPost', 'blogpost/createDo', 'POST');
-			$form->addInput('text', 'title', 'Title: ');
-			$form->addTextArea('postIngress', 5, 100, 'Ingress');
-			$form->addTextArea('postText', 30, 100, 'Post text');
+			HTML::redirect('');
 		}
-		$form->addInput('submit', 'Submit');
-		$this->view->setVar('form', $form->genForm());
-		$this->view->setVar('title', 'New post');
-		$this->view->addViewFile('blog/createPost');
 	}
-
+	
 	public function createDo() {
       $this->render = false;
       
