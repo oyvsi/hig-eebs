@@ -18,7 +18,7 @@ foreach($this->vars['flagged'] as $flagged) {
 			<td>' .$reportAuthor. '</td>
 			<td>' .$postAuthor. '</td>
 			<td>' .date('d.m.y H:i', $timestamp). '</td>
-			<td>' .HTML::appLink('blogpost/view/' . $postAuthor . '/' . $PostURL . '/comments/', 'post'). '</td>
+			<td>' .HTML::appLink('blogpost/view/' . $postAuthor . '/' . $PostURL . '/comments', 'post'). '</td>
 		</tr>';
 }
 

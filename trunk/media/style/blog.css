@@ -45,6 +45,8 @@ select, textarea {
 	float: left;
 	border: 10px solid transparent;
 	position: fixed;
+	background: gray;
+	width: 10%;
 }
 
 /*Login*/
