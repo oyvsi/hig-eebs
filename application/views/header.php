@@ -36,13 +36,17 @@
 		</ul>
 		</div>
 
-	<div id="contents">
-		<?php	
-
+<?php
 			//messages
 			if(isset($this->vars['message'])) {
 				echo '<div class="message green"><p>' . $this->vars['message'] . '</p></div>';
 			}
+?>
+
+	<div id="contents">
+		<?php	
+
+
 			//sidebar
 			if($this->renderSideBar === true) {
 				echo' 	<div class="sidebar default">Ti på Topp
