@@ -141,7 +141,6 @@ a:hover {
 
 .leftAlign {
 	text-align: left;
-	width: 60%;
 }
 
 .rightAlign {
@@ -161,7 +160,7 @@ a:hover {
 }
 
 .table th {
-	width: 130px;
+	width: 140px;
 	border: 1px solid black;
 	text-align: center;
 	background: gray;
