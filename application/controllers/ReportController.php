@@ -11,12 +11,23 @@ class ReportController extends BaseController {
    private $tables = array('comments' => array('tableName' => 'commentReports', 'reportField' => 'commentID'),
        'blogpost' => array('tableName' => 'blogPostReports', 'reportField' => 'postID'));
 
+   /**
+   * constructor. used to set up the model info for reports.
+   */
    public function __construct() {
       parent::__construct();
       $this->model = new ReportModel();
    }
 
+   /**
+   * function to create a raport on an users post. 
+   * creates a form with a comment field.
+   * Arguments from url: blogPostID and what the report is for
+   * 
+   * @url report/report/$type/$blogpostID
+   */
    public function report() {
+      print_r($this->args);
       if (in_array($this->args[1], $this->tables)) {
          echo "found";
       }
@@ -32,6 +43,10 @@ class ReportController extends BaseController {
       }
    }
 
+   /**
+   * Fuction that process report data and gives message to 
+   * reporting user. Gets data from POST. 
+   */
    public function reportDo() {
       if (isset($_POST['reportText'])) {
          try {
@@ -44,7 +59,6 @@ class ReportController extends BaseController {
          }
       }
    }
-
 }
 
 ?>

@@ -2,12 +2,15 @@
  
 class CommentsController extends BaseController	{
 	private $fb;
-   private $fbUser;
+	private $fbUser;
 	private $blogpostModel;
 	private $commentsModel;
 	private $postID;
 	private $post;
 
+	/**
+	* constructor. sets up the basic info for comments.
+	*/
 	public function __construct() {
 		parent::__construct();
 		$this->commentsModel = new CommentsModel();
@@ -16,6 +19,10 @@ class CommentsController extends BaseController	{
 		$this->fbUser = $this->fb->checkLogin();
 	}
 
+	/**
+	* FIX THIS MOTHA FUCKAS
+	* this one beats me boys.
+	*/
 	public function view() {
 		$blogName = $this->args[1];
 		$postURL = $this->args[2];
