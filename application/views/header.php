@@ -36,11 +36,6 @@
 		</ul>
 		</div>
 
-<?php
-			if(isset($this->vars['message'])) {
-				echo '<div class="message green"><p>' . $this->vars['message'] . '</p></div>';
-			}
-?>
 	<div id="contents">
 		<?php	
 			if($this->renderSideBar === true) {
@@ -62,3 +57,8 @@
 						</div>';
 	} ?>
 
+<?php
+			if(isset($this->vars['message'])) {
+				echo '<div class="message green"><p>' . $this->vars['message'] . '</p></div>';
+			}
+?>
