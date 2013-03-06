@@ -42,6 +42,7 @@ class BlogpostController extends BaseController {
             $post = $this->model->getPostFromURL($this->args[1], $this->args[2]);
             $isOwner = $this->correctUser($post['userID']);
             $this->view->setVar('isOwner', $isOwner);
+            $this->view->setVar('title', $post['postTitle']);
             $this->view->setVar('blogPost', $post);
             $this->model->updateViewCount($this->model->postID, 'postID', 'postViews');
 
