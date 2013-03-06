@@ -108,7 +108,7 @@ class IndexModel extends BaseModel {
 
 		foreach($this->blogStats as $user) {
 			if(count($user) > 4) {
-				$ratings[$user['userName']] = ($user['postViewCount'] + $user['viewCount'] + $user['commentCount'] / $user['postCount']) * log($user['postCount']);
+				$ratings[$user['userName']] = ($user['postViewCount'] + $user['viewCount'] + $user['commentCount'] / $user['postCount']) * log($user['postCount']) * log($user['viewCount']);
 			}
 		}
 		
