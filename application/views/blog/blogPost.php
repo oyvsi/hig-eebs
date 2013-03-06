@@ -9,11 +9,13 @@
 	echo '<script> document.body.background = "' .$backgroundPicture. '"; </script>';
 
 	echo '<div class="size1 ' . $theme . '">';
-	echo '<div class="blogPostTitle"><h1>' . $postTitle . '</h1>';
+	echo '<div class="blogPostTitle"><h1>' . $postTitle . '</h1></div>';
 	if ($this->vars['isOwner'] || Auth::checkAdmin()) { //logged in user can delete own posts
-		echo '<div class="deletePost">' . HTML::appLink('blogpost/delete/' . $userName .'/' . $postURL ,  'Delete post') . '<br />' . //add an are you shure?
-			HTML::appLink('blogpost/update/' . $postID, 'Edit post') . '</div>
-		</div>';
+		echo '<div class="deletePost">' . HTML::appLink('blogpost/delete/' . $postID, 'Delete post') . '<br />';
+			if($this->vars['isOwner']) {
+				echo HTML::appLink('blogpost/update/' . $postID, 'Edit post');
+			}
+		echo	'</div>';
 	}
 	echo '<div class="blogPostText">' . $postText . '</div>';
 	echo '<div class="blogPostFooter"><p class="commentsLink">';
