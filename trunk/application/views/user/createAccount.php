@@ -18,8 +18,12 @@
 		echo '</div>';
 	}
 
+	
 	echo '<div id="form">' .$createAccount. '</div>';
 	echo '<div class="rightAlign">';
+	if(isset($userInfo['userName'])) {
+	echo HTML::appLink('blog/view/' . $userInfo['userName'], 'Go to your blog...');
+	}
 	echo '</div>';
 	echo '</div>';
 ?>
