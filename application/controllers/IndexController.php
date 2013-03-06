@@ -9,7 +9,6 @@ class IndexController extends BaseController {
 		$this->model = new IndexModel();
 		$this->view->setVar('title', 'HiG-eebs');
 		$this->view->addViewFile('blogPosts');
-		$this->view->addViewFile('sideBar');
 		$this->view->renderSideBar = true;
 	}
 
