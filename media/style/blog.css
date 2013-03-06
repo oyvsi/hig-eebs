@@ -1,8 +1,8 @@
 /*Dont know why i had to set margin-left to null.. 
 General CSS ahead:*/
 body {
-	margin-left: 0;
-	margin-right: 0;
+	margin: 0;
+	height: 100%;
 }
 
 select, textarea {
@@ -40,6 +40,42 @@ select, textarea {
 
 /* Error/messages CSS, end.*/
 
+
+/**/
+.sideBar {
+	float: left;
+	position: fixed;
+
+}
+
+/*Login*/
+
+.login {
+	width: 300px;
+	margin-right: auto;
+	margin-left: auto;
+	border: 10px solid #ddd;
+}
+
+/* create blogpost*/
+.createPost {
+	min-width: 500px;
+	margin-right: auto;
+	margin-left: auto;
+	width: 650px;
+	overflow: hidden;
+	margin-bottom: 10px;
+	background:  #ddd;
+	border: 10px solid #ddd;
+
+}
+
+#blogPost p {
+	font-weight: bold;
+}
+
+/* */
+
 .comments {
 	margin-top: 25px;
 }
@@ -52,6 +88,7 @@ select, textarea {
 }
 .blogPostSummary, .comment {
 	margin-bottom: 10px;
+	border-bottom: 5px solid black;
 }
 .blogPostFooter {
 }
@@ -76,19 +113,12 @@ select, textarea {
 	margin-right: 15px;
 }
 
-div .posts {
-	width: 60%;
-	min-width: 500px;
-	margin-right: auto;
-	margin-left: auto;
-	overflow: hidden;
-}
-
-
 /*The contents ID*/
 #contents {
 	margin-top: 75px;
+	margin-bottom: 20px;
 	z-index: 1;
+	height: 100%;
 }
 
 
@@ -108,10 +138,7 @@ div .posts {
 	color: white;
 }
 
-
-
-
-/* THEMES above */
+/************/
 
 /* FIX LINKS? waiting for possible implementation of fancydropdown(its css).
 or using the css of fancybox. need to clear up the css and make the style similar->class/id etc.
@@ -126,38 +153,38 @@ a {
 
 /* Profile CSS beneath */
 
-div .profile {
-	min-width: 500px;
-	margin-right: auto;
-	margin-left: auto;
-	width: 60%;
-	overflow: hidden;
-	margin-bottom: 10px;
-}
-
-div .picture {
-	border: 10px solid transparent;
-	float: left;
-}
-
 .leftAlign {
 	text-align: left;
 }
 
+.rightAlign {
+	text-align: right;
+}
+
 /* Profile CSS above */
 
-/* change/create CSS beneath: */
-div .createAccount {
-	min-width: 550px;
-	width: 50%;
+/* div sizes */
+
+div .size1 {
+	min-width: 650px;
+	width: 650px;
 	margin-right: auto;
 	margin-left: auto;
-}
-
-#profilePicture {
-	float: left;
+	overflow: hidden;
+	margin-bottom: 10px;
 	border: 10px solid transparent;
 }
+
+div .profilePicture {
+	border: 10px solid transparent;
+	float: left;
+}
+
+
+
+/**************/
+
+/* change/create CSS beneath: */
 
 #userInfo {
 	border: 10px solid transparent;

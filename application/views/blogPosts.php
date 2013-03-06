@@ -8,7 +8,7 @@ if(!isset($theme)) {
 	$theme = 'default';
 }
 
-echo '<div class=posts>';
+echo '<div class="size1 ' .$theme. '">';
 foreach($this->vars['blogPosts'] as $blogPost) {
 	extract($blogPost);
 	$postURL = 'blogpost/view/' . $userName . '/' . $postURL;

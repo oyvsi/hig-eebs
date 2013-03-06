@@ -40,7 +40,7 @@ class Form {
 	public function addTextArea($name, $rows, $cols, $lead=false, $value=false) {
 		$html = '<p class="textarea">';
 		if($lead !== false) {
-			$html .= '<p>' . $lead . '</p>';
+			$html .= '<p>' . $lead . ':</p>';
 		}
 		
 		$html .= '<textarea name="' . $name . '" id="' . $name . '"  rows="' . $rows . '" cols="' . $cols . '">';

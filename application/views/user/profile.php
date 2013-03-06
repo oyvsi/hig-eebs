@@ -1,13 +1,11 @@
 <?php
 extract($this->vars['userProfile']);
 
-// The following html code is for the wrapper for userdefined background:
-//echo ' <div style="background-image:url(' . $variable . ')>';
+echo '<script> document.body.background = "' .$backgroundPicture. '"; </script>';
 
-// The following html is for profile information.
 echo '
-		<div class="profile ' . $theme . ' ">
-			<div class="picture">
+		<div class="size1 ' . $theme . ' ">
+			<div class="profilePicture">
 				'. HTML::fancyBoxImage($profilePicture, $profilePictureThumb) . ' 
 			</div>
 			<table class="leftAlign ' . $theme . '">
@@ -29,4 +27,3 @@ echo '
 				</tr>
 			</table>
 		</div>';
-// Html for profile ends above.
