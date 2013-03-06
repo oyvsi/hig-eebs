@@ -77,10 +77,12 @@ class BlogpostModel extends BaseModel {
 			$this->db->insert($query, array(':postTitle' => $title, ':postURL' => $url, ':postText' => $contents, ':postIngress' => $ingress, ':postID' => $updatePostID));
 
 		} else { // Inserting a new post
-			$notUnique = $this->db->select('SELECT postID FROM blogPosts WHERE userID = :userID AND postURL = :postURL', array(':userID' => $userID, ':postURL' => $url));
-			if(count($notUnique)) {
-				$url .= '_';
-			}
+			do {
+				$notUnique = $this->db->selectOne('SELECT postID FROM blogPosts WHERE userID = :userID AND postURL = :postURL', array(':userID' => $userID, ':postURL' => $url));
+				if($notUnique) {
+					$url .= '_';
+				}
+			} while($notUnique);
 			$query = 'INSERT INTO blogPosts (userID, postTitle, postURL, timestamp, postText, postIngress) VALUES (:userID, :postTitle, :postURL, :timestamp, :postText, :postIngress)';
 			$this->db->insert($query, array(':userID' => $userID, ':postTitle' => $title, ':postURL' => $url, ':timestamp' => time(), ':postText' => $contents, ':postIngress' => $ingress));
 		}
