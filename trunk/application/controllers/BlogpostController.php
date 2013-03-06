@@ -42,7 +42,7 @@ class BlogpostController extends BaseController {
             $post = $this->model->getPostFromURL($this->args[1], $this->args[2]);
             $isOwner = $this->correctUser($post['userID']);
             $this->view->setVar('isOwner', $isOwner);
-            $this->view->setVar('blogPosts', array($post));
+            $this->view->setVar('blogPost', $post);
             $this->model->updateViewCount($this->model->postID, 'postID', 'postViews');
 
             /*if($this->loadComments) {
@@ -123,6 +123,7 @@ class BlogpostController extends BaseController {
 		try {
 			$data = $this->model->getFlagged();
 			$this->view->setVar('flagged', $data);
+			$this->view->setvar('title', 'Flagged Posts');
 			$this->view->addViewFile('admin/flaggedPosts');
 		} catch(Exception $excpt) {
 			$this->view->setError($excpt);

@@ -78,6 +78,7 @@ class CommentsController extends BaseController	{
 		try {
 			$data = $this->commentsModel->getFlagged();
 			$this->view->setVar('flagged', $data);
+			$this->view->setVar('title', 'Flagged Comments');
 			$this->view->addViewFile('admin/flaggedComments');
 		} catch(Exception $excpt) {
 			$this->view->setError($excpt);

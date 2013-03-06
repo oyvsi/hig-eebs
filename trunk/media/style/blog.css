@@ -42,7 +42,7 @@ select, textarea {
 
 
 /**/
-.sideBar {
+.sidebar {
 	float: left;
 	position: fixed;
 
@@ -57,19 +57,6 @@ select, textarea {
 	border: 10px solid #ddd;
 }
 
-/* create blogpost*/
-.createPost {
-	min-width: 500px;
-	margin-right: auto;
-	margin-left: auto;
-	width: 650px;
-	overflow: hidden;
-	margin-bottom: 10px;
-	background:  #ddd;
-	border: 10px solid #ddd;
-
-}
-
 #blogPost p {
 	font-weight: bold;
 }
@@ -77,16 +64,13 @@ select, textarea {
 /* */
 
 .comments {
-	margin-top: 25px;
+	height: 100%;
 }
 
-.comment {
-	margin-top: 15px;
-}
 .commentName {
 	font-weight: bold;
 }
-.blogPostSummary, .comment {
+.blogPostSummary {
 	margin-bottom: 10px;
 	border-bottom: 5px solid black;
 }

@@ -1,3 +1,4 @@
+<div class="size1 default">
 <div class="comments">
 <?php
 //print_r($this->vars);
@@ -17,7 +18,7 @@ foreach($this->vars['comments'] as $comment) {
 			echo '<hr><div class="commentFooter"><div class="reportLink">' . HTML::appLink('report/report/comments/'. $commentID, 'Report comment' . '</div>');
 		
 	echo '</div><div class="timestamp">' . date('d.m.Y H:i', $timestamp) . '</div></div>';
-	echo '<div style="clear: both;"></div></div>';
+	echo '<div style="clear: both;"></div>';
 }
 if(isset($this->vars['loginError'])) {
 	echo '<p>No anonymous comments allowed. Either login through <a href="' . $this->vars['fbLoginURL'] . '">Facebook</a>, or '. HTML::appLink('user/login', 'us') . '</p>';
