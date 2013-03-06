@@ -35,7 +35,7 @@ class IndexModel extends BaseModel {
 	}
 
 	/**
-	* Fuction returns most read posts withit tha last given days
+	* Fuction returns most read posts within tha last given days
 	* @param int $days
 	* @return array
 	*/	
