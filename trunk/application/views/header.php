@@ -52,7 +52,7 @@
 	 			for($i=0; $i < count($this->vars['topTenKeys']); $i++) {
 						echo '	<tr>
 									<th>'. ($i+1) . '</th>
-										<td>&nbsp;'. $this->vars['topTenKeys'][$i] . '   ' . intval($this->vars['topTen'][$this->vars['topTenKeys'][$i]]) . '</td>
+										<td>&nbsp;'. HTML::appLink('blog/view/' . $this->vars['topTenKeys'][$i], $this->vars['topTenKeys'][$i] ) . '   ' . intval($this->vars['topTen'][$this->vars['topTenKeys'][$i]]) . '</td>
 							    </tr>';
 					}
 				echo '		</table>
