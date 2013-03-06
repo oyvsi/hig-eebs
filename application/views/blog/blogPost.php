@@ -11,7 +11,7 @@
 	echo '<div class="size1 ' . $theme . '">';
 	echo '<div class="blogPostTitle"><h1>' . $postTitle . '</h1>';
 	if ($this->vars['isOwner'] || Auth::checkAdmin()) { //logged in user can delete own posts
-		echo '<div class="deletePost">' . HTML::appLink('blogpost/delete/' . $postID, 'Delete post') . '<br />' . //add an are you shure?
+		echo '<div class="deletePost">' . HTML::appLink('blogpost/delete/' . $userName .'/' . $postURL ,  'Delete post') . '<br />' . //add an are you shure?
 			HTML::appLink('blogpost/update/' . $postID, 'Edit post') . '</div>
 		</div>';
 	}
