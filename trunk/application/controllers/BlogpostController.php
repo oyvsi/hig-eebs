@@ -110,12 +110,12 @@ class BlogpostController extends BaseController {
 	}
 
 	public function updateDo() {
+		$this->render = false;
 		try {
 			$url = $this->model->createPost($_POST, false, $this->args[1]);
-			HTML::redirect('blogpost/view/' . $this->user->model->userName . '/' . $url);
+			echo json_encode(array('status' => 'ok', 'url' => __URL_PATH . 'blogpost/view/' . $this->user->model->userName .'/' . $url));
 		} catch(Exception $excpt) {
-			$this->view->setError($excpt);	
-			$this->update();
+			echo json_encode(array('status' => 'error', 'error' => $excpt->getMessage()));
 		}
 	}
 

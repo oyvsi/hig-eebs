@@ -68,10 +68,12 @@ class BlogpostModel extends BaseModel {
 		if ($updatePostID !== false) { // Updating existing post
 			$post = $this->getPostFromID($updatePostID);
 			if ($post['postTitle'] != $title) {
-				$notUnique = $this->db->selectOne('SELECT postID FROM blogPosts WHERE userID = :userID AND postURL = :postURL', array(':userID' => $post['userID'], ':postURL' => $url));
-				if($notUnique) {
-					$url .= '_';
-				}
+				do {
+					$notUnique = $this->db->selectOne('SELECT postID FROM blogPosts WHERE userID = :userID AND postURL = :postURL', array(':userID' => $post['userID'], ':postURL' => $url));
+					if($notUnique) {
+						$url .= '_';
+					} 
+				} while($notUnique);
 			}
 			$query = 'UPDATE blogPosts SET postTitle = :postTitle, postURL = :postURL, postText = :postText, postIngress = :postIngress WHERE postID = :postID';
 			$this->db->insert($query, array(':postTitle' => $title, ':postURL' => $url, ':postText' => $contents, ':postIngress' => $ingress, ':postID' => $updatePostID));
