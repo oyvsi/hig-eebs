@@ -16,17 +16,31 @@ class BlogpostModel extends BaseModel {
 
 	}
 	public function getPostFromURL($blogName, $postURL) {
-		$userID = $this->db->selectOne('SELECT userID from users WHERE userName = :userName', array(':userName' => $blogName));
-		if($userID === false) {
+		$userInfo = $this->db->selectOne('SELECT userID, theme, backgroundID from users WHERE userName = :userName', array(':userName' => $blogName));
+		if($userInfo === false) {
 			throw new Exception('Error. No such user');
 		}
 
 		$query = 'SELECT blogPosts.*, (SELECT COUNT(comments.commentID) FROM comments WHERE comments.postID = blogPosts.postID AND comments.deleted = 0) as noComments FROM blogPosts 
 			WHERE blogPosts.postURL = :postURL AND blogPosts.userID = :userID';
-		$result = $this->db->selectOne($query, array('postURL' => $postURL, 'userID' => $userID['userID']));
+		$result = $this->db->selectOne($query, array('postURL' => $postURL, 'userID' => $userInfo['userID']));
 		if($result === false) {
 			throw new Exception('Unable to get blogpost');
 		}
+
+		//gets background profile url if any.
+		if($userInfo['backgroundID'] != null) {
+			$sql = 'SELECT * FROM pictures WHERE pictureID = :backgroundID';
+			$pic = $this->db->selectOne($sql, array('backgroundID' => $userInfo['backgroundID']));
+			$result['backgroundPicture'] = $pic['url'];
+
+		// set this variable to load default background. blablab O-ALF
+		} else {
+			$result['backgroundPicture'] = '';
+		}
+
+
+		$result['theme'] = $userInfo['theme'];
 
 		$result['userName'] = $blogName;
 		$this->setInfo($result);

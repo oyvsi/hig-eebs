@@ -1,12 +1,18 @@
 <?php
 // TODO: This is a massive duplicate of blogPosts. Fix.
-//print_r($this->vars);
+
+
+//why foreach? mvh Olaf.
 foreach($this->vars['blogPosts'] as $blogPost) {
 	extract($blogPost);
 	if($deleted) {
 		$postText = 'Post is deleted by the blogger or an administrator';
 	}
-	echo '<div class="blogPostSummary" id="' . $postID . '">';
+
+	// changes background
+	echo '<script> document.body.background = "' .$backgroundPicture. '"; </script>';
+
+	echo '<div class="size1 ' . $theme . '">';
 	echo '<div class="blogPostTitle"><h1>' . $postTitle . '</h1>';
 	if (isset($_SESSION['userID']) && $_SESSION['userID'] == $userID) { //logged in user can delete own posts
 		echo '<div class="deletePost">' . HTML::appLink('blogpost/delete/' . $postID, 'Delete post') . '<br />' . //add an are you shure?

@@ -25,4 +25,5 @@ tinyMCE.init({
 });
 </script>
 <?php
-echo $this->vars['form'];
+
+echo '<div class="createPost">' .$this->vars['form']. '</div>';

@@ -1,5 +1,5 @@
 <?php
-echo '<div class="sideBar">';
+echo '<div class="sideBar default">';
 echo' Ti på Topp
 	 <table>
 		<tr>
