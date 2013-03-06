@@ -38,6 +38,12 @@
 
 	<div id="contents">
 		<?php	
+
+			//messages
+			if(isset($this->vars['message'])) {
+				echo '<div class="message green"><p>' . $this->vars['message'] . '</p></div>';
+			}
+			//sidebar
 			if($this->renderSideBar === true) {
 				echo' 	<div class="sidebar default">Ti på Topp
 	 						<table class="leftAlign">
@@ -56,9 +62,3 @@
 							</table>
 						</div>';
 	} ?>
-
-<?php
-			if(isset($this->vars['message'])) {
-				echo '<div class="message green"><p>' . $this->vars['message'] . '</p></div>';
-			}
-?>
