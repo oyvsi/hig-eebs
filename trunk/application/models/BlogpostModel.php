@@ -1,6 +1,11 @@
 <?php
 
 class BlogpostModel extends BaseModel {
+		protected $blogPostFields =  array('title' => array('minLength' => 3, 'maxLength' => 100),
+										   'postIngress' => array('minLength' => 3, 'maxLength' => 100),
+										   'postText' => array('minLength' => 30, 'maxLength' => 20000));
+		
+
 	public function __construct() {
 		parent::__construct();
 	}	
@@ -51,8 +56,7 @@ class BlogpostModel extends BaseModel {
 	public function createPost($data, $userID, $updatePostID = false) {
 		// Do some validation shit and check for XSS
 		$validate = new ValidateForm($data);
-		$validate->setRequired(array('title', 'postIngress', 'postText'));
-		$validate->setMinLength(array('title' => 3, 'postIngress' => 5, 'postText' => 10));
+		$validate->setRequired($this->blogPostFields);
 		if($validate->check() === false) {
 			$errors = implode('<br />', $validate->getErrors());
 			throw new Exception($errors);
