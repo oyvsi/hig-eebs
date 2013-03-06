@@ -19,10 +19,13 @@ class CommentsController extends BaseController	{
 		$this->fbUser = $this->fb->checkLogin();
 	}
 
-	/**
-	* FIX THIS MOTHA FUCKAS
-	* this one beats me boys.
-	*/
+   /**
+   *  Fuction to comment on blogposts. Supports both 
+   * logged in users and facebook-comments.
+   * Arguments from url: blogName and blogposts tilte (URL)
+   * 
+   * @url comments/view/$blogName/$postURL/
+   */
 	public function view() {
 		$blogName = $this->args[1];
 		$postURL = $this->args[2];
@@ -63,6 +66,12 @@ class CommentsController extends BaseController	{
 		$this->view->addViewFile('comments');
 	}
 
+   /**
+   *  fuction process comment and sends it to the model.
+   * 
+   * Arguments from url: blogID
+   * @url comments/commentDo/$postID
+   */
 	public function commentDo() {
 		if($this->user() || $this->fbUser) { 
 			if(isset($this->args[1]) && isset($_POST['comment']) && isset($_POST['redirect'])) {
@@ -81,6 +90,10 @@ class CommentsController extends BaseController	{
 		}
 	}
 
+   /**
+   * fuction falgs a comment.
+   * 
+   */
 	public function getFlagged() {
 		try {
 			$data = $this->commentsModel->getFlagged();
@@ -93,6 +106,12 @@ class CommentsController extends BaseController	{
 		}
 	}
 
+   /**
+   *  function deletes a comment.
+   * 
+   * Arguments from url: commentID, comment to delete
+   * @url comments/delete/$commentID/
+   */
 	public function delete() {
 		if(isset($this->args[1])) {
 			$this->commentsModel->delete($this->args[1]);
