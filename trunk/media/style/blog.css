@@ -56,25 +56,22 @@ select, textarea {
 	border: 10px solid #ddd;
 }
 
+/* post/comment layout */
+.layout1 {
+	margin-bottom: 10px;
+	height: 100%;
+	border-bottom: 5px solid black;
+}
+
+/************/
+
 #blogPost p {
 	font-weight: bold;
 }
 
-/* */
-
-.comment {
-	height: 200px;
-
-}
-
 .commentName {
 	font-weight: bold;
-	background: gray;
 	width: 100%;
-}
-.blogPostSummary {
-	margin-bottom: 10px;
-	border-bottom: 5px solid black;
 }
 
 .byLine, .timestamp, .deleteLink{
@@ -128,6 +125,10 @@ a {
 	color: black;
 	text-decoration: none;
 	font-weight: bold;
+}
+
+a:hover {
+	text-decoration: underline;
 }
 
 /************/

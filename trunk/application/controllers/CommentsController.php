@@ -52,7 +52,7 @@ class CommentsController extends BaseController	{
 
 		$this->view->setVar('commentForm', $userInput->genForm());
 		$this->view->setVar('userName', $user);
-		
+		$this->view->setVar('title', 'Comments');
 		$this->view->addViewFile('comments');
 	}
 

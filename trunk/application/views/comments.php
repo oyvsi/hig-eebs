@@ -4,7 +4,7 @@
 foreach($this->vars['comments'] as $comment) {
 	extract($comment);
 
-	echo '<div class="comment" id="' . $commentID . '">';
+	echo '<div class="layout1" id="' . $commentID . '">';
 
 	if($deleted == 1) {
 		$comment = 'Comment deleted by an administrator';
