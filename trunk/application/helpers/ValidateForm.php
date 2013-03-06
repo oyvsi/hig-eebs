@@ -29,7 +29,6 @@ class ValidateForm {
 		if($this->requiredFields !== false) {
 			foreach($this->requiredFields as $key => $value) {
 				if(array_key_exists($key, $this->form)) {
-					$this->xss_cleaner($this->form[$key]);
 				
 					if(!isset($this->form[$key])) {
 						array_push($this->errors, $key . ' is not properly filled out');
@@ -47,10 +46,10 @@ class ValidateForm {
 					if(array_key_exists('regex', $value)) {
 						if(!preg_match($value['regex'], $this->form[$key])) {
 							array_push($this->errors, $key . ' is SHIT ' . $key .  ' characters');
-					}
+						}
 
 					}
-					}
+				}
 			}
 				
 		if(count($this->errors) > 0) {
@@ -58,13 +57,7 @@ class ValidateForm {
 		}
 		
 		return true;
+		
+		}
 	}
-}
-
-	function xss_cleaner($input_str) {
-    	$return_str = str_replace( array('<','>',"'",'"',')','('), array('&lt;','&gt;','&apos;','&#x22;','&#x29;','&#x28;'), $input_str );
-    	$return_str = str_ireplace( '%3Cscript', '', $return_str );
-    	return $return_str;
-}	
-
 }
