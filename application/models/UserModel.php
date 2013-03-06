@@ -24,7 +24,7 @@ class UserModel extends BaseModel {
 	}
 
 	/**
-	* function returns user data
+	* function to get the data fields of an user
 	* @return array
 	*/
 	public function getUserFields() {
@@ -204,7 +204,7 @@ class UserModel extends BaseModel {
 	*/
 	private function updateBackgroundPicture($file, $userName) {
 		try {
-			$image = new ImageUpload($file, 'profileImages');
+			$image = new ImageUpload($file, 'backgroundImages');
 			$image->setName($userName . '_background');
 			$image->setAllowed(array('jpg', 'jpeg', 'png'));
 			$image->setMinRes(array('600', '400'));
@@ -335,17 +335,4 @@ class UserModel extends BaseModel {
 			throw new Exception('Not enough values');
 		}
 	}
-
-
-/*
-	public function listUserInfo($username) {
-		$lol = $this->db->select("SELECT * FROM users WHERE userName='$username'");
-		print($lols[0]['lastName']);
-
-	}
-
-	public function removeUser() {
-
-	}*/
-
 }
