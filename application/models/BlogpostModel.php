@@ -99,7 +99,7 @@ class BlogpostModel extends BaseModel {
 
 	public function getFlagged() {
 		if(Auth::checkAdmin()) {
-			$query = 'SELECT reportText, blogPosts.PostURL, users.userName as postAuthor, (SELECT userName FROM users WHERE userID = blogPostReports.userID) as reportAuthor FROM blogPostReports LEFT JOIN blogPosts ON blogPostReports.postID = blogPosts.postID LEFT JOIN users ON blogPosts.userID = users.userID WHERE blogPosts.deleted = 0;';
+			$query = 'SELECT reportText, blogpostreports.timestamp, blogPosts.PostURL, users.userName as postAuthor, (SELECT userName FROM users WHERE userID = blogPostReports.userID) as reportAuthor FROM blogPostReports LEFT JOIN blogPosts ON blogPostReports.postID = blogPosts.postID LEFT JOIN users ON blogPosts.userID = users.userID WHERE blogPosts.deleted = 0;';
 			return $this->db->select($query);
 		} else {
 			throw new Exception('Admin function. Login as an admin or GTFO');
