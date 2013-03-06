@@ -47,8 +47,8 @@
 		<?php	
 			//sidebar
 			if($this->renderSideBar === true) {
-				echo' 	<div class="sidebar default">Ti på Topp 
-							<table class="leftAlign">';
+				echo' 	<div class="sidebar">Ti på Topp 
+							<table>';
 	 			for($i=0; $i < count($this->vars['topTenKeys']); $i++) {
 						$user = $this->vars['topTenKeys'][$i];
 						$rating = round($this->vars['topTen'][$this->vars['topTenKeys'][$i]]);
