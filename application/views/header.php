@@ -50,9 +50,11 @@
 				echo' 	<div class="sidebar default">Ti på Topp 
 							<table class="leftAlign">';
 	 			for($i=0; $i < count($this->vars['topTenKeys']); $i++) {
+						$user = $this->vars['topTenKeys'][$i];
+						$rating = round($this->vars['topTen'][$this->vars['topTenKeys'][$i]]);
 						echo '	<tr>
 									<th>'. ($i+1) . '</th>
-										<td>&nbsp;'. HTML::appLink('blog/view/' . $this->vars['topTenKeys'][$i], $this->vars['topTenKeys'][$i] ) . '   ' . intval($this->vars['topTen'][$this->vars['topTenKeys'][$i]]) . '</td>
+										<td>&nbsp;'. HTML::appLink('blog/view/' . $user, $user) . '</td>  <td>  ('   . $rating . ')</td>
 							    </tr>';
 					}
 				echo '		</table>
