@@ -17,7 +17,7 @@ class IndexModel extends BaseModel {
 	}
 
 	/**
-	* Fuction returns a limited number of a users last blogposts.
+	* Fuction returns a limited number of last blogposts from all users.
 	* @param int $limit
 	* @return array
 	*/
@@ -44,7 +44,7 @@ class IndexModel extends BaseModel {
 		$endTime = strtotime('now');
 		$query = $this->baseQuery . ' AND blogPosts.timestamp BETWEEN :startTime AND :endTime
 					 					GROUP BY blogPosts.postID
-					 					ORDER BY readCount DESC';
+					 					ORDER BY readCount DESC, timestamp DESC';
 
 		return $this->db->select($query, array(':startTime' => $startTime, ':endTime' => $endTime));
 	}
@@ -58,8 +58,8 @@ class IndexModel extends BaseModel {
 		$startTime = strtotime('-' . $days . 'days');
 		$endTime = strtotime('now');
 		$query = $this->baseQuery . ' AND blogPosts.timestamp BETWEEN :startTime AND :endTime
-									  GROUP BY blogPosts.postID
-									  ORDER BY noComments DESC';
+									  GROUP BY blogPosts.postID HAVING noComments > 0
+									  ORDER BY noComments DESC, timestamp DESC';
 
 		return $this->db->select($query, array(':startTime' => $startTime, ':endTime' => $endTime));
 	}
@@ -128,7 +128,3 @@ class IndexModel extends BaseModel {
 	}
 	
 }
-
-
-
-
