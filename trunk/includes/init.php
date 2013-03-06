@@ -1,6 +1,7 @@
 <?php
-include __SITE_PATH . '/application/conf/database.php';
-include __SITE_PATH . '/application/Router.php';
+
+require_once(__SITE_PATH . '/application/conf/database.php');
+require_once(__SITE_PATH . '/application/Router.php');
 new Router();
 
 
@@ -19,10 +20,9 @@ function __autoload($className) {
 	foreach($paths as $path) {
 		$filename = $path['path'] . $className . $path['postfix'];
 		if(is_readable($filename)) {
-			include($filename);
-			return true;	
+			require_once($filename);
+			
+         return true;	
 		} 
 	}
 }
-
-?>
