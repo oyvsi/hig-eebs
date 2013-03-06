@@ -60,7 +60,7 @@ class IndexController extends BaseController {
 	*/
 	public function topTen() {
 		$result = $this->model->topTen();
-		$this->view->setVar('topTenKeys', $this->model->getKeys($result));
+		$this->view->setVar('topTenKeys', array_keys($result));
 		$this->view->setVar('topTen', $result);
 	}
 }
