@@ -26,6 +26,7 @@ class ReportController extends BaseController {
          $form->addInput('hidden', 'id', false, $this->args[2]);
          $form->addInput('hidden', 'table', false, $this->args[1]);
          $form->addInput('submit', 'submit');
+         $this->view->setVar('title', 'Report');
          $this->view->setVar('form', $form->genForm());
          $this->view->addViewFile('report');
       }
