@@ -7,8 +7,8 @@ define('__UPLOAD_DIR', 'public/');
 
 // Go set up the app
 include __SITE_PATH . '/includes/init.php';
-include __SITE_PATH . '/application/bootstrap.php';
-//include __SITE_PATH . '/application/Router.php';
-//new Router();
+//include __SITE_PATH . '/application/bootstrap.php';
+include __SITE_PATH . '/application/Router.php';
+new Router();
 
 ?>
