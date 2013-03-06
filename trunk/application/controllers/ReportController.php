@@ -17,7 +17,6 @@ class ReportController extends BaseController {
    }
 
    public function report() {
-      print_r($this->args);
       if (in_array($this->args[1], $this->tables)) {
          echo "found";
       }
