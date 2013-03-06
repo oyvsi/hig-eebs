@@ -20,7 +20,6 @@
 
 	echo '<div id="form">' .$createAccount. '</div>';
 	echo '<div class="rightAlign">';
-	echo HTML::appLink('blog/view/' . $userInfo['userName'], 'Go to your blog...');
 	echo '</div>';
 	echo '</div>';
 ?>
