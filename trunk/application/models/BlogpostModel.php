@@ -1,6 +1,9 @@
 <?php
-
 class BlogpostModel extends BaseModel {
+	protected $blogPostFields =  array('title' => array('minLength' => 3, 'maxLength' => 100),		
+											   'postIngress' => array('minLength' => 3, 'maxLength' => 100),		
+												'postText' => array('minLength' => 30, 'maxLength' => 20000));
+
 	public function __construct() {
 		parent::__construct();
 	}	
@@ -16,17 +19,31 @@ class BlogpostModel extends BaseModel {
 
 	}
 	public function getPostFromURL($blogName, $postURL) {
-		$userID = $this->db->selectOne('SELECT userID from users WHERE userName = :userName', array(':userName' => $blogName));
-		if($userID === false) {
+		$userInfo = $this->db->selectOne('SELECT userID, theme, backgroundID from users WHERE userName = :userName', array(':userName' => $blogName));
+		if($userInfo === false) {
 			throw new Exception('Error. No such user');
 		}
 
 		$query = 'SELECT blogPosts.*, (SELECT COUNT(comments.commentID) FROM comments WHERE comments.postID = blogPosts.postID AND comments.deleted = 0) as noComments FROM blogPosts 
 			WHERE blogPosts.postURL = :postURL AND blogPosts.userID = :userID';
-		$result = $this->db->selectOne($query, array('postURL' => $postURL, 'userID' => $userID['userID']));
+		$result = $this->db->selectOne($query, array('postURL' => $postURL, 'userID' => $userInfo['userID']));
 		if($result === false) {
 			throw new Exception('Unable to get blogpost');
 		}
+
+		//gets background profile url if any.
+		if($userInfo['backgroundID'] != null) {
+			$sql = 'SELECT * FROM pictures WHERE pictureID = :backgroundID';
+			$pic = $this->db->selectOne($sql, array('backgroundID' => $userInfo['backgroundID']));
+			$result['backgroundPicture'] = $pic['url'];
+
+			// set this variable to load default background. blablab O-ALF
+		} else {
+			$result['backgroundPicture'] = '';
+		}
+
+
+		$result['theme'] = $userInfo['theme'];
 
 		$result['userName'] = $blogName;
 		$this->setInfo($result);
@@ -37,8 +54,7 @@ class BlogpostModel extends BaseModel {
 	public function createPost($data, $userID, $updatePostID = false) {
 		// Do some validation shit and check for XSS
 		$validate = new ValidateForm($data);
-		$validate->setRequired(array('title', 'postIngress', 'postText'));
-		$validate->setMinLength(array('title' => 3, 'postIngress' => 5, 'postText' => 10));
+		$validate->setRequired($this->blogPostFields);	
 		if($validate->check() === false) {
 			$errors = implode('<br />', $validate->getErrors());
 			throw new Exception($errors);
@@ -86,8 +102,8 @@ class BlogpostModel extends BaseModel {
 	public function getFlagged() {
 		if(Auth::checkAdmin()) {
 			$query = 'SELECT reportText, blogPostReports.timestamp, blogPosts.PostURL, users.userName as postAuthor, 
-                  (SELECT userName FROM users WHERE userID = blogPostReports.userID) as reportAuthor FROM blogPostReports 
-                  LEFT JOIN blogPosts ON blogPostReports.postID = blogPosts.postID LEFT JOIN users ON blogPosts.userID = users.userID WHERE blogPosts.deleted = 0';
+				(SELECT userName FROM users WHERE userID = blogPostReports.userID) as reportAuthor FROM blogPostReports 
+				LEFT JOIN blogPosts ON blogPostReports.postID = blogPosts.postID LEFT JOIN users ON blogPosts.userID = users.userID WHERE blogPosts.deleted = 0';
 			return $this->db->select($query);
 		} else {
 			throw new Exception('Admin function. Login as an admin or GTFO');
