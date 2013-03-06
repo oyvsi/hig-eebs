@@ -21,7 +21,7 @@ class IndexController extends BaseController {
 	public function loadIndex() {
 		$this->topTen();
 		if($this->user) {
-			echo 'Welcome, '. $this->user->model->userName;
+			$this->view->setVar('message', 'Welcome, ' .$this->user->model->userName. '!');
 			$this->view->setVar('blogPosts', $this->model->getPostsByUser($this->user->model->userID));
 		} else {
 			$this->lastPosts();

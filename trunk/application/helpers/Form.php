@@ -18,7 +18,16 @@ class Form {
 		$input = '<p class="input">';
 
 		if($lead !== false) {
-			$input .= '<label for="' . $name . '">' . $lead  .':</label>' . "\n";
+			$input .= '<label for="' . $name . '">' . $lead;
+
+			//sets a colon in the label for every input type except "submit".
+			if($type != 'submit') {
+				$input .= ':';
+			} else {
+				$input .= '&nbsp';
+			}
+			
+			$input .= '</label>' . "\n";
 		}
 
 		$input .= "\t" . '<input type="' . $type .'" name="' . $name . '"';

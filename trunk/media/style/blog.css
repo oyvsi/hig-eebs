@@ -43,8 +43,8 @@ select, textarea {
 /**/
 .sidebar {
 	float: left;
+	border: 10px solid transparent;
 	position: fixed;
-
 }
 
 /*Login*/
