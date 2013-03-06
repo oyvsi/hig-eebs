@@ -1,4 +1,12 @@
 <?php
+/**
+ * 
+ * This class is responsible to do all routing for the application.
+ * All routes are dependant on the url and is passed via index.php?rc=
+ * All urls should be in the form http://$rootPath/$controller/method/arg1/argN
+ *
+ * @author Team Henkars
+ */
 
 class Router {
    protected $url = NULL;
@@ -7,6 +15,10 @@ class Router {
    protected $controllerName;
    protected $controllerClass;
 
+   /**
+    * Default constructor.
+    * Sets our arguments based on a '/'-split
+    */
    public function __construct() {
       if (isset($_GET['rc'])) {
          $this->url = rtrim($_GET['rc'], '/'); // We don't want no empty arg
@@ -17,10 +29,16 @@ class Router {
       $controller = ($this->url === null) ? 'null' : array_shift($this->args);
       $this->controllerName = ucfirst($controller);
 
+      // Create controller and call method
       $this->route();
+      // Make the controller display something
       $this->controllerClass->render();
    }
 
+   /**
+    * This function creates the controller, 
+    * gives the controller additional args and calls the method
+    */
    private function route() {
       if (class_exists($this->controllerName . $this->postfix)) {
          $fullName = $this->controllerName . $this->postfix;
@@ -31,7 +49,8 @@ class Router {
          }
 
          // Second arg in url is our "action", try that as a method-call
-         if (isset($this->args[0]) && method_exists($this->controllerClass, $this->args[0])) {
+         $method = strtolower($this->args[0]); // method names are case-insensitive. Might as well take advantage of it.
+         if (isset($method) && method_exists($this->controllerClass, $method)) {
             $this->controllerClass->{$this->args[0]}();
          }
          
@@ -40,6 +59,10 @@ class Router {
       }
    }
 
+   /**
+    * This is our default route. If the controller given does not exist,
+    * or not specified, we offer this.
+    */
    private function defaultRoute() {
       $this->controllerClass = new IndexController();
       $this->controllerClass->setUp();
@@ -50,5 +73,4 @@ class Router {
          $this->controllerClass->loadIndex();
       }
    }
-  
 }
