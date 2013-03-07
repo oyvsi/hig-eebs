@@ -5,7 +5,7 @@ class BlogpostModel extends BaseModel {
 												'postText' => array('view' => 'Post text', 'minLength' => 30, 'maxLength' => 20000));
 
 	/**
-	* constructur. sets up initial info
+	* constructur. sets up initial info in class.
 	* 
 	* 
 	*/
@@ -13,6 +13,11 @@ class BlogpostModel extends BaseModel {
 		parent::__construct();
 	}	
 
+	/**
+	* Function returns one object from blogposts table. 
+	* @param int $postID
+	* @return array
+	*/
 	public function getPostFromID($postID) {
 		$query = "SELECT * FROM blogPosts WHERE postID = :postID";
 		$found = $this->db->selectOne($query, array(':postID' => $postID));
@@ -23,6 +28,13 @@ class BlogpostModel extends BaseModel {
 		}
 
 	}
+
+	/**
+	* Function returns a blogpost based on blogName and URL.
+	* @param string $blogName
+	* @param string $postURL
+	* @return array
+	*/
 	public function getPostFromURL($blogName, $postURL) {
 		$userInfo = $this->db->selectOne('SELECT userID, theme, backgroundID from users WHERE userName = :userName', array(':userName' => $blogName));
 		if($userInfo === false) {
@@ -56,6 +68,13 @@ class BlogpostModel extends BaseModel {
 		return $result;
 	}
 
+	/**
+	* Function creates or updates a blogpost and returns the URL to the new (updated) post.
+	* @param array $data
+	* @param int $userID
+	* @param bool $updatePostID 
+	* @return string
+	*/
 	public function createPost($data, $userID, $updatePostID = false) {
 		// Do some validation shit and check for XSS
 		$validate = new ValidateForm($data);
@@ -97,6 +116,12 @@ class BlogpostModel extends BaseModel {
 		return $url;
 	}
 
+	/**
+	* Function deletes a blogpost based on user and url.
+	* post is not removed from database put is set to inactive
+	* @param string $username
+	* @param string $postURL
+	*/
 	public function deletePost($userName, $postURL) {
 		$find = "SELECT * FROM blogPosts LEFT JOIN users ON users.userID = blogPosts.userID WHERE postURL = :postURL AND userName = :userName AND deleted = 0";
 		$post = $this->db->selectOne($find, array(':postURL' => $postURL, ':userName' => $userName));
@@ -108,6 +133,11 @@ class BlogpostModel extends BaseModel {
 		}
 	}
 
+	/**
+	* Function gets flagged posts from database. can only be seen 
+	* by users admins with admin rights.
+	* @return array
+	*/
 	public function getFlagged() {
 		if(Auth::checkAdmin()) {
 			$query = 'SELECT reportText, blogPostReports.timestamp, blogPosts.PostURL, users.userName as postAuthor, 
@@ -118,5 +148,4 @@ class BlogpostModel extends BaseModel {
 			throw new Exception('Admin function. Login as an admin or GTFO');
 		}	
 	}
-
 }
