@@ -23,8 +23,10 @@
 			echo '</ul>';
 		}
 			
-			echo '<ul><li>' . HTML::appLink('mostRead', 'Most read') . '</li>';
+			echo '<ul><li>' . HTML::appLink('lastPosts', 'Last posts') . '</li>';
 			echo '<li>' . HTML::appLink('mostCommented', 'Most commented') . '</li>';
+			echo '<li>' . HTML::appLink('mostRead', 'Most read') . '</li>';
+			
 			if(Auth::checkLogin()) { 
 				echo '<li>' . HTML::appLink('blogpost/create', 'New post') . '</li>';
 				echo '<li>' . HTML::appLink('user/profile', 'Profile') . '</li>';
