@@ -260,9 +260,10 @@ class UserModel extends BaseModel {
 							throw new Exception($excpt->getMessage());
 						}
 					}
-					$sql= "INSERT INTO users (userName, firstName, email, password, pictureID) 
-						VALUES (:userName, :firstName, :email, :password, :pictureID)";
-					$param = array(":userName" => $userName, ":firstName" => $firstName, 
+
+					$sql= "INSERT INTO users (userName, firstName, lastName, email, password, pictureID) 
+						VALUES (:userName, :firstName, :lastName, :email, :password, :pictureID)";
+					$param = array(":userName" => $userName, ":firstName" => $firstName, ":lastName" => $lastName,
 						":email" => $email, ":password" => Helpers::hashPassword($password), ':pictureID' => $picture);	
 
 					return $this->db->insert($sql, $param);
