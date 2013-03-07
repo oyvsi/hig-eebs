@@ -1,4 +1,10 @@
 <?php
+/**
+ * Class for general uploading of files.
+ * supports limiting file extension
+ *
+ * @author Team Henkars
+ */
 
 class FileUpload {
 	protected $origFileName;
@@ -11,9 +17,9 @@ class FileUpload {
 	protected $uploaded = false;
 
 	/**
-	* constuctor. sets up the FileUpload class.
-	* @param string $file
-	* @param string $path
+	* constuctor. Sets up the FileUpload class.
+	* @param string $file the $_FILE key
+	* @param string $path the path relative to root
 	*/
 	public function __construct($file, $path) {
 		$this->uploadDir = __SITE_PATH . '/' . __UPLOAD_DIR . $path . '/';
@@ -25,7 +31,7 @@ class FileUpload {
 	}
 
 	/**
-	* function sets filename.
+	* Sets the name of the uploaded file (without extension)
 	* @param string $name
 	*/
 	public function setName($name) {
@@ -33,8 +39,9 @@ class FileUpload {
 	}
 
 	/**
-	* function sets allowed file extentions.
-	* @param array $ext
+	* Sets allowed file extentions.
+	* @param array $ext textual extension (no ".")
+	* @throws Exception if $ext is not an array
 	*/
 	public function setAllowed($ext) {
 		if(is_array($ext)) {
@@ -45,8 +52,9 @@ class FileUpload {
 	}	
 
 	/**
-	* function returns URL to a file.
-	* @return string
+	* Getter for the URL of the uploaded file
+	* @throws Exception if process is not called beforehand
+	* @return string the URL
 	*/
 	public function getURL() {
 		if($this->uploaded) {
@@ -57,8 +65,9 @@ class FileUpload {
 	}
 
 	/**
-	* FIX THIS
-	* @return string
+	* Moves the file to correct place and validates extension
+	* @throws Exception if the extension is not allowed or the file could not be moved.
+	* @return string the path to the file, relative to the document root
 	*/
 	public function process() {
 		if($this->allowedTypes !== null && in_array($this->fileExt, $this->allowedTypes) === false) {
@@ -73,4 +82,3 @@ class FileUpload {
 		return $this->fullPath;
 	}
 }
-
