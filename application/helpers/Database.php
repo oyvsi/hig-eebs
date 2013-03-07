@@ -1,9 +1,16 @@
 <?php
+/**
+ * Wrapper class for PDO
+ * Exposes most used DB-functions
+ *  
+ * @author Team Henkars
+ */
 
 class Database extends PDO {
 
 	/**
-	* constructor. sets up class database.
+	* Constructor. sets up database-connection.
+	* 
 	* @param string $dbType
 	* @param string $dbHost
 	* @param string $dbName
@@ -16,9 +23,10 @@ class Database extends PDO {
 	}
 
 	/**
-	* fuction to select one object from database. returns the first hit or false.
+	* Select one row from database. returns the first hit or false.
+	* 
 	* @param string $sqlQuery
-	* @param array $params
+	* @param array $params defaults to false
 	* @return bool|array
 	*/
 	public function selectOne($sqlQuery, $params = false) {
@@ -31,18 +39,17 @@ class Database extends PDO {
 	}
 
 	/**
-	* fuction to select objects from database. returns results or false.
+	* Select rows from database. Returns results as two dim assoc array or false.
+	* 
 	* @param string $sqlQuery
 	* @param array $params
 	* @return bool|array
 	*/
-	public function select($sqlQuery, $params = false) {
-		//	echo "SQL query! $sqlQuery <br />";	
+	public function select($sqlQuery, $params = false) {	
 		$handler = $this->prepare($sqlQuery);
 		if($params !== false) {
 			foreach($params as $param => $value) {
 				// Workaround for https://bugs.php.net/bug.php?id=44639, which did not take me an evening to figure out. I want to cry now
-				//echo "param $param Value $value";
 				if(is_int($value)) {
 					$handler->bindValue($param, $value, PDO::PARAM_INT);	
 				} else {
@@ -54,24 +61,21 @@ class Database extends PDO {
 		if($handler->execute()) {
 			return $handler->fetchAll(PDO::FETCH_ASSOC);
 		} else {
-			// WHAT IS THIS? fucks up the profile css. regards, lulaf
-			//echo "Fool"; print_r($handler->errorInfo());
 			return false;
 		}
 	}
 
 	/**
 	* Function to insert or update the database.
+	* 
 	* @param string $sqlQuery
 	* @param array $params
 	* @return bool|int
 	*/
 	public function insert($sqlQuery, $params = false) {
-		//		echo "Query was $sqlQuery";
 		$handler = $this->prepare($sqlQuery);
 		if($params !== false) {
 			foreach($params as $param => $value) {
-				// Workaround for https://bugs.php.net/bug.php?id=44639, which did not take me an evening to figure out. I want to cry now
 				if(is_int($value)) {
 					$handler->bindValue($param, $value, PDO::PARAM_INT);	
 				} else {
@@ -83,7 +87,6 @@ class Database extends PDO {
 		if($handler->execute()) {
 			return $this->lastInsertId();	// You would think this should be in a transaction. But according to manual this is done per connection.
 		} else {
-			echo "Fool"; print_r($handler->errorInfo());
 			return false;
 		}
 	}

@@ -11,11 +11,11 @@ class ValidateForm {
 	private $errors  = array();
 	public $ignoreFields = array();
 		 
-		 /**
-        * Default constructor
-        * Saves the given form to validate
-        * @param $form
-        */
+	/**
+    * Default constructor
+    * Saves the given form to validate
+    * @param $form
+    */
 	public function __construct($form) {
 		$this->form = $form;
 	}
@@ -39,7 +39,7 @@ class ValidateForm {
 	/**
 	* Loops through the requiredFields for a model, then checks if the $field exists in the form and is set.
 	* Continues with checking both minLength and maxLength, f the given field has any regex related to it, and if it has,then match it.
-	* @return boolean
+	* @return bool valid
 	*/
 	public function check() {
 		if($this->requiredFields !== false) {

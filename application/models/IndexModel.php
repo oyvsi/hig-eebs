@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * Index database functions 
+ * @author Team Henkars
+ */
 class IndexModel extends BaseModel {
 	private $baseQuery = 'SELECT blogPosts.*, users.userName, 
 								COUNT(DISTINCT postViews.viewID) as readCount, (SELECT COUNT(comments.commentID) FROM comments WHERE comments.PostID = blogPosts.postID AND comments.deleted = 0) as noComments FROM blogPosts 

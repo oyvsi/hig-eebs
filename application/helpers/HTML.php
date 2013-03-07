@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * Class with static helper functions for HTML  
+ * @author Team Henkars
+ */
 class HTML {
 	
 	/**

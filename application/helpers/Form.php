@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Helper function to create a html form
+ *  
+ * @author Team Henkars
+ */
 class Form {
 	protected $name;
 	protected $action;
@@ -8,7 +12,8 @@ class Form {
 	protected $inputFields;
 
 	/**
-	* constructor. sets up class Form as a new form.
+	* Constructor. sets up class Form as a new form.
+	* 
 	* @param string $name
 	* @param string $action
 	* @param string $method
@@ -21,24 +26,29 @@ class Form {
 
 	}
 
+	/**
+	 * Set the class of the form
+	 * @param string $class name of the class
+	 */
 	public function setClass($class) {
 		$this->class = $class;
 	}
 
 	/**
-	* fuction adds inputs to a form. number of parameters can vary
+	* Adds inputs to a form. number of parameters can vary
+	* 
 	* @param string $type
 	* @param string $name
-	* @param string $lable
-	* @param string $value
-	* @param string $readOly
-	* @param string $id
+	* @param string $label defaults to false
+	* @param string $value defaults to false
+	* @param string $readOly defaults to false
+	* @param string $id defaults to false
 	*/
-	public function addInput($type, $name, $lable=false, $value=false, $readOnly=false, $id=false) {
+	public function addInput($type, $name, $label=false, $value=false, $readOnly=false, $id=false) {
 		$input = '<p class="input">';
 
-		if($lable !== false) {
-			$input .= '<label for="' . $name . '">' . $lable;
+		if($label !== false) {
+			$input .= '<label for="' . $name . '">' . $label;
 
 			//sets a colon in the label for every input type except "submit".
 			if($type != 'submit') {
@@ -72,16 +82,17 @@ class Form {
 
 	/**
 	* fuction adds textarea to a form. number of parameters can vary
+	* 
 	* @param string $name
 	* @param string $rows
 	* @param string $cols
-	* @param string $lable
-	* @param string $value
+	* @param string $label defaults to false
+	* @param string $value defaults to false
 	*/
-	public function addTextArea($name, $rows, $cols, $lable=false, $value=false) {
+	public function addTextArea($name, $rows, $cols, $label=false, $value=false) {
 		$html = '<div>';
-		if($lable !== false) {
-			$html .= '<p>' . $lable . ':</p>';
+		if($label !== false) {
+			$html .= '<p>' . $label . ':</p>';
 		}
 		
 		$html .= '<textarea name="' . $name . '" id="' . $name . '"  rows="' . $rows . '" cols="' . $cols . '">';
@@ -96,14 +107,15 @@ class Form {
 
 	/**
 	* fuction adds select button to a form. number of parameters can vary
+	* 
 	* @param string $name
-	* @param string $lable
+	* @param string $label
 	* @param string $value
-	* @param string $selected
+	* @param string $selected defaults to false
 	*/
-	public function addSelect($name, $lable, $values, $selected=false) {
+	public function addSelect($name, $label, $values, $selected=false) {
 
-			$html = '<p class="input"><label for="' .$name. '">' .$lable. ':</label><select name="' .$name. '" id="' .$name. '">';
+			$html = '<p class="input"><label for="' .$name. '">' .$label. ':</label><select name="' .$name. '" id="' .$name. '">';
 
 			foreach($values as $value) {
 				$html .= '<option value="' .$value['value']. '"';

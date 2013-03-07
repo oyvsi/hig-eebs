@@ -1,4 +1,8 @@
 <?php
+/**
+ * Blogpost database functions 
+ * @author Team Henkars
+ */
 class BlogpostModel extends BaseModel {
 	protected $blogPostFields =  array('title' => array('view' => 'Title', 'minLength' => 3, 'maxLength' => 100),		
 											   'postIngress' => array('view' => 'Ingress', 'minLength' => 3, 'maxLength' => 100),		
