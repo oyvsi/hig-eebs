@@ -1,15 +1,15 @@
 <?php
 /**
-* @author Team Henkars
-*
-* This class holds functions for a user
-*/
- 
+ * @author Team Henkars
+ *
+ * This class holds functions for a user
+ */
+
 class UserController extends BaseController	{
 	/**
-	* Default constructor
-	* sets up the user info
-	*/
+	 * Default constructor
+	 * sets up the user info
+	 */
 	public function __construct() {
 		parent::__construct();
 		$this->model = new UserModel();
@@ -17,25 +17,30 @@ class UserController extends BaseController	{
 	}
 
 	/**
-	* Fuction that fetches user info
-	* based on its userID
-	* @param string $userID
-	*/
+	 * Fuction that fetches user info
+	 * based on its userID
+	 * @param string $userID
+	 */
 	public function fetchUserInfo($userID) {
 		$this->model->fetchUserInfo($userID);
 	}
-	
+
 	/**
-	* Fuction to insert a new user into the database
-	*/
+	 * Fuction to insert a new user into the database
+	 */
 	public function insertUser() {
-		$this->model->insertUser($_REQUEST);
+		try {
+			$this->model->insertUser($_REQUEST);
+		} catch(Exception $excpt) {
+			$this->view->setError($excpt);
+			$this->createAccount();
+		}
 	}
-	
+
 	/**
-	* Fuction to update user profile
-	* Only accesseble by autenticated users
-	*/
+	 * Fuction to update user profile
+	 * Only accesseble by autenticated users
+	 */
 	public function updateUser() {
 		if($this->user) {
 			$this->model->fetchUserInfo($this->user->model->userID);
@@ -52,9 +57,9 @@ class UserController extends BaseController	{
 	}
 
 	/**
-	* Fuction to generate form when creating 
-	* a new account.
-	*/
+	 * Fuction to generate form when creating 
+	 * a new account.
+	 */
 	public function createAccount() {
 
 		$userInput = new Form('userInfo', 'user/insertUser', 'post');
@@ -63,18 +68,18 @@ class UserController extends BaseController	{
 		}
 
 		$userInput->addSelect('theme', 'Theme', $this->model->getThemes());
-      
+
 		$userInput->addInput('submit', 'button', false, 'Submit');
 		$this->view->setVar('createAccount', $userInput->genForm());
 		$this->view->setVar('title', 'Register');
 		$this->view->addViewFile('user/createAccount');
-      
+
 	}
 
 	/**
-	* Fuction tat generates a form so
-	* users can request a new password
-	*/
+	 * Fuction tat generates a form so
+	 * users can request a new password
+	 */
 	public function forgotPassword() {
 		$userInput= new Form('userInfo', 'user/forgotPassword', 'post');
 		$userInput->addInput('text', 'userName', 'Insert username');
@@ -94,13 +99,13 @@ class UserController extends BaseController	{
 	}
 
 	/**
-	* Fuction that views a users profile.
-	* optional arguments from url: userName
-	* shows either a requested user or 
-	* the logged in users profileinfo.
-	*
-	* @url blog/view/$userName/
-	*/
+	 * Fuction that views a users profile.
+	 * optional arguments from url: userName
+	 * shows either a requested user or 
+	 * the logged in users profileinfo.
+	 *
+	 * @url blog/view/$userName/
+	 */
 	public function profile() {
 		if(isset($this->args[1])) {
 			$this->view->addViewFile('user/profile');
@@ -120,7 +125,7 @@ class UserController extends BaseController	{
 			$userInput->addSelect('theme', 'Theme', $this->model->getThemes(), $userData['theme']);
 			$userInput->addInput('submit', 'submit', false, 'Submit');
 
-         	$this->view->setVar('userInfo', $userData);
+			$this->view->setVar('userInfo', $userData);
 			$this->view->setVar('title', $this->model->userName);
 			$this->view->setVar('createAccount', $userInput->genForm());
 			$this->view->addViewFile('user/createAccount');	
@@ -131,9 +136,9 @@ class UserController extends BaseController	{
 	}
 
 	/**
-	* function sends unautenticated user
-	* to loginscreen.
-	*/
+	 * function sends unautenticated user
+	 * to loginscreen.
+	 */
 	public function login() {
 		if(Auth::checkLogin()) {
 			echo "Logged in already...";
@@ -141,10 +146,10 @@ class UserController extends BaseController	{
 			$this->view->addViewFile('login');
 		}	
 	}
-	
+
 	/**
-	* Function cheks login and sets session variables.
-	*/	
+	 * Function cheks login and sets session variables.
+	 */	
 	public function loginDo() {
 		try {
 			$this->model->checkLogin($_POST);
@@ -156,10 +161,10 @@ class UserController extends BaseController	{
 			$this->login();
 		}	
 	}
-	
+
 	/**
-	* Fuction to log out a user.
-	*/
+	 * Fuction to log out a user.
+	 */
 	public function logOut() {
 		session_destroy();
 		HTML::redirect('');
