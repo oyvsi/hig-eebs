@@ -6,6 +6,12 @@ class Form {
 	protected $method;
 	protected $inputFields;
 
+	/**
+	* constructor. sets up class Form as a new form.
+	* @param string $name
+	* @param string $action
+	* @param string $method
+	*/
 	public function __construct($name, $action, $method) {
 		$this->inputFields = array();
 		$this->name = $name;
@@ -14,11 +20,20 @@ class Form {
 
 	}
 
-	public function addInput($type, $name, $lead=false, $value=false, $readOnly=false, $id=false) {
+	/**
+	* fuction adds inputs to a form. number of parameters can vary
+	* @param string $type
+	* @param string $name
+	* @param string $lable
+	* @param string $value
+	* @param string $readOly
+	* @param string $id
+	*/
+	public function addInput($type, $name, $lable=false, $value=false, $readOnly=false, $id=false) {
 		$input = '<p class="input">';
 
-		if($lead !== false) {
-			$input .= '<label for="' . $name . '">' . $lead;
+		if($lable !== false) {
+			$input .= '<label for="' . $name . '">' . $lable;
 
 			//sets a colon in the label for every input type except "submit".
 			if($type != 'submit') {
@@ -46,10 +61,18 @@ class Form {
 		array_push($this->inputFields, $input);
 	}
 
-	public function addTextArea($name, $rows, $cols, $lead=false, $value=false) {
+	/**
+	* fuction adds textarea to a form. number of parameters can vary
+	* @param string $name
+	* @param string $rows
+	* @param string $cols
+	* @param string $lable
+	* @param string $value
+	*/
+	public function addTextArea($name, $rows, $cols, $lable=false, $value=false) {
 		$html = '<p class="textarea">';
-		if($lead !== false) {
-			$html .= '<p>' . $lead . ':</p>';
+		if($lable !== false) {
+			$html .= '<p>' . $lable . ':</p>';
 		}
 		
 		$html .= '<textarea name="' . $name . '" id="' . $name . '"  rows="' . $rows . '" cols="' . $cols . '">';
@@ -62,10 +85,16 @@ class Form {
 		array_push($this->inputFields, $html);
 	} 
 
+	/**
+	* fuction adds select button to a form. number of parameters can vary
+	* @param string $name
+	* @param string $lable
+	* @param string $value
+	* @param string $selected
+	*/
+	public function addSelect($name, $lable, $values, $selected=false) {
 
-	public function addSelect($name, $lead, $values, $selected=false) {
-
-			$html = '<p class="input"><label for="' .$name. '">' .$lead. ':</label><select name="' .$name. '">';
+			$html = '<p class="input"><label for="' .$name. '">' .$lable. ':</label><select name="' .$name. '">';
 
 			foreach($values as $value) {
 				$html .= '<option value="' .$value['value']. '"';
@@ -82,6 +111,10 @@ class Form {
 			array_push($this->inputFields, $html);
 	}
 
+	/**
+	* fuction creates the html code to create the form.
+	* @return string.
+	*/
 	public function genForm() {
 		$html = '<form name="' . $this->name . '" id="' . $this->name . '" action="' . $this->action . '" method="' . $this->method . '" enctype="multipart/form-data">';   
 		foreach($this->inputFields as $input) {

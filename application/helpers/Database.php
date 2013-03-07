@@ -2,11 +2,25 @@
 
 class Database extends PDO {
 
+	/**
+	* constructor. sets up class database.
+	* @param string $dbType
+	* @param string $dbHost
+	* @param string $dbName
+	* @param string $dbUser
+	* @param string $dbPassword
+	*/
 	public function __construct($dbType, $dbHost, $dbName, $dbUser, $dbPassword) {
 		parent::__construct($dbType . ':host=' . $dbHost . '; dbname=' . $dbName, $dbUser, $dbPassword, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8")
 		);
 	}
 
+	/**
+	* fuction to select one object from database. returns the first hit or false.
+	* @param string $sqlQuery
+	* @param array $params
+	* @return bool|array
+	*/
 	public function selectOne($sqlQuery, $params = false) {
 		$result = $this->select($sqlQuery, $params);
 		if(count($result) == 0) {
@@ -16,6 +30,12 @@ class Database extends PDO {
 		}
 	}
 
+	/**
+	* fuction to select objects from database. returns results or false.
+	* @param string $sqlQuery
+	* @param array $params
+	* @return bool|array
+	*/
 	public function select($sqlQuery, $params = false) {
 		//	echo "SQL query! $sqlQuery <br />";	
 		$handler = $this->prepare($sqlQuery);
@@ -40,28 +60,12 @@ class Database extends PDO {
 		}
 	}
 
-/* DUNNO HOW TO TEST IT DUE SHIT, mvh Laff
-	public function update($sqlQuery, $values) {
-
-		try {
-
-			$stmt = $this->prepare($sqlQuery);
-			$stmt->execute($values);
-		} catch (PDOexception $excpt) {
-			echo "Database operation failed!";
-			throw $excpt;
-		}
-	}
- */
-
-	public function insert2($tableName, $fields, $values) {
-		$query = 'INSERT INTO ' . $tableName . '(';
-		$query .= implode(', ', $fields) . ')';
-		$fields[0] = ':' . $fields[0];
-		$query .= ' VALUES(' . implode(', :', $fields);
-		echo $query;
-	}
-
+	/**
+	* Function to insert or update the database.
+	* @param string $sqlQuery
+	* @param array $params
+	* @return bool|int
+	*/
 	public function insert($sqlQuery, $params = false) {
 		//		echo "Query was $sqlQuery";
 		$handler = $this->prepare($sqlQuery);
@@ -83,6 +87,4 @@ class Database extends PDO {
 			return false;
 		}
 	}
-
-	public function delete() {}
 }
