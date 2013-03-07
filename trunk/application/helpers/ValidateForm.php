@@ -27,8 +27,8 @@ class ValidateForm {
 	public function check() {
 		if($this->requiredFields !== false) {
 			foreach($this->requiredFields as $key => $value) {
+				strip_tags($this->form[$key])
 				if(array_key_exists($key, $this->form) && !in_array($key, $this->ignoreFields)) {
-				 	strip_tags($this->form[$key])
 					if(!isset($this->form[$key])) {
 						array_push($this->errors, $key . ' is not properly filled out');
 					}
