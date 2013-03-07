@@ -265,7 +265,7 @@ class UserModel extends BaseModel {
 					$param = array(":userName" => $userName, ":firstName" => $firstName, 
 						":email" => $email, ":password" => Helpers::hashPassword($password), ':pictureID' => $picture);	
 
-					$this->db->insert($sql, $param);
+					return $this->db->insert($sql, $param);
 
 				} else {
 					throw new Exception('Username ' . $_POST['userName'] . ' already exists');
