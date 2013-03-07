@@ -11,6 +11,7 @@
  * @author oyvind
  */
 class ReportModel extends BaseModel {
+   protected $reportFields=  array('reportText' => array('view' => 'Text', 'minLength' => 3, 'maxLength' => 100));
 
 	/**
 	* Fuction that updates reports. gets all parameters 
@@ -22,8 +23,8 @@ class ReportModel extends BaseModel {
 	*/
    public function report($id, $table, $field, $data) {
       $valid = new ValidateForm($data);
-      $valid->setRequired(array('reportText'));
-      $valid->setMinLength(array('reportText' => 5));
+      $valid->setRequired($this->reportFields);
+      
       if (Auth::CheckLogin() === false) {
          throw new Exception('Can\'t report blog post when you\'re not logged in');
       }

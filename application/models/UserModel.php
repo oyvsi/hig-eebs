@@ -283,6 +283,16 @@ class UserModel extends BaseModel {
 	* @param array $params
 	*/
 	public function updateUser($params) {
+		$validate = new ValidateForm($params);
+		if(empty($params['password'])) {
+			array_push($validate->ignoreFields, 'password');
+			array_push($validate->ignoreFields, 'password2');
+		}
+		$validate->setRequired($this->userFields);
+		if($validate->check() === false) {
+			$errors = implode('<br />', $validate->getErrors());
+			throw new Exception($errors);
+		} else {
 		extract($params);
 		//BURDE VÆRE EN FUNKSJON SOM KAN SØRGE FOR REQUIRED FILDS, SÅ IFSLØYFA BLIR PENERE, OG DET BLIR MINDRE KODE
 
@@ -344,4 +354,5 @@ class UserModel extends BaseModel {
 			throw new Exception('Not enough values');
 		}
 	}
+}
 }
