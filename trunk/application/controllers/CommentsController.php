@@ -32,7 +32,7 @@ class CommentsController extends BaseController	{
 		$id = isset($this->args[4]) ? $this->args[4] : false;
 		$this->post = $this->blogpostModel->getPostFromURL($blogName, $postURL);
       $this->postID = $this->post['postID'];
-		$isOwner = ($this->post['userID'] == $this->user->model->userID);
+		$isOwner = ($this->user && $this->post['userID'] == $this->user->model->userID);
 
 		if($id !== false) {
 			$comments = $this->commentsModel->getComment($id);
