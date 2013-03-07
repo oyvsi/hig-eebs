@@ -4,6 +4,11 @@ class BlogpostModel extends BaseModel {
 											   'postIngress' => array('view' => 'Ingress', 'minLength' => 3, 'maxLength' => 100),		
 												'postText' => array('view' => 'Post text', 'minLength' => 30, 'maxLength' => 20000));
 
+	/**
+	* constructur. sets up initial info
+	* 
+	* 
+	*/
 	public function __construct() {
 		parent::__construct();
 	}	
