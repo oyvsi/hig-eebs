@@ -2,7 +2,8 @@
 class Helpers {
 	//source: http://stackoverflow.com/questions/1837432/how-to-generate-random-password-with-php
 	/**
-	* fuction creates 
+	* fuction creates a random generated password between 8 and 12 characters.
+	* @return string
 	*/
 	public static function generateRandomPassword() {  
 		//Initialize the random password
@@ -42,7 +43,11 @@ class Helpers {
 		return $title;
 	}
 
-	 public static function getRealIpAddress() {
+	/**
+	* fuction returns the public ip address of a client.
+	* @return string
+	*/
+	public static function getRealIpAddress() {
 		 if(!empty($_SERVER['HTTP_CLIENT_IP'])){  
 			 $ip=$_SERVER['HTTP_CLIENT_IP']; 
 

@@ -10,17 +10,20 @@ class ValidateForm {
 		$this->form = $form;
 	}
 
+
 	public function setRequired($fields) {
 		$this->requiredFields = $fields;
 	}
-	
 	public function setMinLength($fields) {
 		$this->minLength = $fields;	
 	}
+
+
 	public function getErrors() {
 		return $this->errors;
 	}
 	
+
 	public function check() {
 		if($this->requiredFields !== false) {
 			foreach($this->requiredFields as $key => $value) {
