@@ -1,12 +1,12 @@
 <?php
 
 class UserModel extends BaseModel {
-	protected $userFields = array('userName' => array('table' => 'userName', 'view' => 'Username', 'fieldType' => 'text', 'minLength' => 3, 'maxLength' => 15),
-								  'firstName' => array('table' => 'firstName', 'view' => 'Firstname', 'fieldType' => 'text', 'minLength' => 3, 'maxLength' => 100),
-								  'lastName' => array('table' => 'lastName', 'view' => 'Lastname', 'fieldType' => 'text', 'minLength' => 3, 'maxLength' => 100),
-								  'email' => array('table' => 'email', 'view' => 'Email', 'fieldType' => 'text', 'minLength' => 3, 'maxLength' => 100, 'regex' => '/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/'),
-								  'password' => array('table' => 'password', 'view' => 'Password', 'fieldType' => 'password', 'minLength' => 5, 'maxLength' => 100),
-								  'password2' => array('table' => 'password2', 'view' => 'Repeat password', 'fieldType' => 'password', 'minLength' => 5, 'maxLength' => 100),
+	protected $userFields = array('userName' => array('table' => 'userName', 'view' => 'Username(*)', 'fieldType' => 'text', 'minLength' => 3, 'maxLength' => 15),
+								  'firstName' => array('table' => 'firstName', 'view' => 'Firstname(*)', 'fieldType' => 'text', 'minLength' => 3, 'maxLength' => 100),
+								  'lastName' => array('table' => 'lastName', 'view' => 'Lastname(*)', 'fieldType' => 'text', 'minLength' => 3, 'maxLength' => 100),
+								  'email' => array('table' => 'email', 'view' => 'Email(*)', 'fieldType' => 'text', 'minLength' => 3, 'maxLength' => 100, 'regex' => '/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/'),
+								  'password' => array('table' => 'password', 'view' => 'Password(*)', 'fieldType' => 'password', 'minLength' => 5, 'maxLength' => 100),
+								  'password2' => array('table' => 'password2', 'view' => 'Repeat password(*)', 'fieldType' => 'password', 'minLength' => 5, 'maxLength' => 100),
 								  'picture' => array('table' => 'picture', 'view' => 'Picture', 'fieldType' => 'file'), 
 								  'background' => array('table' => 'background', 'view' => 'Background', 'fieldType' => 'file'));
 
