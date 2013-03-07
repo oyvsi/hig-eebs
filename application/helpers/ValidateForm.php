@@ -38,14 +38,14 @@ class ValidateForm {
 	
 	/**
 	* Loops through the requiredFields for a model, then checks if the $field exists in the form and is set.
-	* Continues with checking both minLength and maxLength, if the given field has any regex related to it, and if it has, then match it.
+	* Continues with checking both minLength and maxLength, f the given field has any regex related to it, and if it has,then match it.
 	* @return boolean
 	*/
 	public function check() {
 		if($this->requiredFields !== false) {
 			foreach($this->requiredFields as $key => $value) {
-				strip_tags($this->form[$key]);
 				if(array_key_exists($key, $this->form) && !in_array($key, $this->ignoreFields)) {
+					strip_tags($this->form[$key]);
 					if(!isset($this->form[$key])) {
 						array_push($this->errors, $key . ' is not properly filled out');
 					}
