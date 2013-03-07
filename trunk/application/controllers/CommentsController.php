@@ -24,7 +24,7 @@ class CommentsController extends BaseController	{
 	}
 
    /**
-   *  Fuction to comment on blogposts. Supports both 
+   *  Function to comment on blogposts. Supports both 
    * logged in users and facebook-comments.
    * Arguments from url: blogName and blogposts tilte (URL)
    * 
@@ -71,7 +71,7 @@ class CommentsController extends BaseController	{
 	}
 
    /**
-   *  fuction process comment and sends it to CommentsModel.
+   *  function process comment and sends it to CommentsModel.
    * 
    * Arguments from url: blogID
    * url is comments/commentDo/$postID
@@ -95,7 +95,7 @@ class CommentsController extends BaseController	{
 	}
 
    /**
-   * fuction flags the given comment.
+   * function flags the given comment.
    * 
    */
 	public function getFlagged() {
