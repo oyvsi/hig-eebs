@@ -22,10 +22,10 @@ class BlogController extends BaseController {
 		$this->userModel = new UserModel();
 	}
 
-	/**
+		/**
          * Shows the blog of an user.
-         * The username is determined by string after last /
-         * @url /blog/view/$userName
+         * The username is determined by string after last '/'
+         * url is /blog/view/$userName
          */
         public function view() {	
 		$this->blogName = (isset($this->args[1])) ? $this->args[1] : NULL;
