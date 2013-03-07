@@ -54,6 +54,7 @@ class IndexController extends BaseController {
 	* gets the last ten posts posted by the logged in user.
 	*/
 	public function lastPosts() {
+		$this->topTen();
 		$this->view->setVar('title', 'Bloggsystem2kPro');
 		$this->view->setVar('blogPosts', $this->model->lastPosts(10));
 	}
