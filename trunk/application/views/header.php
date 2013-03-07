@@ -36,29 +36,27 @@
 		</ul>
 		</div>
 
-<?php
+	<div id="contents">
+		<?php	
 			//messages
 			if(isset($this->vars['message'])) {
 				echo '<div class="message green"><p>' . $this->vars['message'] . '</p></div>';
 			}
-?>
-
-	<div id="contents">
-		<?php	
 			//sidebar
 			if($this->renderSideBar === true) {
-				echo' 	<div class="sidebar">Ti på Topp 
-							<table>';
+				echo' 	<div class="topten default">
+							<table class="table leftAlign centeres">
+								<tr><th colspan=3 style="width: 180px">Top Ten</th></tr>';
+
 	 			for($i=0; $i < count($this->vars['topTenKeys']); $i++) {
 						$user = $this->vars['topTenKeys'][$i];
 						$rating = round($this->vars['topTen'][$this->vars['topTenKeys'][$i]]);
 						echo '	<tr>
-									<th>'. ($i+1) . '</th>
+									<th style="width: 20px">'. ($i+1) . '</th>
 										<td>&nbsp;'. HTML::appLink('blog/view/' . $user, $user) . '</td>  <td>  ('   . $rating . ')</td>
 							    </tr>';
-					}
+				}
 				echo '		</table>
 						</div>';
-
-
-	} ?>
+			} 
+		?>

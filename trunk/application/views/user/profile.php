@@ -4,7 +4,7 @@ extract($this->vars['userProfile']);
 echo '<script> document.body.background = "' .$backgroundPicture. '"; </script>';
 
 echo '
-		<div class="size1 ' . $theme . ' ">
+		<div class="size ' . $theme . ' centered">
 			<div class="profilePicture">
 				'. HTML::fancyBoxImage($profilePicture, $profilePictureThumb) . ' 
 			</div>

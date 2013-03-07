@@ -1,6 +1,6 @@
 <?php
-	echo '<div class="login default"><p>No account yet? Don\'t worry, ' . HTML::appLink('user/createAccount', 'sign up!') . '</p>';
-	echo '<div class="form" id="login">';
+	echo '<div class="login default centered"><p>No account yet? Don\'t worry, ' . HTML::appLink('user/createAccount', 'sign up!') . '</p>';
+	echo '<div class="form">';
 
 	$form = new Form('login', 'user/loginDo', 'POST');
 	$form->addInput('text', 'userName', 'Username');

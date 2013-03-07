@@ -1,6 +1,6 @@
 <?php
-echo '<div class="size1 default">';
-echo '<table class="table leftAlign">';
+echo '<div class="size default centered">';
+echo '<table class="table leftAlign centered">';
 echo '	<tr>
 			<th>Report</th>
 			<th>Reported by</th>

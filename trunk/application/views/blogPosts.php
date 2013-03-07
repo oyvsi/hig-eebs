@@ -7,11 +7,11 @@ if(!isset($theme)) {
 	$theme = 'default';
 }
 
-echo '<div class="size1 ' .$theme. '">';
+echo '<div class="size ' .$theme. ' centered">';
 foreach($this->vars['blogPosts'] as $blogPost) {
 	extract($blogPost);
 	$postURL = 'blogpost/view/' . $userName . '/' . $postURL;
-	echo '<div class="layout1 ' . $theme . '">';// id="' . $blogPost['postID'] . '">';
+	echo '<div class="layout ' . $theme . '">';// id="' . $blogPost['postID'] . '">';
 	echo '<div class="blogPostTitle"><h1>' . $blogPost['postTitle'] . '</h1></div>';
 	//echo '<div class="deletePost"><a href="deletePost">Delete post</a></div>';
 	echo '<div class="blogPostSummaryText"><p>' . $blogPost['postIngress'] . '</p></div>';

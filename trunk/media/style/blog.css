@@ -1,232 +1,27 @@
-/*Dont know why i had to set margin-left to null.. 
-General CSS ahead:*/
+/****************
+"Global" CSS
+****************/
 body {
 	margin: 0;
 	height: 100%;
 }
-
 select, textarea {
 	resize: none;
 	color: black;
 	background: white;
 	border: none;
 }
-
-/* Error/messages CSS*/
-
-.message {
-	text-align: center;
-	font-weight: bold;
-	color: black;
-	display:block;
-	width: 100%;
-	margin-top: 0px;
-	height: 100%;
-	vertical-align: middle;
-}
-
-.message p {
-	margin-top: 0;
-}
-
-.red {
-	background-color: red;
-}
-
-.green {
-	background-color: #33CC66;
-}
-
-/* Error/messages CSS, end.*/
-
-
-/**/
-.sidebar {
-	float: left;
-	border: 10px solid transparent;
-	position: fixed;
-	background: gray;
-	width: 10%;
-}
-
-/*Login*/
-
-.login {
-	width: 300px;
-	margin-right: auto;
-	margin-left: auto;
-	border: 10px solid #ddd;
-}
-
-/* post/comment layout */
-.layout1 {
-	margin-bottom: 10px;
-	height: 100%;
-	border-bottom: 5px solid black;
-	
-}
-
-/************/
-
-#blogPost p {
-	font-weight: bold;
-}
-
-.commentName {
-	font-weight: bold;
-	width: 100%;
-}
-
-.byLine, .timestamp, .deleteLink{
-	float: right;
-}
-.commentsLink, .reportLink, .commentName {
-	float: left;
-}
-.clear:after {
-	visibility: hidden;
-	display: block;
-	font-size: 0;
-	content: " ";
-	clear: both;
-	height: 0;
-}
-
-.deletePost {
-	float: right;
-	margin-top: -50px;
-	margin-right: 15px;
-}
-
-/*The contents ID*/
-#contents {
-	margin-top: 20px;
-	margin-bottom: 20px;
-	z-index: 1;
-	height: 100%;
-}
-
-
-/* THEMES beneath */
-.default {
-	background: #ddd;
-	color: black;
-	border-bottom: 5px solid black;
-}
-
-.hellner {
-	background: blue;
-	color: yellow;
-	border-bottom: 5px solid yellow;
-}
-
-.northug {
-	background: red;
-	color: white;
-	border-bottom: 5px solid blue;
-}
-
-/*Links*/
 a {
 	color: black;
 	text-decoration: none;
 	font-weight: bold;
 }
-
 a:hover {
 	text-decoration: underline;
 }
 
-/************/
 
-/* Helpers */
-
-.leftAlign {
-	text-align: left;
-}
-
-.rightAlign {
-	text-align: right;
-}
-
-/*********/
-
-
-/*Table specifix*/
-.table {
-	border: 1px solid gray;
-	border-collapse: collapse;
-	margin-left:auto;
-	margin-right:auto;
-
-}
-
-.table th {
-	width: 140px;
-	border: 1px solid black;
-	text-align: center;
-	background: gray;
-}
-.table td {
-	border: 1px solid gray;
-	padding: 4px;
-}
-
-/********/
-
-
-/* Profile CSS above */
-
-/* div sizes */
-
-div .size1 {
-	min-width: 650px;
-	width: 650px;
-	margin-right: auto;
-	margin-left: auto;
-	overflow: hidden;
-	margin-bottom: 10px;
-	border: 10px solid transparent;
-}
-
-div .profilePicture {
-	border: 10px solid transparent;
-	float: left;
-}
-
-
-
-/**************/
-
-/* change/create CSS beneath: */
-
-#userInfo {
-	border: 10px solid transparent;
-}
-
-.input label {
-	display: block;
-	float: left;
-	width: 130px;
-}
-
-#form {
-	margin-left: 30%;
-}
-
-
-/*Change/create CSS above*/
-
-
-#footer {
-margin-top: 2%;
-text-align: center;
-background-color: gray;
-bottom: 0px;
-position: fixed;
-width: 100%;
-}
-
+/* Navigation bar specifix*/
 #navigation {
 		background:#fff;
 		border-bottom:2px solid #000;
@@ -268,22 +63,183 @@ width: 100%;
 	background: white;
 	color:black;
 }
-
-#navigation ul li a.active,
-
 #navigation ul li a.active:hover {
 	color:#fff;
 	background:#000;
 	font-weight:bold;
-					 }*/
-					/*
-					label{float:left; 
-					clear: left;
 }
-	input {
+
+
+/*The contents ID*/
+#contents {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	z-index: 1;
+	height: 100%;
+}
+
+
+/* Error/messages CSS*/
+.message {
+	text-align: center;
+	font-weight: bold;
+	color: black;
+	display:block;
+	width: 100%;
+	margin-top: -20px;
+	vertical-align: middle;
+}
+.message p {
+	margin-top: 0;
+}
+.red {
+	background-color: red;
+}
+.green {
+	background-color: #33CC66;
+}
+
+
+/* The div that defines size etc on most pages */
+div .size {
+	min-width: 650px;
+	width: 650px;
+	overflow: hidden;
+	margin-bottom: 10px;
+	border: 10px solid transparent;
+}
+
+
+/* post/comment layout */
+.layout {
+	margin-bottom: 10px;
+	height: 100%;
+	border-bottom: 5px solid black;	
+}
+
+
+/* Top ten CSS*/
+div .topten {
+
+	width: 200px;
+	min-width: 200px;
+	float: left;
+	border: 10px solid transparent;
+	position: fixed;
+	word-wrap: break-word;
+}
+
+
+/* login / forgot password */
+
+div .login {
+	width: 300px;
+	border: 10px solid #ddd;
+}
+
+
+/* Blog post spesifix */
+#blogPost p {
+	font-weight: bold;
+}
+.commentName {
+	font-weight: bold;
+	width: 100%;
+}
+.byLine, .timestamp, .deleteLink{
+	float: right;
+}
+.commentsLink, .reportLink, .commentName {
 	float: left;
 }
-	textarea {
-	padding: 5px;
+.clear:after {
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
 }
-					 */
+.deletePost {
+	float: right;
+	margin-top: -50px;
+	margin-right: 15px;
+}
+
+
+/*Table specifix*/
+.table {
+	border: 1px solid gray;
+	border-collapse: collapse;
+
+}
+.table th {
+	width: 140px;
+	border: 1px solid black;
+	text-align: center;
+	background: gray;
+}
+.table td {
+	border: 1px solid gray;
+	padding: 4px;
+}
+
+
+/* profile change/create/preview specifix */
+div .profilePicture {
+	border: 10px solid transparent;
+	float: left;
+}
+#userInfo {
+	border: 10px solid transparent;
+}
+.input label {
+	display: block;
+	float: left;
+	width: 130px;
+}
+#form {
+	margin-left: 30%;
+}
+
+
+/* Footer ID*/
+#footer {
+margin-top: 2%;
+text-align: center;
+background-color: gray;
+bottom: 0px;
+position: fixed;
+width: 100%;
+}
+
+
+/* color themes */
+.default {
+	background: #ddd;
+	color: black;
+	border-bottom: 5px solid black;
+}
+.hellner {
+	background: blue;
+	color: yellow;
+	border-bottom: 5px solid yellow;
+}
+.northug {
+	background: red;
+	color: white;
+	border-bottom: 5px solid blue;
+}
+
+
+/* Helpers */
+.leftAlign {
+	text-align: left;
+}
+.rightAlign {
+	text-align: right;
+}
+.centered {
+	margin-left:auto;
+	margin-right:auto;
+}

@@ -44,7 +44,7 @@ class Form {
 			if($type != 'submit') {
 				$input .= ':';
 			} else {
-				$input .= '&nbsp';
+				$input .= '&nbsp;';
 			}
 			
 			$input .= '</label>' . "\n";
@@ -54,7 +54,11 @@ class Form {
 
 		if($id !== false) {
 			$input .= ' id="' . $id . '"';
+		} else {
+			$input .= ' id="' .$name. '" ';
 		}
+
+
 		if($value !== false) {
 			$input .= ' value="' . $value . '"';
 		}
@@ -75,7 +79,7 @@ class Form {
 	* @param string $value
 	*/
 	public function addTextArea($name, $rows, $cols, $lable=false, $value=false) {
-		$html = '<p class="textarea">';
+		$html = '<div>';
 		if($lable !== false) {
 			$html .= '<p>' . $lable . ':</p>';
 		}
@@ -86,7 +90,7 @@ class Form {
 			$html .= $value;
 		}
 
-		$html .= '</textarea></p>';
+		$html .= '</textarea></div>';
 		array_push($this->inputFields, $html);
 	} 
 
@@ -99,7 +103,7 @@ class Form {
 	*/
 	public function addSelect($name, $lable, $values, $selected=false) {
 
-			$html = '<p class="input"><label for="' .$name. '">' .$lable. ':</label><select name="' .$name. '">';
+			$html = '<p class="input"><label for="' .$name. '">' .$lable. ':</label><select name="' .$name. '" id="' .$name. '">';
 
 			foreach($values as $value) {
 				$html .= '<option value="' .$value['value']. '"';
@@ -121,7 +125,7 @@ class Form {
 	* @return string.
 	*/
 	public function genForm() {
-		$html = '<form name="' . $this->name . '" id="' . $this->name . '"' . ($this->class ? ' class="' . $this->class . '"' : '') . '" action="' . $this->action . '" method="' . $this->method . '" enctype="multipart/form-data">';   
+		$html = '<form name="' . $this->name . '" id="' . $this->action . '"' . ($this->class ? ' class="' . $this->class . '"' : ' ') . ' action="' . $this->action . '" method="' . $this->method . '" enctype="multipart/form-data">';   
 		foreach($this->inputFields as $input) {
 			$html .= "\n\t" . $input;
 		}
