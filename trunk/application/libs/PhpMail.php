@@ -3,7 +3,18 @@ require 'phpmail/class.phpmailer.php';
 require 'phpmail/class.smtp.php';
 require 'phpmail/class.pop3.php';
 
-class PhpMail {    
+/**
+ * Wrapper class for PHPMailer 
+ * 
+ */
+class PhpMail {
+	/**
+ 	* Send mail
+ 	* @param string $to
+ 	* @param string $subject
+ 	* @param $string $text
+ 	* @return bool status of mail sending
+ 	*/     
     public static function mail($to, $subject, $text){
 	    $mail  = new PHPMailer();   
 		$mail->IsSMTP();

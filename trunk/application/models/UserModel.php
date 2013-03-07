@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * User database functions 
+ * @author Team Henkars
+ */
 class UserModel extends BaseModel {
 	protected $userFields = array('userName' => array('table' => 'userName', 'view' => 'Username(*)', 'fieldType' => 'text', 'minLength' => 3, 'maxLength' => 15),
 								  'firstName' => array('table' => 'firstName', 'view' => 'Firstname(*)', 'fieldType' => 'text', 'minLength' => 3, 'maxLength' => 100),
@@ -55,6 +58,7 @@ class UserModel extends BaseModel {
 	* data is fetched from the database
 	* @param int $userID
 	* @return array
+	* @throws Exception if the user was not found
 	*/
 	public function fetchUserInfo($userID) {
 		$sql = 'SELECT * FROM users WHERE userID = :userID';
@@ -95,6 +99,7 @@ class UserModel extends BaseModel {
 	* and sets user info
 	* @param string $userName
 	* @return array
+	* @throws Exception if user was not found
 	*/
 	public function fetchUserProfile($userName) {
 		$result = $this->getUser($userName);

@@ -1,17 +1,36 @@
 <?php
+/**
+ * Abstract class for models. 
+ * Implements common model functionality 
+ * 
+ * @author Team Henkars
+ */
 abstract class BaseModel {
 	protected $db;
 
+	/**
+	 * Constructor. Sets up database object.
+	 */
 	public function __construct() {
 		$this->db = new Database(__DB_TYPE, __DB_HOST, __DB_NAME, __DB_USER, __DB_PASS);
 	}
    
+   	/**
+   	 * Store info in object
+   	 * @param array associative array
+   	 */
 	protected function setInfo($assArray) {
 		foreach($assArray as $key => $value) {
 			$this->$key = $value;
 		}	
 	}
    
+   /**
+    * Function to update a view count in database 
+    * @param int $id the id to select from when looking for unique
+    * @param string $field the field to select from
+    * @param string $table the table name
+    */
    public function updateViewCount($id, $field, $table) {
 		
 		$ipAddress = Helpers::getRealIpAddress();

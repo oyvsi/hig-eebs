@@ -1,6 +1,8 @@
 <?php
 require 'facebook/facebook.php';
-
+/**
+ * Wrapper class for facebook login. 
+ */
 class FacebookLogin {
 	private $fb;
 	public function __construct() {
@@ -10,6 +12,11 @@ class FacebookLogin {
 		));
 	}
 
+	/**
+	 * Check if we have a user with a facebook login
+	 * @return array the user profile
+	 * @throws FaceBookApiException
+	 */
 	public function checkLogin() {
 		$user = $this->fb->getUser();
 		if ($user) {
@@ -25,9 +32,18 @@ class FacebookLogin {
 		}
 	}
 
+	/**
+	 * Getter for logout url
+	 * @return string url 
+	 */
 	public function getLogoutURL() {
 		return $this->fb->getLogoutUrl();
-	}		  
+	}
+
+	/**
+	 * Getter for login url
+	 * @return string url 
+	 */		  
 	public function getLoginURL() {
 		return $this->fb->getLoginUrl();
 	}	

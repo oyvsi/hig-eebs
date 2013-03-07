@@ -1,4 +1,7 @@
 <?php
+/**
+ * General helper functions
+ */
 class Helpers {
 	//source: http://stackoverflow.com/questions/1837432/how-to-generate-random-password-with-php
 	/**

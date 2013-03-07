@@ -1,20 +1,14 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of ReportModel
+ * Report database functions
  *
- * @author oyvind
+ * @author Team Henkars
  */
 class ReportModel extends BaseModel {
    protected $reportFields=  array('reportText' => array('view' => 'Text', 'minLength' => 3, 'maxLength' => 100));
 
 	/**
-	* Fuction that updates reports. gets all parameters 
+	* Function that insert reports to database
 	* 
 	* @param int $id
 	* @param string $table

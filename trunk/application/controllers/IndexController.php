@@ -19,7 +19,7 @@ class IndexController extends BaseController {
 	}
 
 	/**
-	* function loadds current user, prints welcome message and the users blogposts.
+	* Loads current user, prints welcome message and the users blogposts.
 	* if no user is logged in, last uploded posts are shown.
 	*/
 	public function loadIndex() {
@@ -33,7 +33,7 @@ class IndexController extends BaseController {
 	 }
 
 	/**
-	* gets the most read post for the past 14 days
+	* Shows the most read post for the past 14 days
 	*/
 	public function mostRead() {
 		$this->topTen();
@@ -42,7 +42,7 @@ class IndexController extends BaseController {
 	}
 
 	/**
-	* gets the most commented for the past 14 days
+	* Shows the most commented for the past 14 days
 	*/
 	public function mostCommented() {
 		$this->topTen();
@@ -51,7 +51,7 @@ class IndexController extends BaseController {
 	}
 
 	/**
-	* gets the last ten posts posted by the logged in user.
+	* Shows the last ten posts posted by the logged in user.
 	*/
 	public function lastPosts() {
 		$this->topTen();
@@ -60,7 +60,7 @@ class IndexController extends BaseController {
 	}
 
 	/**
-	* function that calculates the top ten most popular blogs.
+	* Shows the top ten most popular blogs.
 	*/
 	public function topTen() {
 		$result = $this->model->topTen();

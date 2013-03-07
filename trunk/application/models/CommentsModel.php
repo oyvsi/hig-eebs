@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * Comments database functions 
+ * @author Team Henkars
+ */
 class CommentsModel extends BaseModel {
 	protected $commentFields = array('title' => array('view' => 'Comment', 'minLength' => 3, 'maxLength' => 100));
 
