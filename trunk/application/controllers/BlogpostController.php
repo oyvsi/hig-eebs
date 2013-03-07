@@ -77,12 +77,13 @@ class BlogpostController extends BaseController {
 				$post = $this->model->getPostFromID($updateID);
 
 				$form = new Form('blogPost', 'blogpost/updateDo/' . $updateID, 'POST');
+				$form->setClass('ajaxPost');
 				$form->addInput('text', 'title', 'Title: ', $post['postTitle']);
 				$form->addTextArea('postIngress', 5, 100, 'Ingress', $post['postIngress']);
 				$form->addTextArea('postText', 30, 100, 'Post text', $post['postText']);
-				//print_r($post);
 			} else {
 				$form = new Form('blogPost', 'blogpost/createDo', 'POST');
+				$form->setClass('ajaxPost');
 				$form->addInput('text', 'title', 'Title: ');
 				$form->addTextArea('postIngress', 5, 100, 'Ingress');
 				$form->addTextArea('postText', 30, 100, 'Post text');
