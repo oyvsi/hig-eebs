@@ -17,7 +17,7 @@ class UserController extends BaseController	{
 	}
 
 	/**
-	 * Fuction that fetches user info
+	 * Function that fetches user info
 	 * based on its userID
 	 * @param string $userID
 	 */
@@ -26,7 +26,7 @@ class UserController extends BaseController	{
 	}
 
 	/**
-	 * Fuction to insert a new user into the database
+	 * Function to insert a new user into the database
 	 */
 	public function insertUser() {
 		try {
@@ -41,7 +41,7 @@ class UserController extends BaseController	{
 	}
 
 	/**
-	 * Fuction to update user profile
+	 * Function to update user profile
 	 * Only accesseble by autenticated users
 	 */
 	public function updateUser() {

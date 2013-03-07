@@ -19,7 +19,7 @@ class IndexController extends BaseController {
 	}
 
 	/**
-	* fuction loadds current user, prints welcome message and the users blogposts.
+	* function loadds current user, prints welcome message and the users blogposts.
 	* if no user is logged in, last uploded posts are shown.
 	*/
 	public function loadIndex() {
