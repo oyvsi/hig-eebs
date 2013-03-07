@@ -3,6 +3,7 @@
 class Form {
 	protected $name;
 	protected $action;
+	protected $class;
 	protected $method;
 	protected $inputFields;
 
@@ -18,6 +19,10 @@ class Form {
 		$this->action = __URL_PATH . $action;
 		$this->method = $method;
 
+	}
+
+	public function setClass($class) {
+		$this->class = $class;
 	}
 
 	/**
@@ -116,7 +121,7 @@ class Form {
 	* @return string.
 	*/
 	public function genForm() {
-		$html = '<form name="' . $this->name . '" id="' . $this->name . '" action="' . $this->action . '" method="' . $this->method . '" enctype="multipart/form-data">';   
+		$html = '<form name="' . $this->name . '" id="' . $this->name . '"' . ($this->class ? ' class="' . $this->class . '"' : '') . '" action="' . $this->action . '" method="' . $this->method . '" enctype="multipart/form-data">';   
 		foreach($this->inputFields as $input) {
 			$html .= "\n\t" . $input;
 		}
