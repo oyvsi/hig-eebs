@@ -1,13 +1,20 @@
 <?php
 
 class CommentsModel extends BaseModel {
+	protected $commentFields = array('title' => array('view' => 'Comment', 'minLength' => 3, 'maxLength' => 100));
 
 	public function __construct() {
 		parent::__construct();
 	}
 
 	public function insertComment($postID, $info) {
-		// TODO: Validation
+		$validate = new ValidateForm($data);
+		$validate->setRequired($this->blogPostFields);	
+		if($validate->check() === false) {
+			$errors = implode('<br />', $validate->getErrors());
+			throw new Exception($errors);
+		}
+		
 		$this->db->insert('INSERT INTO comments (name, postID, timestamp, comment) VALUES (:name, :postID, :timestamp, :comment)',
 								array(':name' => $info['name'], ':postID' => $postID, ':timestamp' => time(), ':comment' => $info['comment']));
 	}
