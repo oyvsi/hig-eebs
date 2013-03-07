@@ -32,7 +32,7 @@ class BlogpostController extends BaseController {
          $this->view->addViewFile('blog/blogPost');
          try {
             $post = $this->model->getPostFromURL($this->args[1], $this->args[2]);
-            $isOwner = ($this->user && $this->user->model->userID == $userID);
+            $isOwner = ($this->user && $this->user->model->userID == $post['userID']);
             $this->view->setVar('isOwner', $isOwner);
             $this->view->setVar('title', $post['postTitle']);
             $this->view->setVar('blogPost', $post);
