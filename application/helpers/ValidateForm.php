@@ -1,29 +1,46 @@
 <?php
-
+/**
+ * 
+ * This class is responsible for validating forms sent from different models.
+ *
+ * @author Team Henkars
+ */
 class ValidateForm {
 	private $form;
 	private $requiredFields = false;
 	private $errors  = array();
 	public $ignoreFields = array();
-		
+		 
+		 /**
+        * Default constructor
+        * Saves the given form to validate
+        * @param $form
+        */
 	public function __construct($form) {
 		$this->form = $form;
 	}
 
-
+	/**
+	* Sets the fields which holds the rules for the given field
+	* @param $field
+	*/
 	public function setRequired($fields) {
 		$this->requiredFields = $fields;
 	}
-	public function setMinLength($fields) {
-		$this->minLength = $fields;	
-	}
-
-
+	
+	/**
+	* Getter for errors logged. Used by models before to append error-text.
+	* 
+	*/
 	public function getErrors() {
 		return $this->errors;
 	}
 	
-
+	/**
+	* Loops through the requiredFields for a model, then checks if the $field exists in the form and is set.
+	* Continues with checking both minLength and maxLength, if the given field has any regex related to it, and if it has, then match it.
+	* @return boolean
+	*/
 	public function check() {
 		if($this->requiredFields !== false) {
 			foreach($this->requiredFields as $key => $value) {
