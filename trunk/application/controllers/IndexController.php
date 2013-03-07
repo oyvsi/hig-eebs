@@ -1,4 +1,10 @@
 <?php
+/**
+ * 
+ * This class holds functions for the default page and non-logged in functionality
+ *
+ * @author Team Henkars
+ */
 class IndexController extends BaseController {
 
 	/**
@@ -13,10 +19,8 @@ class IndexController extends BaseController {
 	}
 
 	/**
-	* fuction lods current user and print welcome
-	* and the users blogpost.
-	* if no user is logged in, last 
-	* uploded posts is viewed.
+	* fuction loadds current user, prints welcome message and the users blogposts.
+	* if no user is logged in, last uploded posts are shown.
 	*/
 	public function loadIndex() {
 		$this->topTen();
@@ -29,7 +33,7 @@ class IndexController extends BaseController {
 	 }
 
 	/**
-	* gets the most read post of the last 14 days
+	* gets the most read post for the past 14 days
 	*/
 	public function mostRead() {
 		$this->topTen();
@@ -38,7 +42,7 @@ class IndexController extends BaseController {
 	}
 
 	/**
-	* gets the most commented post of the last 14 days
+	* gets the most commented for the past 14 days
 	*/
 	public function mostCommented() {
 		$this->topTen();
@@ -47,7 +51,7 @@ class IndexController extends BaseController {
 	}
 
 	/**
-	* gets the last ten post from the logged in user.
+	* gets the last ten posts posted by the logged in user.
 	*/
 	public function lastPosts() {
 		$this->view->setVar('title', 'Bloggsystem2kPro');
@@ -55,7 +59,7 @@ class IndexController extends BaseController {
 	}
 
 	/**
-	* functon that calculates the top ten most popular blogs.
+	* function that calculates the top ten most popular blogs.
 	*/
 	public function topTen() {
 		$result = $this->model->topTen();

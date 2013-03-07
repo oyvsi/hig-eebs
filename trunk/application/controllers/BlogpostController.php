@@ -24,7 +24,7 @@ class BlogpostController extends BaseController {
     * Function to show a blog post
     * Arguments from url: userName and postName the post name to show 
     * 
-    * @url blogpost/view/$userName/$postName/
+    * url is blogpost/view/$userName/$postName/
     */
 	public function view() {
    
@@ -96,7 +96,7 @@ class BlogpostController extends BaseController {
 	}
 
    /**
-    * Updates blogpost. Calls create with postID from url
+    * Updates blogpost. Calls BlogpostController::create() with postID from url
     */
 	public function update() {
 		$postID = $this->args[1];
@@ -121,7 +121,7 @@ class BlogpostController extends BaseController {
     * Deletes a blogpost. 
     * Arguments from url: userID to postowner and postURL to post
     * 
-    * @url comments/delete/$userID/$postURL
+    * url is comments/delete/$userID/$postURL
     */
 	public function delete() {
 		try {

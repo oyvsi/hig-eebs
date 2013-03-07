@@ -1,5 +1,9 @@
 <?php
- 
+ /**
+* @author Team Henkars
+*
+* This class holds functions for comments
+*/
 class CommentsController extends BaseController	{
 	private $fb;
 	private $fbUser;
@@ -24,7 +28,7 @@ class CommentsController extends BaseController	{
    * logged in users and facebook-comments.
    * Arguments from url: blogName and blogposts tilte (URL)
    * 
-   * @url comments/view/$blogName/$postURL/
+   * url is comments/view/$blogName/$postURL/
    */
 	public function view() {
 		$blogName = $this->args[1];
@@ -67,10 +71,10 @@ class CommentsController extends BaseController	{
 	}
 
    /**
-   *  fuction process comment and sends it to the model.
+   *  fuction process comment and sends it to CommentsModel.
    * 
    * Arguments from url: blogID
-   * @url comments/commentDo/$postID
+   * url is comments/commentDo/$postID
    */
 	public function commentDo() {
 		if($this->user() || $this->fbUser) { 
@@ -91,7 +95,7 @@ class CommentsController extends BaseController	{
 	}
 
    /**
-   * fuction falgs a comment.
+   * fuction flags the given comment.
    * 
    */
 	public function getFlagged() {
@@ -110,7 +114,7 @@ class CommentsController extends BaseController	{
    *  function deletes a comment.
    * 
    * Arguments from url: commentID, comment to delete
-   * @url comments/delete/$commentID/
+   * url is comments/delete/$commentID/
    */
 	public function delete() {
 		if(isset($this->args[1]) && $this->user()) {

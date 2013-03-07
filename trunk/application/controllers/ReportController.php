@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Description of ReportController
+ * This class holds functions for reporting comments and blogposts
  *
  * @author Team Henkars
  */
@@ -12,7 +12,7 @@ class ReportController extends BaseController {
        'blogpost' => array('tableName' => 'blogPostReports', 'reportField' => 'postID'));
 
    /**
-   * constructor. used to set up the model info for reports.
+   * constructor. instantiates a BaseController and a ReportModel.
    */
    public function __construct() {
       parent::__construct();
@@ -20,16 +20,13 @@ class ReportController extends BaseController {
    }
 
    /**
-   * function to create a raport on an users post. 
+   * function to create a report on an users post. 
    * creates a form with a comment field.
    * Arguments from url: blogPostID and what the report is for
    * 
-   * @url report/report/$type/$blogpostID
+   * url is report/report/$type/$blogpostID
    */
    public function report() {
-      if (in_array($this->args[1], $this->tables)) {
-         echo "found";
-      }
       if (isset($this->args[1]) && isset($this->args[2]) && array_key_exists($this->args[1], $this->tables)) {
          $form = new Form('report', 'report/reportDo/', 'POST');
          $form->addTextArea('reportText', 10, 60, 'Description of violation');
@@ -43,7 +40,7 @@ class ReportController extends BaseController {
    }
 
    /**
-   * Fuction that process report data and gives message to 
+   * Function that processes report data and gives a message to 
    * reporting user. Gets data from POST. 
    */
    public function reportDo() {

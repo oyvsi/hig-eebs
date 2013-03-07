@@ -80,7 +80,7 @@ class UserController extends BaseController	{
 	}
 
 	/**
-	 * Fuction tat generates a form so
+	 * Function that generates a form so
 	 * users can request a new password
 	 */
 	public function forgotPassword() {
@@ -102,12 +102,12 @@ class UserController extends BaseController	{
 	}
 
 	/**
-	 * Fuction that views a users profile.
+	 * Function that views a users profile.
 	 * optional arguments from url: userName
 	 * shows either a requested user or 
 	 * the logged in users profileinfo.
 	 *
-	 * @url blog/view/$userName/
+	 * url is blog/view/$userName/
 	 */
 	public function profile() {
 		if(isset($this->args[1])) {
@@ -151,7 +151,7 @@ class UserController extends BaseController	{
 	}
 
 	/**
-	 * Function cheks login and sets session variables.
+	 * Function checks login and sets session variables.
 	 */	
 	public function loginDo() {
 		try {
@@ -166,7 +166,7 @@ class UserController extends BaseController	{
 	}
 
 	/**
-	 * Fuction to log out a user.
+	 * Function to log out a user.
 	 */
 	public function logOut() {
 		session_destroy();
