@@ -6,7 +6,6 @@
 */
 
 class BlogpostController extends BaseController {
-	//private $loadComments = false;
 
    /**
     * Default constructor
@@ -23,7 +22,7 @@ class BlogpostController extends BaseController {
 
    /**
     * Function to show a blog post
-    * Arguments from url: postName the post name to show 
+    * Arguments from url: userName and postName the post name to show 
     * 
     * @url blogpost/view/$userName/$postName/
     */
@@ -31,32 +30,15 @@ class BlogpostController extends BaseController {
    
       if(isset($this->args[1]) && isset($this->args[2])) {
          $this->view->addViewFile('blog/blogPost');
-         //$this->loadComments = (isset($this->args[3]) && $this->args[3] == 'comments');
-         //$commentID = isset($this->args[4]) ? $this->args[4] : false;  // see specific comment
-
-         /*if($this->loadComments) { // TODO: Fix this
-            $this->view->renderFooter = false;
-         }*/
-
          try {
             $post = $this->model->getPostFromURL($this->args[1], $this->args[2]);
-            $isOwner = $this->correctUser($post['userID']);
+            $isOwner = ($this->user && $this->user->model->userID == $userID);
             $this->view->setVar('isOwner', $isOwner);
             $this->view->setVar('title', $post['postTitle']);
             $this->view->setVar('blogPost', $post);
             $this->model->updateViewCount($this->model->postID, 'postID', 'postViews');
 
-            /*if($this->loadComments) {
-               $url = 'blogpost/view/'. $this->args[1] . '/' . $this->args[2];
-               $commentsController = new CommentsController();
-               try {
-                  $commentsController->loadComments($this->model->postID, $url, $commentID, $isOwner);
-               } catch(Exception $excpt) {
-                  $this->view->setError($excpt);
-               }
-            }*/
-
-         }
+        }
          catch(Exception $excpt) {
             $this->view->setError($excpt);
          }
@@ -67,9 +49,9 @@ class BlogpostController extends BaseController {
 
    /**
     * Function to create and update blogposts.
-    * creates a form witch either is emty or 
+    * creates a form which either is empty or 
     * contains current info from blogpost.
-    * @param int $updateID
+    * @param int $updateID = false
     */
 	public function create($updateID = false) {
 		if(Auth::checkLogin()) {	
@@ -78,7 +60,7 @@ class BlogpostController extends BaseController {
 
 				$form = new Form('blogPost', 'blogpost/updateDo/' . $updateID, 'POST');
 				$form->setClass('ajaxPost');
-				$form->addInput('text', 'title', 'Title: ', $post['postTitle']);
+				$form->addInput('text', 'title', 'Title', $post['postTitle']);
 				$form->addTextArea('postIngress', 5, 100, 'Ingress', $post['postIngress']);
 				$form->addTextArea('postText', 30, 100, 'Post text', $post['postText']);
 			} else {
@@ -98,9 +80,8 @@ class BlogpostController extends BaseController {
 	}
 	
    /**
-    * 
-    *  
-    * 
+    * Passes post creation information to the model 
+    * gets info from $_POST
     * 
     */
 	public function createDo() {
@@ -109,16 +90,13 @@ class BlogpostController extends BaseController {
 		try {
 			$url = $this->model->createPost($_POST, $this->user->model->userID);
 			echo json_encode(array('status' => 'ok', 'url' => __URL_PATH . 'blogpost/view/' . $this->user->model->userName .'/' . $url));
-         //HTML::redirect('blogpost/view/' . $this->user->model->userName . '/' . $url);
 		} catch(Exception $excpt) {
 			echo json_encode(array('status' => 'error', 'error' => $excpt->getMessage()));
-         //$this->view->setError($excpt);	
-			//$this->create();
 		}
 	}
 
    /**
-    * update blogpost. just calls create with an parameter.
+    * Updates blogpost. Calls create with postID from url
     */
 	public function update() {
 		$postID = $this->args[1];
@@ -126,10 +104,8 @@ class BlogpostController extends BaseController {
 	}
 
    /**
-    * 
-    *  
-    * 
-    * 
+    * Passes edited post to the model  
+    * gets info from $_POST
     */
 	public function updateDo() {
 		$this->render = false;
@@ -142,7 +118,7 @@ class BlogpostController extends BaseController {
 	}
 
    /**
-    * deletes a blogpost. blogpost is marked as deleted.
+    * Deletes a blogpost. 
     * Arguments from url: userID to postowner and postURL to post
     * 
     * @url comments/delete/$userID/$postURL
@@ -157,7 +133,7 @@ class BlogpostController extends BaseController {
 	}
 
    /**
-    * flags a blogpost.
+    *  Displays all reported posts.
     */
 	public function getFlagged() {
 		try {
@@ -169,15 +145,5 @@ class BlogpostController extends BaseController {
 			$this->view->setError($excpt);
 
 		}
-	}
-
-   /**
-    * fuction returns true or false if 
-    * current userID is equal to parameter.
-    * @param int $userID
-    * @return bool
-    */
-	public function correctUser($userID){
-		return ($this->user && $this->user->model->userID == $userID);
 	}
 }
