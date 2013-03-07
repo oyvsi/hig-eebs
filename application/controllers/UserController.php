@@ -13,7 +13,7 @@ class UserController extends BaseController	{
 	public function __construct() {
 		parent::__construct();
 		$this->model = new UserModel();
-		$this->view->setVar('title', 'User');
+		$this->view->setVar('title', 'Welcome!');
 	}
 
 	/**
@@ -33,6 +33,7 @@ class UserController extends BaseController	{
 			$id = $this->model->insertUser($_REQUEST);
 			HTML::redirect('blog/view/' . $_REQUEST['userName']);
 			$_SESSION['userID'] = $id;
+			$this->view->setVar('message', 'Success! You can now log in.');
 		} catch(Exception $excpt) {
 			$this->view->setError($excpt);
 			$this->createAccount();

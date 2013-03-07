@@ -9,7 +9,7 @@
 	// changes background
 	echo '<script> document.body.background = "' .$userInfo['backgroundPicture']. '"; </script>';
 	// changes theme
-	echo '<div class="size1 ' .$userInfo['theme']. '">';
+	echo '<div class="size ' .$userInfo['theme']. ' centered">';
 
 	//shows set profilepicture
 	if(isset($userInfo['profilePicture']) && $userInfo['profilePicture'] != null) {

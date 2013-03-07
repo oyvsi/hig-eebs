@@ -1,10 +1,10 @@
-<div class="size1 default">
+<div class="size default centered">
 <?php
 //print_r($this->vars);
 foreach($this->vars['comments'] as $comment) {
 	extract($comment);
 
-	echo '<div class="layout1" id="' . $commentID . '">';
+	echo '<div class="layout" id="' . $commentID . '">';
 
 	if($deleted == 1) {
 		$comment = 'Comment deleted by an administrator';
@@ -19,7 +19,7 @@ foreach($this->vars['comments'] as $comment) {
 	echo '<hr><div class="commentText">' . $comment . '</div><hr>';
 
 	if($deleted == 0) {
-		echo '<div class="commentFooter"><div class="reportLink">' . HTML::appLink('report/report/comments/'. $commentID, 'Report comment' . '</div>').'</div>';
+		echo '<div class="commentFooter"><div class="reportLink">' . HTML::appLink('report/report/comments/'. $commentID, 'Report comment').'</div></div>';
 	}
 
 		echo '<div class="timestamp">' . date('d.m.Y H:i', $timestamp) . '</div>';

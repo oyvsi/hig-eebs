@@ -8,7 +8,7 @@
 	// changes background
 	echo '<script> document.body.background = "' .$backgroundPicture. '"; </script>';
 
-	echo '<div class="size1 ' . $theme . '">';
+	echo '<div class="size ' . $theme . ' centered">';
 	echo '<div class="blogPostTitle"><h1>' . $postTitle . '</h1></div>';
 	if ($this->vars['isOwner'] || Auth::checkAdmin()) { //logged in user can delete own posts
 		echo '<div class="deletePost">' . HTML::appLink('blogpost/delete/' . $userName .'/' . $postURL ,  'Delete post') . '<br />';
