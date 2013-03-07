@@ -33,7 +33,6 @@ class UserController extends BaseController	{
 			$id = $this->model->insertUser($_REQUEST);
 			HTML::redirect('blog/view/' . $_REQUEST['userName']);
 			$_SESSION['userID'] = $id;
-			echo $id;
 		} catch(Exception $excpt) {
 			$this->view->setError($excpt);
 			$this->createAccount();
