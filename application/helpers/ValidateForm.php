@@ -35,17 +35,17 @@ class ValidateForm {
 					}
 						
 					if(strlen($this->form[$key]) < $value['minLength']) {
-						array_push($this->errors,  $key . ' must be atleast ' . $value['minLength'] . ' characters');
+						array_push($this->errors, $value['view'] . ' must be atleast ' . $value['minLength'] . ' characters');
 					}
 				
 
 					if(strlen($this->form[$key]) > $value['maxLength']) {
-						array_push($this->errors,  $key . ' must be atleast ' . $value['maxLength'] . ' characters');
+						array_push($this->errors, $value['view'] . ' must be atleast ' . $value['maxLength'] . ' characters');
 					} 
 						
 					if(array_key_exists('regex', $value)) {
 						if(!preg_match($value['regex'], $this->form[$key])) {
-							array_push($this->errors, $key . ' is SHIT ' . $key .  ' characters');
+							array_push($this->errors, $value['view'] . ' is SHIT ' . $key .  ' characters');
 						}
 
 					}

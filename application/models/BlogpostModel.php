@@ -1,8 +1,8 @@
 <?php
 class BlogpostModel extends BaseModel {
-	protected $blogPostFields =  array('title' => array('minLength' => 3, 'maxLength' => 100),		
-											   'postIngress' => array('minLength' => 3, 'maxLength' => 100),		
-												'postText' => array('minLength' => 30, 'maxLength' => 20000));
+	protected $blogPostFields =  array('title' => array('view' => 'Title', 'minLength' => 3, 'maxLength' => 100),		
+											   'postIngress' => array('view' => 'Ingress', 'minLength' => 3, 'maxLength' => 100),		
+												'postText' => array('view' => 'Post text', 'minLength' => 30, 'maxLength' => 20000));
 
 	public function __construct() {
 		parent::__construct();
